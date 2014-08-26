@@ -1,7 +1,7 @@
 #!/bin/ruby
 require 'mumble-ruby'
 require 'sanitize'
-require './pluginss.rb'
+require './plugins.rb'
 $USERNAME = 'Robocop2.0'
 $PASSWORD = 'eggs'
 class MumbleBot
