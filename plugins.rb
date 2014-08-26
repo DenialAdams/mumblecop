@@ -119,7 +119,7 @@ class Volume < Plugin
   end
 end
 
-Class Stop < Plugin
+class Stop < Plugin
   def initialize
     @help_text = "Stops anything playing"
     @commands = ['stop']
