@@ -5,21 +5,22 @@ require './plugins.rb'
 $USERNAME = 'Robocop2.0'
 $PASSWORD = 'eggs'
 class MumbleBot
-  attr_accessor :commands, :bot
+  attr_accessor :commands, :bot, :plugins
   def initialize
-    @commands = ['fuck', 'play/resume', 'volume', 'albums', 'roll', 'say', 'stop', 'pause', 'youtube', 'lobby/elevator', 'commands', 'help', 'date/time'].shuffle
+    @plugins = []
+    @commands = {}
     @bot = Mumble::Client.new('localhost') do |conf|
       conf.username = $USERNAME
       conf.password = $PASSWORD
     end
-    load_commands
+    load_plugins
     register_callbacks
+  end
+  def current_channel
+     @bot.me.channel_id.to_i
   end
   def get_username_from_id(id)
     @bot.users[id].name
-  end
-  def current_channel
-    @bot.me.channel_id
   end
   def say_to_channel(channel, text)
     @bot.text_channel(channel, text)
@@ -27,23 +28,63 @@ class MumbleBot
   def say_to_user(id, text)
     @bot.text_user(id, text)
   end
-  def load_commands
+  def say(plugin, source, text)
+    if plugin.response == :user || plugin.response == :auto && plugin.source[0] == :user
+      begin
+        say_to_user(source[1], text)
+      rescue # In case the user disconnects after sending the command but before receiving a response
+      end
+    elsif plugin.response == :channel || plugin.response == :auto && plugin.source[0] == :channel
+      begin
+        say_to_channel(source[1], text)
+      rescue # In case the channel gets deleted, I guess
+      end
+    end
+  end
+  def load_plugins
     Dir["./plugins/*.rb"].each { |f| require f }
+    Plugin.plugins.each do |klass|
+      @plugins.push klass.new
+    end
+    @plugins.each do |plugin|
+      plugin.commands.each do |command|
+        @commands[command] = plugin
+      end
+    end
   end
   def register_callbacks
     @bot.on_text_message do |message|
       msg = message.message
-      puts "#{get_user_from_id(robocop, message.actor)}: #{msg}"
+      puts "#{get_username_from_id(message.actor)}: #{msg}"
       robocop_command = false
       if message.channel_id && msg.start_with?('robocop')
         msg = msg.split(' ')
         msg.delete_at(0)
         msg = msg.join(' ')
+        source = [:channel, message.channel_id[0]]
         robocop_command = true
+      elsif !message.channel_id
+        robocop_command = true
+        source = [:user, message.actor]
       end
       args = msg.split(' ')
+      command = args[0]
       args.delete_at(0)
-      args = args.join(' ')
+      if @commands[command].nil? && robocop_command
+        if source[0] == :user
+          begin
+            @bot.text_user(source[1], 'Command not found.')
+          rescue
+          end
+        else
+          #begin
+            @bot.text_channel(source[1], 'Command not found.')
+          #rescue
+          #end
+        end
+      elsif robocop_command
+        @commands[command].go(source, args, self)
+      end
 =begin
       if message.channel_id && !robocop_command
         # nothing
@@ -78,8 +119,6 @@ class MumbleBot
         end
       elsif msg.start_with?('albums')
         robocop.text_user(message.actor, Dir.entries('/var/lib/mpd/music').to_s)
-      elsif msg.start_with?('say')
-        robocop.text_channel(robocop.channels[0], term)
       elsif msg.start_with?('stop')
         system('mpc clear')
       elsif msg.start_with?('pause')
@@ -112,6 +151,7 @@ class MumbleBot
     @bot.on_connected do
       @bot.player.volume = 5
       @bot.player.stream_named_pipe('/tmp/mpd.fifo')
+      current_channel
     end
   end
 end

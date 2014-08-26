@@ -16,6 +16,7 @@ class Plugin
     @enabled ||= true
     @protected ||= false # does nothing yet
     @help_text ||= "No help text included for this command"
+    @response ||= :auto
   end
 
   def go
@@ -32,12 +33,12 @@ class Say < Plugin
   end
 
   def go(source, args, bot)
-    bot.say_to_channel(bot.channel, args.join(" "))
+    bot.say_to_channel(bot.current_channel, args.join(" "))
   end 
 end
 
 class Whisper < Plugin
-  def initizalize
+  def initialize
     @min_args = 2
     @commands = ['whisper']
     @help_text = "Send a whisper from robocop to target user - whisper <user> <message>"
@@ -49,9 +50,9 @@ class Whisper < Plugin
     args.delete_at(0)
     text = args.join
     begin
-      bot.say_to_user(args[0], text)
+      bot.say_to_user(user, text)
     rescue
-      bot.say(source, "User not found.")
+      bot.say(self, source, "User not found.")
     end
   end
 end
