@@ -67,12 +67,12 @@ class Roll < Plugin
   end
 
   def go(source, args, bot)
-    sides = args[0]
-    bot.say(self, source, rand(1..args[0].to_i).to_s)
+    sides = args[0].to_i
+    bot.say(self, source, rand(1..sides).to_s)
   end
 end
 
-Class Youtube < Plugin
+class Youtube < Plugin
   def initialize
     @require_sanitization = true
     @commands = ['youtube']
