@@ -89,6 +89,11 @@ class MumbleBot
         if @commands[command].min_args > args.length
           fail(source, "Command requires at least #{@commands[command].min_args} parameter(s).")
         else
+          if @commands[command].needs_sanitization
+            args = args.join('')
+            args = Sanitize.fragment(args)
+            args = args.split(' ')
+          end
           @commands[command].go(source, args, self)
         end
       end
@@ -101,23 +106,6 @@ class MumbleBot
           system("mpc ls | grep #{term} | mpc add")
         end
         system('mpc play')
-      elsif msg.start_with?('fuck')
-        if term == $USERNAME
-          robocop.text_user(message.actor, 'No, fuck you')
-        else
-          begin
-            robocop.text_user(term, 'Someone anonymously says fuck you.')
-            robocop.text_user(message.actor, 'Message delivered!')
-          rescue
-            robocop.text_user(message.actor, 'Sorry, user not found.')
-          end
-        end
-      elsif msg.start_with?('volume')
-        if term.empty?
-          robocop.text_user(message.actor, robocop.player.volume.to_s)
-        else
-          robocop.player.volume = term.to_i
-        end
       elsif msg.start_with?('albums')
         robocop.text_user(message.actor, Dir.entries('/var/lib/mpd/music').to_s)
       elsif msg.start_with?('stop')
@@ -125,16 +113,7 @@ class MumbleBot
       elsif msg.start_with?('pause')
         system('mpc pause')
       elsif msg.start_with?('date') || msg.start_with?('time')
-        robocop.text_user(message.actor, `date`)
-      elsif msg.start_with?('youtube')
-        term = Sanitize.fragment(term) # to strip the html that mumble likes to throw into things
-        system('mpc clear')
-        result = system('get_youtube', term)
-        if result
-          system('mpc play')
-        else
-          robocop.text_user(message.actor, 'Failed to play video. Check given url.')
-        end
+        robocop.text_user(message.actor, `date`
       elsif msg.start_with?('lobby') || msg.start_with?('elevator')
         elevator_music = ['zG456vqPHJo']
         system('mpc clear')
@@ -144,15 +123,12 @@ class MumbleBot
         robocop.text_user(message.actor, 'i dunno fucking ask richard or some shit christ')
       elsif msg.start_with?('commands')
         robocop.text_user(message.actor, commands.to_s)
-      else
-        robocop.text_user(message.actor, 'command not recognized')
       end
 =end
     end
     @bot.on_connected do
       @bot.player.volume = 5
       @bot.player.stream_named_pipe('/tmp/mpd.fifo')
-      current_channel
     end
   end
 end

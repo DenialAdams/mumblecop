@@ -1,5 +1,5 @@
 class Plugin
-  attr_accessor :help_text, :enabled, :protected, :response, :min_args, :requires_sanitization, :commands
+  attr_accessor :help_text, :enabled, :protected, :response, :min_args, :needs_sanitization, :commands
   
   def self.plugins
     @plugins ||= []
@@ -11,7 +11,7 @@ class Plugin
   end
 
   def initialize
-    @requires_sanitization ||= false
+    @needs_sanitization ||= false
     @min_args ||= 0
     @enabled ||= true
     @protected ||= false # does nothing yet
@@ -74,7 +74,7 @@ end
 
 class Youtube < Plugin
   def initialize
-    @require_sanitization = true
+    @needs_sanitization = true
     @commands = ['youtube']
     @help_text = "Play a youtube video - youtube <url>"
     @min_args = 1
@@ -83,7 +83,7 @@ class Youtube < Plugin
 
   def go(source, args, bot)
     system('mpc clear')
-    result = system('get_youtube', term)
+    result = system('get_youtube', args[0])
     if result
       system('mpc play')
       bot.say(self, source, 'Request successful. Please wait a few moments for the source to download.')
@@ -103,5 +103,30 @@ class Fuck < Plugin
 
   def go(source, args, bot)
     bot.say_to_user(args[0], 'Someone says fuck you.')
+  end
+end
+
+class Volume < Plugin
+  def initialize
+    @min_args = 1
+    @help_text = "Change the volume, 0 - 100 - volume <level>"
+    @commands = ['volume']
+    super
+  end
+
+  def go(source, args, bot)
+    bot.bot.player.volume = args[0]
+  end
+end
+
+Class Stop < Plugin
+  def initialize
+    @help_text = "Stops anything playing"
+    @commands = ['stop']
+    super
+  end
+
+  def go(source, args, bot)
+    system('mpc clear')
   end
 end
