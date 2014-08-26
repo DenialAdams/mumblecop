@@ -67,6 +67,6 @@ class Roll < Plugin
 
   def go(source, args, bot)
     sides = args[0]
-    #bot.say(source, args[0]
+    bot.say(self, source, rand(1..args[0].to_i).to_s)
   end
 end

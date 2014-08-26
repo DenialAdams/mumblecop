@@ -118,12 +118,6 @@ class MumbleBot
         else
           robocop.player.volume = term.to_i
         end
-      elsif msg.start_with?('roll')
-        if message.channel_id && robocop_command
-          robocop.text_channel(robocop.channels[0], rand(1..term.to_i).to_s)
-        else
-          robocop.text_user(message.actor, rand(1..term.to_i).to_s)
-        end
       elsif msg.start_with?('albums')
         robocop.text_user(message.actor, Dir.entries('/var/lib/mpd/music').to_s)
       elsif msg.start_with?('stop')
