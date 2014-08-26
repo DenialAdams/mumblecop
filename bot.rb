@@ -41,6 +41,19 @@ class MumbleBot
       end
     end
   end
+  def fail(source, text)
+    if source[0] == :user
+      begin
+        @bot.text_user(source[1], text)
+      rescue
+      end
+    else
+      begin
+        @bot.text_channel(source[1], text)
+      rescue
+      end
+    end
+  end
   def load_plugins
     Dir["./plugins/*.rb"].each { |f| require f }
     Plugin.plugins.each do |klass|
@@ -71,18 +84,11 @@ class MumbleBot
       command = args[0]
       args.delete_at(0)
       if @commands[command].nil? && robocop_command
-        if source[0] == :user
-          begin
-            @bot.text_user(source[1], 'Command not found.')
-          rescue
-          end
-        else
-          #begin
-            @bot.text_channel(source[1], 'Command not found.')
-          #rescue
-          #end
-        end
+        fail(source, 'Command not found.')
       elsif robocop_command
+        if @commands[command].min_args > args.length
+          fail(source, "Command requires at least #{@commands[command].min_args} parameter")
+        end
         @commands[command].go(source, args, self)
       end
 =begin
