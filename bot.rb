@@ -88,8 +88,9 @@ class MumbleBot
       elsif robocop_command
         if @commands[command].min_args > args.length
           fail(source, "Command requires at least #{@commands[command].min_args} parameter")
+        else
+          @commands[command].go(source, args, self)
         end
-        @commands[command].go(source, args, self)
       end
 =begin
       if message.channel_id && !robocop_command
