@@ -52,7 +52,7 @@ class Whisper < Plugin
     begin
       bot.say_to_user(user, text)
     rescue
-      bot.say(self, source, "User not found.")
+      bot.say(self, source, 'User not found.')
     end
   end
 end

@@ -29,12 +29,12 @@ class MumbleBot
     @bot.text_user(id, text)
   end
   def say(plugin, source, text)
-    if plugin.response == :user || plugin.response == :auto && plugin.source[0] == :user
+    if plugin.response == :user || plugin.response == :auto && source[0] == :user
       begin
         say_to_user(source[1], text)
       rescue # In case the user disconnects after sending the command but before receiving a response
       end
-    elsif plugin.response == :channel || plugin.response == :auto && plugin.source[0] == :channel
+    elsif plugin.response == :channel || plugin.response == :auto && source[0] == :channel
       begin
         say_to_channel(source[1], text)
       rescue # In case the channel gets deleted, I guess
@@ -87,7 +87,7 @@ class MumbleBot
         fail(source, 'Command not found.')
       elsif robocop_command
         if @commands[command].min_args > args.length
-          fail(source, "Command requires at least #{@commands[command].min_args} parameter")
+          fail(source, "Command requires at least #{@commands[command].min_args} parameter(s).")
         else
           @commands[command].go(source, args, self)
         end
