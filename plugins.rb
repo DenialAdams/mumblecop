@@ -51,6 +51,7 @@ class Whisper < Plugin
     text = args.join
     begin
       bot.say_to_user(user, text)
+      bot.say(self, source, 'Message sent.')
     rescue
       bot.say(self, source, 'User not found.')
     end
@@ -61,12 +62,46 @@ class Roll < Plugin
   def initialize
     @min_args = 1
     @commands = ['roll']
-    @help_text = "Roll an x sided die with the format - roll <sides>"
+    @help_text = "Roll an x sided die - roll <sides>"
     super
   end
 
   def go(source, args, bot)
     sides = args[0]
     bot.say(self, source, rand(1..args[0].to_i).to_s)
+  end
+end
+
+Class Youtube < Plugin
+  def initialize
+    @require_sanitization = true
+    @commands = ['youtube']
+    @help_text = "Play a youtube video - youtube <url>"
+    @min_args = 1
+    super
+  end
+
+  def go(source, args, bot)
+    system('mpc clear')
+    result = system('get_youtube', term)
+    if result
+      system('mpc play')
+      bot.say(self, source, 'Request successful. Please wait a few moments for the source to download.')
+    else
+      bot.say(self, source, 'Failed to play video. Check given url.')
+    end
+  end
+end
+
+class Fuck < Plugin
+  def initialize
+    @min_args = 1
+    @help_text = "Fuck a user anonymously - fuck <name>"
+    @commands = ['fuck']
+    super
+  end
+
+  def go(source, args, bot)
+    bot.say_to_user(args[0], 'Someone says fuck you.')
   end
 end
