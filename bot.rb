@@ -29,7 +29,6 @@ class MumbleBot
   end
   def load_commands
     Dir["./plugins/*.rb"].each { |f| require f }
-    Plugin.register_plugins
   end
   def register_callbacks
     @bot.on_text_message do |message|
