@@ -110,9 +110,6 @@ class MumbleBot
         system('mpc pause')
       elsif msg.start_with?('help')
         robocop.text_user(message.actor, 'i dunno fucking ask richard or some shit christ')
-      elsif msg.start_with?('commands')
-        robocop.text_user(message.actor, commands.to_s)
-      end
 =end
     end
     @bot.on_connected do

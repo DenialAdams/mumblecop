@@ -135,9 +135,9 @@ class Stop < Plugin
   end
 end
 
-class Date < Plugin
+class DateTime < Plugin
   def initialize
-    @help_text "Prints out the date and time"
+    @help_text = "Prints out the date and time"
     @commands = ['date', 'time']
     super
   end
@@ -146,3 +146,15 @@ class Date < Plugin
     bot.say(self, source, `date`)
   end
 end
+
+class Commands < Plugin
+  def initialize
+    @help_text = "Prints out all available commands"
+    @commands = ['commands']
+    super
+  end
+
+  def go(source, args, bot)
+    bot.say(self, source, bot.commands.keys.to_s)
+  end
+end 
