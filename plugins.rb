@@ -176,3 +176,20 @@ class Help < Plugin
     end
   end
 end
+
+class Goto < Plugin
+  def initialize
+    @help_text = "Send robocop away to another channel. Poor robocop :("
+    @min_args = 1
+    @commands = ['goto']
+    super
+  end
+
+  def go(source, args, bot)
+    begin
+      bot.bot.join_channel(args[0])
+    rescue
+      bot.say(self, source, "Failed to join that channel. Check permissions / if that channel exists.")
+    end
+  end
+end
