@@ -82,6 +82,7 @@ class Youtube < Plugin
   end
 
   def go(source, args, bot)
+    puts args.class
     system('mpc clear')
     result = system('get_youtube', args[0])
     if result

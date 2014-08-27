@@ -7,7 +7,7 @@ class Elevator < Plugin
   end
 
   def go(source, args, bot)
-    bot.commands['youtube'].go(source, @elevator_tunes.sample, bot)
+    bot.commands['youtube'].go(source, @elevator_tunes.sample.split(" "), bot)
   end
 end
 
@@ -20,6 +20,6 @@ class HateTrain < Plugin
   end
 
   def go
-    bot.commands['youtube'].go(source, @hate_tunes.sample, bot)
+    bot.commands['youtube'].go(source, @hate_tunes.sample.split(" "), bot)
   end
 end
