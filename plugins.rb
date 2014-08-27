@@ -108,14 +108,18 @@ end
 
 class Volume < Plugin
   def initialize
-    @min_args = 1
-    @help_text = "Change the volume, 0 - 100 - volume <level>"
+    @min_args = 0
+    @help_text = "Change the volume, 0 - 100 - volume <level>. No params = check the volume"
     @commands = ['volume']
     super
   end
 
   def go(source, args, bot)
-    bot.bot.player.volume = args[0]
+    if args[0]
+      bot.bot.player.volume = args[0].to_i
+    else
+      bot.say(self, source, "Volume is currently #{bot.bot.player.volume}")
+    end
   end
 end
 
