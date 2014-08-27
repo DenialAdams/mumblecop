@@ -86,7 +86,9 @@ class MumbleBot
       if @commands[command].nil? && robocop_command
         fail(source, 'Command not found.')
       elsif robocop_command
-        if @commands[command].min_args > args.length
+        if !@commands[command].enabled
+          fail(source, "Command is currently disabled. Ask an administrator for details.")
+        elsif @commands[command].min_args > args.length
           fail(source, "Command requires at least #{@commands[command].min_args} parameter(s).")
         else
           if @commands[command].needs_sanitization
@@ -108,8 +110,6 @@ class MumbleBot
         robocop.text_user(message.actor, Dir.entries('/var/lib/mpd/music').to_s)
       elsif msg.start_with?('pause')
         system('mpc pause')
-      elsif msg.start_with?('help')
-        robocop.text_user(message.actor, 'i dunno fucking ask richard or some shit christ')
 =end
     end
     @bot.on_connected do

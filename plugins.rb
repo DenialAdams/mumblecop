@@ -13,7 +13,7 @@ class Plugin
   def initialize
     @needs_sanitization ||= false
     @min_args ||= 0
-    @enabled ||= true
+    @enabled = true if @enabled.nil?
     @protected ||= false # does nothing yet
     @help_text ||= "No help text included for this command"
     @response ||= :auto
@@ -82,7 +82,6 @@ class Youtube < Plugin
   end
 
   def go(source, args, bot)
-    puts args.class
     system('mpc clear')
     result = system('get_youtube', args[0])
     if result
