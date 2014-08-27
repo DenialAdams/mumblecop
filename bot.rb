@@ -98,8 +98,6 @@ class MumbleBot
         end
       end
 =begin
-      if message.channel_id && !robocop_command
-        # nothing
       elsif msg.start_with?('play') || msg.start_with?('resume')
         unless term.empty?
           system('mpc clear')
@@ -108,15 +106,8 @@ class MumbleBot
         system('mpc play')
       elsif msg.start_with?('albums')
         robocop.text_user(message.actor, Dir.entries('/var/lib/mpd/music').to_s)
-      elsif msg.start_with?('stop')
-        system('mpc clear')
       elsif msg.start_with?('pause')
         system('mpc pause')
-      elsif msg.start_with?('lobby') || msg.start_with?('elevator')
-        elevator_music = ['zG456vqPHJo']
-        system('mpc clear')
-        system('get_youtube', elevator_music.sample)
-        system('mpc play')
       elsif msg.start_with?('help')
         robocop.text_user(message.actor, 'i dunno fucking ask richard or some shit christ')
       elsif msg.start_with?('commands')
