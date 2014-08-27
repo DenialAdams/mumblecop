@@ -2,8 +2,9 @@
 require 'mumble-ruby'
 require 'sanitize'
 require './plugins.rb'
-$USERNAME = 'Robocop'
+$USERNAME = 'Robocopa'
 $PASSWORD = 'eggs'
+$COMMENT = 'Visit brickly.tk/robocop to add suggestions/issues.'
 class MumbleBot
   attr_accessor :commands, :bot, :plugins
   def initialize
@@ -115,6 +116,7 @@ class MumbleBot
     @bot.on_connected do
       @bot.player.volume = 5
       @bot.player.stream_named_pipe('/tmp/mpd.fifo')
+      @bot.set_comment($COMMENT)
     end
   end
 end
