@@ -28,7 +28,7 @@ class Say < Plugin
   def initialize
     @min_args = 1
     @commands = ['say']
-    @help_text = "Have robocop say something in it's current channel - say <message>"
+    @help_text = "Have robocop say something in it's current channel - say [message]"
     super
   end
 
@@ -41,7 +41,7 @@ class Whisper < Plugin
   def initialize
     @min_args = 2
     @commands = ['whisper']
-    @help_text = "Send a whisper from robocop to target user - whisper <user> <message>"
+    @help_text = "Send a whisper from robocop to target user - whisper [user] [message]"
     super
   end
 
@@ -62,7 +62,7 @@ class Roll < Plugin
   def initialize
     @min_args = 1
     @commands = ['roll']
-    @help_text = "Roll an x sided die - roll <sides>"
+    @help_text = "Roll an x sided die - roll [sides]"
     super
   end
 
@@ -76,7 +76,7 @@ class Youtube < Plugin
   def initialize
     @needs_sanitization = true
     @commands = ['youtube']
-    @help_text = "Play a youtube video - youtube <url>"
+    @help_text = "Play a youtube video - youtube [url]"
     @min_args = 1
     super
   end
@@ -97,7 +97,7 @@ end
 class Fuck < Plugin
   def initialize
     @min_args = 1
-    @help_text = "Fuck a user anonymously - fuck <name>"
+    @help_text = "Fuck a user anonymously - fuck [name]"
     @commands = ['fuck']
     super
   end
@@ -109,8 +109,7 @@ end
 
 class Volume < Plugin
   def initialize
-    @min_args = 0
-    @help_text = "Change the volume, 0 - 100 - volume <level>. No params = check the volume"
+    @help_text = "Change the volume, 0 - 100 - volume [[level]]. No params = check the volume"
     @commands = ['volume']
     super
   end
@@ -158,4 +157,23 @@ class Commands < Plugin
   def go(source, args, bot)
     bot.say(self, source, bot.commands.keys.to_s)
   end
-end 
+end
+
+class Help < Plugin
+  def initialize
+    @help_text = "Gives help about a specific command - help [command]"
+    @commands = ['help']
+    @min_args = 1
+    super
+  end
+
+  def go(source, args, bot)
+    if bot.commands[args[0]].nil?
+      bot.say(self, source, "Sorry, command you requested help on is not found.")
+    elsif bot.commands[args[0]].help_text.empty?
+      bot.say(self, source, "Sorry, command has no set help text.")
+    else
+      bot.say(self, source, bot.commands[args[0]].help_text)
+    end
+  end
+end
