@@ -112,8 +112,6 @@ class MumbleBot
         system('mpc clear')
       elsif msg.start_with?('pause')
         system('mpc pause')
-      elsif msg.start_with?('date') || msg.start_with?('time')
-        robocop.text_user(message.actor, `date`
       elsif msg.start_with?('lobby') || msg.start_with?('elevator')
         elevator_music = ['zG456vqPHJo']
         system('mpc clear')

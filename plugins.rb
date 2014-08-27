@@ -134,3 +134,15 @@ class Stop < Plugin
     system('mpc clear')
   end
 end
+
+class Date < Plugin
+  def initialize
+    @help_text "Prints out the date and time"
+    @commands = ['date', 'time']
+    super
+  end
+
+  def go(source, args, bot)
+    bot.say(self, source, `date`)
+  end
+end
