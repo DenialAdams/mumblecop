@@ -2,8 +2,9 @@
 require 'mumble-ruby'
 require 'sanitize'
 require './plugins.rb'
-$USERNAME = 'Rob'
+$USERNAME = 'Robocop'
 $PASSWORD = 'eggs'
+$TRIGGER = 'robocop'
 $COMMENT = 'Visit brickly.tk/robocop to add suggestions/issues.'
 STDOUT.sync = true
 class MumbleBot
@@ -47,15 +48,9 @@ class MumbleBot
   end
   def fail(source, text)
     if source[0] == :user
-      begin
-        @bot.text_user(source[1], text)
-      rescue
-      end
+      say_to_channel(source[1], text)
     else
-      begin
-        @bot.text_channel(source[1], text)
-      rescue
-      end
+      say_to__channel(source[1], text)
     end
   end
   def load_plugins
@@ -74,7 +69,7 @@ class MumbleBot
       msg = message.message
       puts "#{get_username_from_id(message.actor)}: #{msg}"
       robocop_command = false
-      if message.channel_id && msg.start_with?('robocop')
+      if message.channel_id && msg.downcase.start_with?($TRIGGER)
         msg = msg.split(' ')
         msg.delete_at(0)
         msg = msg.join(' ')
