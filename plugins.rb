@@ -49,10 +49,9 @@ class Whisper < Plugin
     user = args[0]
     args.delete_at(0)
     text = args.join
-    begin
-      bot.say_to_user(user, text)
+    if bot.say_to_user(user, text) != 1
       bot.say(self, source, 'Message sent.')
-    rescue
+    else
       bot.say(self, source, 'User not found.')
     end
   end
@@ -102,7 +101,11 @@ class Fuck < Plugin
   end
 
   def go(source, args, bot)
-    bot.say_to_user(args[0], 'Someone says fuck you.')
+    if args[0] == $USERNAME
+      bot.say(self, source, "No, fuck you.")
+    else
+      bot.commands['whisper'].go(source, [args[0], "Someone anonymously says fuck you."], bot)
+    end
   end
 end
 

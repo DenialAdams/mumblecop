@@ -25,22 +25,24 @@ class MumbleBot
     @bot.users[id].name
   end
   def say_to_channel(channel, text)
-    @bot.text_channel(channel, text)
+    begin
+      @bot.text_channel(channel, text)
+    rescue
+      return 1
+    end
   end
   def say_to_user(id, text)
-    @bot.text_user(id, text)
+    begin
+      @bot.text_user(id, text)
+    rescue
+      return 1
+    end
   end
   def say(plugin, source, text)
     if plugin.response == :user || plugin.response == :auto && source[0] == :user
-      begin
-        say_to_user(source[1], text)
-      rescue # In case the user disconnects after sending the command but before receiving a response
-      end
+      say_to_user(source[1], text)
     elsif plugin.response == :channel || plugin.response == :auto && source[0] == :channel
-      begin
-        say_to_channel(source[1], text)
-      rescue # In case the channel gets deleted, I guess
-      end
+      say_to_channel(source[1], text)
     end
   end
   def fail(source, text)
