@@ -95,7 +95,7 @@ class MumbleBot
             args = Sanitize.fragment(args)
             args = args.split(' ')
           end
-          @commands[command].go(source, args, self)
+          Thread.new { @commands[command].go(source, args, self) }
         end
       end
 =begin
