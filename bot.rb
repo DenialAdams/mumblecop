@@ -2,9 +2,10 @@
 require 'mumble-ruby'
 require 'sanitize'
 require './plugins.rb'
-$USERNAME = 'Robocopa'
+$USERNAME = 'Rob'
 $PASSWORD = 'eggs'
 $COMMENT = 'Visit brickly.tk/robocop to add suggestions/issues.'
+STDOUT.sync = true
 class MumbleBot
   attr_accessor :commands, :bot, :plugins
   def initialize
@@ -122,5 +123,4 @@ class MumbleBot
 end
 robocop = MumbleBot.new
 robocop.bot.connect
-STDIN.gets
-robocop.bot.disconnect
+loop { }
