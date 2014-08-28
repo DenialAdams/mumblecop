@@ -50,7 +50,7 @@ class MumbleBot
     if source[0] == :user
       say_to_channel(source[1], text)
     else
-      say_to__channel(source[1], text)
+      say_to_channel(source[1], text)
     end
   end
   def load_plugins
