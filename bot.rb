@@ -4,7 +4,7 @@ require 'sanitize'
 require './plugins.rb'
 $USERNAME = 'Robocop'
 $PASSWORD = 'eggs'
-$TRIGGER = 'robocop'
+$TRIGGERS = ['robocop', 'rb']
 $COMMENT = 'Visit brickly.tk/robocop to add suggestions/issues.'
 STDOUT.sync = true
 class MumbleBot
@@ -64,12 +64,20 @@ class MumbleBot
       end
     end
   end
+
+  def matches_trigger(string)
+    $TRIGGERS.each do |trigger|
+      return true if string.split(' ')[0].downcase == trigger
+    end
+    false
+  end
+
   def register_callbacks
     @bot.on_text_message do |message|
       msg = message.message
       puts "#{get_username_from_id(message.actor)}: #{msg}"
       robocop_command = false
-      if message.channel_id && msg.downcase.start_with?($TRIGGER)
+      if message.channel_id && matches_trigger(msg)
         msg = msg.split(' ')
         msg.delete_at(0)
         msg = msg.join(' ')
