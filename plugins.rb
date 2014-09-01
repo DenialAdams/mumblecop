@@ -196,3 +196,16 @@ class Goto < Plugin
     end
   end
 end
+
+class Seek < Plugin
+  def initialize
+    @help_text = "Seek to x seconds in the currently playing media - seek [seconds]"
+    @min_args = 1
+    @commands = ['seek']
+    super
+  end
+
+  def go(source, args, bot)
+    system("mpc seek #{args[0]}")
+  end
+end
