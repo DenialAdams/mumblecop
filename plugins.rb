@@ -118,7 +118,13 @@ class Volume < Plugin
 
   def go(source, args, bot)
     if args[0]
-      bot.bot.player.volume = args[0].to_i
+      if args[0][0] == "-"
+        bot.bot.player.volume = bot.bot.player.volume - args[0].to_i.abs
+      elsif args[0][0] == "+"
+        bot.bot.player.volume = bot.bot.player.volume + args[0].to_i.abs
+      else
+        bot.bot.player.volume = args[0].to_i
+      end
     else
       bot.say(self, source, "Volume is currently #{bot.bot.player.volume}")
     end
