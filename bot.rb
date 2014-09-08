@@ -134,5 +134,7 @@ class MumbleBot
 end
 robocop = MumbleBot.new
 robocop.bot.connect
-STDIN.gets
+loop do
+  STDIN.gets
+end
 robocop.bot.disconnect
