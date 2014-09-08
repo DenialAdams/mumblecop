@@ -151,7 +151,7 @@ class GetDateTime < Plugin
   end
 
   def go(source, args, bot)
-    bot.say(self, source, `date`)
+    bot.say(self, source, Time.now.to_s)
   end
 end
 
