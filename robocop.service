@@ -1,12 +1,12 @@
 [Unit]
-Description=Mumble Admin Bot
+Description=Mumble Moderator/Music Bot
 After=murmur.service
 
 [Service]
 Type=simple
 User=brick
-WorkingDirectory=/home/brick/robocop
-ExecStart=/home/brick/robocop/bot.rb
+WorkingDirectory=PATH_TO_BOT_DIRECTORY
+ExecStart=PATH_TO_BOT.RB
 Restart=always
 
 [Install]
