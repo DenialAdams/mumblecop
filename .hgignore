@@ -1,3 +1,4 @@
 syntax: glob
 *_cert
 *log.txt
+config.yml

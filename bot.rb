@@ -1,30 +1,32 @@
 #!/bin/ruby
 require 'mumble-ruby'
 require 'sanitize'
+require 'yaml'
 require './plugins.rb'
-$USERNAME = 'Robocop'
-$PASSWORD = 'eggs'
-$TRIGGERS = ['robocop', 'rb']
-$COMMENT = 'Visit brickly.tk/robocop to add suggestions/issues.'
+CONFIG = YAML.load_file("config.yml") unless defined? CONFIG
 STDOUT.sync = true
 class MumbleBot
   attr_accessor :commands, :bot, :plugins
+
   def initialize
     @plugins = []
     @commands = {}
     @bot = Mumble::Client.new('localhost') do |conf|
-      conf.username = $USERNAME
-      conf.password = $PASSWORD
+      conf.username = CONFIG['username']
+      conf.password = CONFIG['password'] unless CONFIG['password'].nil?
     end
     load_plugins
     register_callbacks
   end
+
   def current_channel
      @bot.me.channel_id.to_i
   end
+
   def get_username_from_id(id)
     @bot.users[id].name
   end
+
   def say_to_channel(channel, text)
     begin
       @bot.text_channel(channel, text)
@@ -32,6 +34,7 @@ class MumbleBot
       return 1
     end
   end
+
   def say_to_user(id, text)
     begin
       @bot.text_user(id, text)
@@ -39,6 +42,7 @@ class MumbleBot
       return 1
     end
   end
+
   def say(plugin, source, text)
     if plugin.response == :user || plugin.response == :auto && source[0] == :user
       say_to_user(source[1], text)
@@ -46,6 +50,7 @@ class MumbleBot
       say_to_channel(source[1], text)
     end
   end
+
   def fail(source, text)
     if source[0] == :user
       say_to_channel(source[1], text)
@@ -53,6 +58,7 @@ class MumbleBot
       say_to_channel(source[1], text)
     end
   end
+
   def load_plugins
     Dir["./plugins/*.rb"].each { |f| require f }
     Plugin.plugins.each do |klass|
@@ -66,7 +72,7 @@ class MumbleBot
   end
 
   def matches_trigger(string)
-    $TRIGGERS.each do |trigger|
+    CONFIG['triggers'].each do |trigger|
       return true if string.split(' ')[0].downcase == trigger
     end
     false
@@ -122,7 +128,7 @@ class MumbleBot
     @bot.on_connected do
       @bot.player.volume = 5
       @bot.player.stream_named_pipe('/tmp/mpd.fifo')
-      @bot.set_comment($COMMENT)
+      @bot.set_comment(CONFIG['comment'])
     end
   end
 end

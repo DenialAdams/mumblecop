@@ -143,7 +143,7 @@ class Stop < Plugin
   end
 end
 
-class DateTime < Plugin
+class GetDateTime < Plugin
   def initialize
     @help_text = "Prints out the date and time"
     @commands = ['date', 'time']

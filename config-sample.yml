@@ -1,0 +1,5 @@
+username: Robocop
+password:
+address: localhost
+triggers: ['robocop', 'rbc', 'rc', 'rb']
+comment: 'I am a robot beep boop'
