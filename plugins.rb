@@ -81,7 +81,6 @@ class Youtube < Plugin
   end
 
   def go(source, args, bot)
-    system('mpc clear')
     result = system('get_youtube', args[0])
     if result
       system('mpc play')
@@ -102,7 +101,6 @@ class Soundcloud < Plugin
   end
 
   def go(source, args, bot)
-    system('mpc clear')
     result = system('get_soundcloud', args[0])
     if result
       system('mpc play')
@@ -154,13 +152,25 @@ end
 
 class Stop < Plugin
   def initialize
-    @help_text = "Stops anything playing"
+    @help_text = "Stops anything playing, and wipes the queue"
     @commands = ['stop']
     super
   end
 
   def go(source, args, bot)
     system('mpc clear')
+  end
+end
+
+class Next < Plugin
+  def initialize
+    @help_text = "Advances to the next song in the queue."
+    @commands = ['next', 'advance']
+    super
+  end
+
+  def go(source, args, bot)
+    system('mpc next')
   end
 end
 
