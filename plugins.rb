@@ -92,6 +92,27 @@ class Youtube < Plugin
   end
 end
 
+class Soundcloud < Plugin
+  def initialize
+    @needs_sanitization = true
+    @commands = ['soundcloud']
+    @help_text = "Play a soundcloud song - soundcloud [url]"
+    @min_args = 1
+    super
+  end
+
+  def go(source, args, bot)
+    system('mpc clear')
+    result = system('get_soundcloud', args[0])
+    if result
+      system('mpc play')
+      bot.say(self, source, 'Request successful. Please wait a few moments for the source to begin streaming.')
+    else
+      bot.say(self, source, 'Failed to stream song. Check given url.')
+    end
+  end
+end
+
 class Fuck < Plugin
   def initialize
     @min_args = 1
