@@ -152,8 +152,8 @@ end
 
 class Stop < Plugin
   def initialize
-    @help_text = "Stops anything playing, and wipes the queue"
-    @commands = ['stop']
+    @help_text = "Stops anything playing, and clears the current playlist"
+    @commands = ['stop', 'clear']
     super
   end
 
