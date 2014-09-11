@@ -135,6 +135,5 @@ end
 robocop = MumbleBot.new
 robocop.bot.connect
 loop do
-  STDIN.gets
+  sleep(0.1)
 end
-robocop.bot.disconnect
