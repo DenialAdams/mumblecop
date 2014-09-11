@@ -2,7 +2,7 @@ Hi! This is a bot I programmed for my mumble server. It works well for me and my
 
 MPD needs to be set up and output to a pipe in /tmp/mpd.fifo. This will be configurable in the future.
 
-MPC needs to be installed to control MPD. This may be changed in the future to rely less on external tools.
+MPC needs to be installed to control MPD. This may be changed in the future to rely less on external tools. Robocop will automatically turn consume mode on when it is launched.
 
 Rename config-sample.yml to config.yml for it to take effect.
 
