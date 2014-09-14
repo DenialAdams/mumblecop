@@ -132,17 +132,24 @@ class Volume < Plugin
   def initialize
     @help_text = "Change the volume, 0 - 100 - volume [[level]]. No params = check the volume"
     @commands = ['volume']
+    @max_volume = 100
     super
   end
 
   def go(source, args, bot)
     if args[0]
       if args[0][0] == "-"
-        bot.bot.player.volume = bot.bot.player.volume - args[0].to_i.abs
+        new_volume = bot.bot.player.volume - args[0].to_i.abs
       elsif args[0][0] == "+"
-        bot.bot.player.volume = bot.bot.player.volume + args[0].to_i.abs
+        new_volume = bot.bot.player.volume + args[0].to_i.abs
       else
-        bot.bot.player.volume = args[0].to_i
+        new_volume = args[0].to_i
+      end
+      if new_volume > @max_volume
+        bot.say(self, source, "Volume can not exeed #{@max_volume}. Set to #{@max_volume}.")
+        bot.bot.player.volume = @max_volume
+      else
+        bot.bot.player.volume = new_volume
       end
     else
       bot.say(self, source, "Volume is currently #{bot.bot.player.volume}")
