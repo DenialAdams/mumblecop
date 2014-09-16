@@ -74,7 +74,7 @@ end
 class Youtube < Plugin
   def initialize
     @needs_sanitization = true
-    @commands = ['youtube']
+    @commands = ['youtube', 'yt']
     @help_text = "Play a youtube video - youtube [url]"
     @min_args = 1
     super
@@ -94,7 +94,7 @@ end
 class Soundcloud < Plugin
   def initialize
     @needs_sanitization = true
-    @commands = ['soundcloud']
+    @commands = ['soundcloud', 'sc']
     @help_text = "Play a soundcloud song - soundcloud [url]"
     @min_args = 1
     super
