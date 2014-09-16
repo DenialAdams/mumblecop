@@ -157,10 +157,10 @@ class Volume < Plugin
   end
 end
 
-class Stop < Plugin
+class Clear < Plugin
   def initialize
     @help_text = "Stops anything playing, and clears the current playlist"
-    @commands = ['stop', 'clear']
+    @commands = ['clear']
     super
   end
 
