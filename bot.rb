@@ -94,7 +94,7 @@ class MumbleBot
         source = [:user, message.actor]
       end
       args = msg.split(' ')
-      command = args[0]
+      command = args[0].downcase
       args.delete_at(0)
       if @commands[command].nil? && robocop_command
         fail(source, 'Command not found.')
