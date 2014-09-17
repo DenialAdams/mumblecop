@@ -90,6 +90,11 @@ class MumbleBot
         source = [:channel, message.channel_id[0]]
         robocop_command = true
       elsif !message.channel_id
+        if matches_trigger(msg)
+          msg = msg.split(' ')
+          msg.delete_at(0)
+          msg = msg.join(' ')
+        end
         robocop_command = true
         source = [:user, message.actor]
       end
