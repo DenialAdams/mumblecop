@@ -1,6 +1,6 @@
 Hi! This is a bot I programmed for my mumble server. It works well for me and my purposes.
 
-I use the dafoxia branch of mumble-ruby: https://github.com/dafoxia/mumble-ruby
+I use the dafoxia branch of mumble-ruby: [Github link](https://github.com/dafoxia/mumble-ruby)
 
 MPD needs to be set up and output to a pipe in /tmp/mpd.fifo. This will be configurable in the future.
 
