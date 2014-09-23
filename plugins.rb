@@ -246,6 +246,7 @@ class Seek < Plugin
     @help_text = "Seek to x seconds in the currently playing media - seek [seconds]"
     @min_args = 1
     @commands = ['seek']
+    @disabled = true
     super
   end
 
