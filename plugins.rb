@@ -209,17 +209,20 @@ class Help < Plugin
   def initialize
     @help_text = "Gives help about a specific command - help [command]"
     @commands = ['help']
-    @min_args = 1
     super
   end
 
   def go(source, args, bot)
-    if bot.commands[args[0]].nil?
-      bot.say(self, source, "Sorry, command you requested help on is not found.")
-    elsif bot.commands[args[0]].help_text.empty?
-      bot.say(self, source, "Sorry, command has no set help text.")
+    if args[0]
+      if bot.commands[args[0]].nil?
+        bot.say(self, source, "Sorry, command you requested help on is not found.")
+      elsif bot.commands[args[0]].help_text.empty?
+        bot.say(self, source, "Sorry, command has no set help text.")
+      else
+        bot.say(self, source, bot.commands[args[0]].help_text)
+      end
     else
-      bot.say(self, source, bot.commands[args[0]].help_text)
+      bot.say(self, source, @help_text + ". For a list of commands, try 'commands'")
     end
   end
 end
