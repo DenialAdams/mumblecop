@@ -75,3 +75,16 @@ class FuckYou < Plugin
     bot.commands['youtube'].go(source, @anarchy_tunes.sample.split(' '), bot)
   end
 end
+
+class Cantina < Plugin
+  def initialize
+    @help_text = "Han shot first"
+    @commands = ['cantina', 'starwars']
+    @cantina = ['stbYF6XpTYE']
+    super
+  end
+  
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, @cantina.sample.split(' '), bot)
+  end
+end
