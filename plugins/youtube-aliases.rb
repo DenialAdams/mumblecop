@@ -27,7 +27,7 @@ end
 class JamesOhShit < Plugin
   def initialize
     @help_text = "Shiiiiit"
-    @commands = ['james', 'jeb']
+    @commands = ['james']
     @song = ['zi44BM1YHf8']
     super
   end
@@ -35,4 +35,18 @@ class JamesOhShit < Plugin
   def go(source, args, bot)
     bot.commands['youtube'].go(source, @song.sample.split(' '), bot)
   end
+end
+
+class JebSpoopy < Plugin
+  def initialize
+    @help_text = "SPOOPY"
+    @commands = ['jeb']
+    @song = ['wEE_CY1XKTg']
+    super
+  end
+
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, @song.sample.split(' '), bot)
+  end
+
 end
