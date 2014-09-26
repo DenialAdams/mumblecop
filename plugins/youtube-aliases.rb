@@ -79,7 +79,7 @@ end
 class Cantina < Plugin
   def initialize
     @help_text = "Han shot first"
-    @commands = ['cantina', 'starwars']q6-ZGAGcJrk
+    @commands = ['cantina', 'starwars']
     @cantina = ['stbYF6XpTYE']
     super
   end
