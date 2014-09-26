@@ -3,7 +3,7 @@ require 'mumble-ruby'
 require 'sanitize'
 require 'yaml'
 require './plugins.rb'
-CONFIG = YAML.load_file("config.yml") unless defined? CONFIG
+CONFIG = YAML.load_file('config.yml') unless defined? CONFIG
 STDOUT.sync = true
 class MumbleBot
   attr_accessor :commands, :bot, :plugins
@@ -20,7 +20,7 @@ class MumbleBot
   end
 
   def current_channel
-     @bot.me.channel_id.to_i
+    @bot.me.channel_id.to_i
   end
 
   def get_username_from_id(id)
@@ -28,19 +28,15 @@ class MumbleBot
   end
 
   def say_to_channel(channel, text)
-    begin
-      @bot.text_channel(channel, text)
-    rescue
-      return 1
-    end
+    @bot.text_channel(channel, text)
+  rescue
+    return 1
   end
 
   def say_to_user(id, text)
-    begin
-      @bot.text_user(id, text)
-    rescue
-      return 1
-    end
+    @bot.text_user(id, text)
+  rescue
+    return 1
   end
 
   def say(plugin, source, text)
@@ -60,7 +56,7 @@ class MumbleBot
   end
 
   def load_plugins
-    Dir["./plugins/*.rb"].each { |f| require f }
+    Dir['./plugins/*.rb'].each { |f| require f }
     Plugin.plugins.each do |klass|
       @plugins.push klass.new
     end
@@ -105,7 +101,7 @@ class MumbleBot
         fail(source, 'Command not found.')
       elsif robocop_command
         if !@commands[command].enabled
-          fail(source, "Command is currently disabled. Ask an administrator for details.")
+          fail(source, 'Command is currently disabled. Ask an administrator for details.')
         elsif @commands[command].min_args > args.length
           fail(source, "Command requires at least #{@commands[command].min_args} parameter(s).")
         else
@@ -117,18 +113,6 @@ class MumbleBot
           Thread.new { @commands[command].go(source, args, self) }
         end
       end
-=begin
-      elsif msg.start_with?('play') || msg.start_with?('resume')
-        unless term.empty?
-          system('mpc clear')
-          system("mpc ls | grep #{term} | mpc add")
-        end
-        system('mpc play')
-      elsif msg.start_with?('albums')
-        robocop.text_user(message.actor, Dir.entries('/var/lib/mpd/music').to_s)
-      elsif msg.start_with?('pause')
-        system('mpc pause')
-=end
     end
     @bot.on_connected do
       @bot.player.volume = 5
