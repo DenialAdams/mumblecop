@@ -79,7 +79,7 @@ end
 class Cantina < Plugin
   def initialize
     @help_text = "Han shot first"
-    @commands = ['cantina', 'starwars']
+    @commands = ['cantina', 'starwars']q6-ZGAGcJrk
     @cantina = ['stbYF6XpTYE']
     super
   end
@@ -88,3 +88,17 @@ class Cantina < Plugin
     bot.commands['youtube'].go(source, @cantina.sample.split(' '), bot)
   end
 end
+
+class SpookySkeletons < Plugin
+  def initialize
+    @help_text = "Spooby scurry skellingtons"
+    @commands = ['spooky', 'skeletons']
+    @spooky = ['q6-ZGAGcJrk']
+    super
+  end
+  
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, @spooky.sample.split(' '), bot)
+  end
+end
+
