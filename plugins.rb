@@ -84,7 +84,18 @@ class Youtube < Plugin
     result = system('get_youtube', args[0])
     if result
       system('mpc play')
-      bot.say(self, source, 'Request successful. Please wait a few moments for the source to download.')
+      bot.say(self, source, 'Request successful. Loading...')
+      # failed attempt at autoseeking below
+=begin
+      if args[1]
+        args.delete_at(0)
+        puts args.to_s
+        seek_result = false
+        until seek_result
+          seek_result = bot.commands['seek'].go(source, args, bot)
+        end
+      end
+=end
     else
       bot.say(self, source, 'Failed to play video. Check given url.')
     end
