@@ -106,7 +106,7 @@ end
 class SpookySkeletons < Plugin
   def initialize
     @help_text = "Spooby scurry skellingtons"
-    @commands = ['spooky', 'skeletons']
+    @commands = ['spooky', 'skeletons', 'spoopy']
     @spooky = ['q6-ZGAGcJrk']
     super
   end
