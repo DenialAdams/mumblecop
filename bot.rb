@@ -115,8 +115,8 @@ class MumbleBot
       end
     end
     @bot.on_connected do
-      @bot.player.volume = 5
-      @bot.player.stream_named_pipe('/tmp/mpd.fifo')
+      @bot.player.volume = CONFIG['initial-volume']
+      @bot.player.stream_named_pipe(CONFIG['mpd-pipe-location'])
       @bot.set_comment(CONFIG['comment'])
       system('mpc consume on')
     end
