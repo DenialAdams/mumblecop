@@ -15,12 +15,13 @@ class HateTrain < Plugin
   def initialize
     @help_text = "Haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaate is a train..."
     @commands = ['dan']
-    @hate_tunes = ['Q27SGo-fMhs']
+    # second arg is seek time
+    @new_args = ['Q27SGo-fMhs', '70']
     super
   end
 
   def go(source, args, bot)
-    bot.commands['youtube'].go(source, @hate_tunes.sample.split(' '), bot)
+    bot.commands['youtube'].go(source, @new_args, bot)
   end
 end
 
