@@ -102,3 +102,15 @@ class SpookySkeletons < Plugin
   end
 end
 
+class TomNook < Plugin
+  def initialize
+    @help_text = "Hey kid, wanna house? It'll only put you in debt to me for the next 50 quadrillion years"
+    @commands = ['tomnook', 'nook']
+    @nook = ['t1svDZECOa4']
+    super
+  end
+  
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, @nook.sample.split(' '), bot)
+  end
+end
