@@ -74,7 +74,7 @@ class MumbleBot
     false
   end
 
-  def handle_message(message)
+  def process_message(message)
     contents = message.message
     puts "#{get_username_from_id(message.actor)}: #{contents}"
     robocop_command = false
@@ -94,7 +94,10 @@ class MumbleBot
       source = [:user, message.actor]
     end
     args = contents.split(' ')
-    command = args.delete_at(0).downcase
+    process_command(args.delete_at(0).downcase, args)
+  end
+  
+  def process_command(command, args)
     if @commands[command].nil? && robocop_command
       fail(source, 'Command not found.')
     elsif robocop_command
@@ -122,7 +125,7 @@ class MumbleBot
 
   def register_callbacks
     @bot.on_text_message do |message|
-      handle_message(message)
+      process_message(message)
     end
     @bot.on_connected do
       setup
