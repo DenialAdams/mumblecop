@@ -115,8 +115,6 @@ class SpookySkeletons < Plugin
     bot.commands['youtube'].go(source, @spooky.sample.split(' '), bot)
   end
 end
-<<<<<<< local
-=======
 
 class TomNook < Plugin
   def initialize
@@ -130,4 +128,3 @@ class TomNook < Plugin
     bot.commands['youtube'].go(source, @nook.sample.split(' '), bot)
   end
 end
->>>>>>> other
