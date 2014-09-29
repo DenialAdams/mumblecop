@@ -131,7 +131,7 @@ end
 
 class Best < Plugin
   def initialize
-    @help_text = "For when you need a pick me up"
+    @help_text = 'For when you need a pick me up'
     @commands = %w(best)
     @best = ['2F2i6EQsPZY']
     super
