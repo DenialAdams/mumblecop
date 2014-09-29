@@ -1,5 +1,7 @@
+# Base plugin class, when it is inherited it will register itself into @plugins
 class Plugin
-  attr_accessor :help_text, :enabled, :protected, :response, :min_args, :needs_sanitization, :commands
+  attr_accessor :help_text, :enabled, :protected, :response, :min_args,
+                :needs_sanitization, :commands
 
   def self.plugins
     @plugins ||= []

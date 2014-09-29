@@ -1,10 +1,15 @@
 #!/usr/bin/env ruby
+
 require 'mumble-ruby'
 require 'sanitize'
 require 'yaml'
 require './plugins.rb'
+
 CONFIG = YAML.load_file('config.yml') unless defined? CONFIG
 STDOUT.sync = true
+
+# The mumblebot recieves and validates commands,
+# then proceeds to pass those off to plugins.
 class MumbleBot
   attr_accessor :commands, :bot, :plugins
 
@@ -68,10 +73,12 @@ class MumbleBot
   end
 
   def matches_trigger(string)
-    CONFIG['triggers'].each do |trigger|
-      return true if string.split(' ')[0].downcase == trigger
-    end
-    false
+    CONFIG['triggers'].include?(string.split(' ')[0].downcase)
+  end
+
+  def sanitize_params(params)
+    command = Sanitize.fragment(params.join(' '))
+    params.split(' ')
   end
 
   def process_message(message)
@@ -102,15 +109,13 @@ class MumbleBot
       fail(source, 'Command not found.')
     elsif robocop_command
       if !@commands[command].enabled
-        fail(source, 'Command is currently disabled. Ask an administrator for details.')
+        fail(source,
+             'Command is currently disabled. Ask an administrator for details.')
       elsif @commands[command].min_args > args.length
-        fail(source, "Command requires at least #{@commands[command].min_args} parameter(s).")
+        fail(source,
+             "Command requires #{@commands[command].min_args} parameter(s).")
       else
-        if @commands[command].needs_sanitization
-          args = args.join('')
-          args = Sanitize.fragment(args)
-          args = args.split(' ')
-        end
+        args = sanitize_params(args) if @commands[command].needs_sanitization
         Thread.new { @commands[command].go(source, args, self) }
       end
     end
