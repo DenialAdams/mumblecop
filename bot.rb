@@ -74,51 +74,58 @@ class MumbleBot
     false
   end
 
-  def register_callbacks
-    @bot.on_text_message do |message|
-      msg = message.message
-      puts "#{get_username_from_id(message.actor)}: #{msg}"
-      robocop_command = false
-      if message.channel_id && matches_trigger(msg)
-        msg = msg.split(' ')
-        msg.delete_at(0)
-        msg = msg.join(' ')
-        source = [:channel, message.channel_id[0]]
-        robocop_command = true
-      elsif !message.channel_id
-        if matches_trigger(msg)
-          msg = msg.split(' ')
-          msg.delete_at(0)
-          msg = msg.join(' ')
-        end
-        robocop_command = true
-        source = [:user, message.actor]
+  def handle_message(message)
+    contents = message.message
+    puts "#{get_username_from_id(message.actor)}: #{contents}"
+    robocop_command = false
+    if message.channel_id && matches_trigger(contents)
+      contents = contents.split(' ')
+      contents.delete_at(0)
+      contents = contents.join(' ')
+      source = [:channel, message.channel_id[0]]
+      robocop_command = true
+    elsif !message.channel_id
+      if matches_trigger(contents)
+	contents = contents.split(' ')
+	contents.delete_at(0)
+	contents = contents.join(' ')
       end
-      args = msg.split(' ')
-      command = args[0].downcase
-      args.delete_at(0)
-      if @commands[command].nil? && robocop_command
-        fail(source, 'Command not found.')
-      elsif robocop_command
-        if !@commands[command].enabled
-          fail(source, 'Command is currently disabled. Ask an administrator for details.')
-        elsif @commands[command].min_args > args.length
-          fail(source, "Command requires at least #{@commands[command].min_args} parameter(s).")
-        else
-          if @commands[command].needs_sanitization
-            args = args.join('')
-            args = Sanitize.fragment(args)
-            args = args.split(' ')
-          end
-          Thread.new { @commands[command].go(source, args, self) }
-        end
+      robocop_command = true
+      source = [:user, message.actor]
+    end
+    args = contents.split(' ')
+    command = args.delete_at(0).downcase
+    if @commands[command].nil? && robocop_command
+      fail(source, 'Command not found.')
+    elsif robocop_command
+      if !@commands[command].enabled
+	fail(source, 'Command is currently disabled. Ask an administrator for details.')
+      elsif @commands[command].min_args > args.length
+	fail(source, "Command requires at least #{@commands[command].min_args} parameter(s).")
+      else
+	if @commands[command].needs_sanitization
+	  args = args.join('')
+	  args = Sanitize.fragment(args)
+	  args = args.split(' ')
+	end
+	Thread.new { @commands[command].go(source, args, self) }
       end
     end
+  end
+
+  def setup
+    @bot.player.volume = CONFIG['initial-volume']
+    @bot.player.stream_named_pipe(CONFIG['mpd-pipe-location'])
+    @bot.set_comment(CONFIG['comment'])
+    system('mpc consume on')
+  end
+
+  def register_callbacks
+    @bot.on_text_message do |message|
+      handle_message(message)
+    end
     @bot.on_connected do
-      @bot.player.volume = CONFIG['initial-volume']
-      @bot.player.stream_named_pipe(CONFIG['mpd-pipe-location'])
-      @bot.set_comment(CONFIG['comment'])
-      system('mpc consume on')
+      setup
     end
   end
 end
