@@ -77,7 +77,7 @@ class MumbleBot
   end
 
   def sanitize_params(params)
-    command = Sanitize.fragment(params.join(' '))
+    params = Sanitize.fragment(params.join(' '))
     params.split(' ')
   end
 
