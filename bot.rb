@@ -42,7 +42,7 @@ class MumbleBot
   def say(plugin, source, text)
     if plugin.response == :user || plugin.response == :auto && source[0] == :user
       say_to_user(source[1], text)
-    elsif plugin.response == :channel || plugin.response == :auto && source[0] == :channel
+    elsif plugin.response == :channel
       say_to_channel(source[1], text)
     end
   end
