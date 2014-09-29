@@ -86,32 +86,32 @@ class MumbleBot
       robocop_command = true
     elsif !message.channel_id
       if matches_trigger(contents)
-	contents = contents.split(' ')
-	contents.delete_at(0)
-	contents = contents.join(' ')
+        contents = contents.split(' ')
+        contents.delete_at(0)
+        contents = contents.join(' ')
       end
       robocop_command = true
       source = [:user, message.actor]
     end
     args = contents.split(' ')
-    process_command(args.delete_at(0).downcase, args)
+    process_command(args.delete_at(0).downcase, robocop_command, args, source)
   end
-  
-  def process_command(command, args)
+
+  def process_command(command, robocop_command, args, source)
     if @commands[command].nil? && robocop_command
       fail(source, 'Command not found.')
     elsif robocop_command
       if !@commands[command].enabled
-	fail(source, 'Command is currently disabled. Ask an administrator for details.')
+        fail(source, 'Command is currently disabled. Ask an administrator for details.')
       elsif @commands[command].min_args > args.length
-	fail(source, "Command requires at least #{@commands[command].min_args} parameter(s).")
+        fail(source, "Command requires at least #{@commands[command].min_args} parameter(s).")
       else
-	if @commands[command].needs_sanitization
-	  args = args.join('')
-	  args = Sanitize.fragment(args)
-	  args = args.split(' ')
-	end
-	Thread.new { @commands[command].go(source, args, self) }
+        if @commands[command].needs_sanitization
+          args = args.join('')
+          args = Sanitize.fragment(args)
+          args = args.split(' ')
+        end
+        Thread.new { @commands[command].go(source, args, self) }
       end
     end
   end
