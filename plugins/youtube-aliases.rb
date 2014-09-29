@@ -128,3 +128,16 @@ class TomNook < Plugin
     bot.commands['youtube'].go(source, @nook.sample.split(' '), bot)
   end
 end
+
+class Best < Plugin
+  def initialize
+    @help_text = "For when you need a pick me up"
+    @commands = %w(best)
+    @best = ['2F2i6EQsPZY']
+    super
+  end
+
+  def go(source, _args, bot)
+    bot.commands['youtube'].go(source, @best, bot)
+  end
+end
