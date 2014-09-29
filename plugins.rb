@@ -120,7 +120,7 @@ class Fuck < Plugin
   end
 
   def go(source, args, bot)
-    if args[0] == $USERNAME
+    if args[0] == CONFIG['username']
       bot.say(self, source, 'No, fuck you.')
     else
       bot.commands['whisper'].go(source, [args[0], 'Someone anonymously says fuck you.'], bot)
