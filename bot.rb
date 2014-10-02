@@ -54,7 +54,7 @@ class MumbleBot
 
   def fail(source, text)
     if source[0] == :user
-      say_to_channel(source[1], text)
+      say_to_user(source[1], text)
     else
       say_to_channel(source[1], text)
     end
