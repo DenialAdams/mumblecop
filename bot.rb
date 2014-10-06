@@ -3,7 +3,7 @@
 require 'mumble-ruby'
 require 'sanitize'
 require 'yaml'
-require './plugins.rb'
+require_relative 'plugins'
 
 CONFIG = YAML.load_file('config.yml') unless defined? CONFIG
 STDOUT.sync = true
