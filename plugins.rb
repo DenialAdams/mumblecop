@@ -59,20 +59,6 @@ class Whisper < Plugin
   end
 end
 
-class Roll < Plugin
-  def initialize
-    @min_args = 1
-    @commands = ['roll']
-    @help_text = 'Roll an x sided die - roll [sides]'
-    super
-  end
-
-  def go(source, args, bot)
-    sides = args[0].to_i
-    bot.say(self, source, rand(1..sides).to_s)
-  end
-end
-
 class Youtube < Plugin
   def initialize
     @needs_sanitization = true
