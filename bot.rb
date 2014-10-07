@@ -84,30 +84,30 @@ class MumbleBot
   def process_message(message)
     contents = message.message
     puts "#{get_username_from_id(message.actor)}: #{contents}"
-    robocop_command = false
+    mumblecop_command = false
     if message.channel_id && matches_trigger(contents)
       contents = contents.split(' ')
       contents.delete_at(0)
       contents = contents.join(' ')
       source = [:channel, message.channel_id[0]]
-      robocop_command = true
+      mumblecop_command = true
     elsif !message.channel_id
       if matches_trigger(contents)
         contents = contents.split(' ')
         contents.delete_at(0)
         contents = contents.join(' ')
       end
-      robocop_command = true
+      mumblecop_command = true
       source = [:user, message.actor]
     end
     args = contents.split(' ')
-    process_command(args.delete_at(0).downcase, robocop_command, args, source)
+    process_command(args.delete_at(0).downcase, mumblecop_command, args, source)
   end
 
-  def process_command(command, robocop_command, args, source)
-    if @commands[command].nil? && robocop_command
+  def process_command(command, mumblecop_command, args, source)
+    if @commands[command].nil? && mumblecop_command
       fail(source, 'Command not found.')
-    elsif robocop_command
+    elsif mumblecop_command
       if !@commands[command].enabled
         fail(source,
              'Command is currently disabled. Ask an administrator for details.')
@@ -137,8 +137,8 @@ class MumbleBot
     end
   end
 end
-robocop = MumbleBot.new
-robocop.bot.connect
+mumblecop = MumbleBot.new
+mumblecop.bot.connect
 loop do
   sleep(0.1)
 end

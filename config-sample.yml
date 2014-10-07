@@ -1,7 +1,7 @@
-username: Robocop
+username: Mumblecop
 password:
 address: localhost
-triggers: ['robocop', 'rbc', 'rc', 'rb']
+triggers: ['mumblecop', 'mc', 'mc', 'mb']
 comment: 'I am a robot beep boop'
 initial-volume: 5
 mpd-pipe-location: '/tmp/mpd.fifo'

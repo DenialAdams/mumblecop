@@ -6,7 +6,7 @@ MPC needs to be installed to control MPD. This may be changed in the future to r
 
 Rename config-sample.yml to config.yml for it to take effect.
 
-robocop.service can be installed as a systemd service and used just like any other. ExecStart and WorkingDirectory MUST be changed. They are dummy values.
+mumblecop.service can be installed as a systemd service and used just like any other. ExecStart and WorkingDirectory MUST be changed. They are dummy values.
 
 Real documentation forthcoming, but for now, if you have any questions or would like to use this please feel free to send me a message, I would love to see this being used by others :)
 

@@ -30,7 +30,7 @@ class Say < Plugin
   def initialize
     @min_args = 1
     @commands = ['say']
-    @help_text = "Have robocop say something in it's current channel - say [message]"
+    @help_text = "Have mumblecop say something in it's current channel - say [message]"
     super
   end
 
@@ -43,7 +43,7 @@ class Whisper < Plugin
   def initialize
     @min_args = 2
     @commands = ['whisper']
-    @help_text = 'Send a whisper from robocop to target user - whisper [user] [message]'
+    @help_text = 'Send a whisper from mumblecop to target user - whisper [user] [message]'
     super
   end
 
@@ -231,7 +231,7 @@ end
 
 class Goto < Plugin
   def initialize
-    @help_text = 'Send robocop away to another channel. Poor robocop :('
+    @help_text = 'Send mumblecop away to another channel. Poor mumblecop :('
     @min_args = 1
     @commands = ['goto']
     super
