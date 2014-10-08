@@ -2,10 +2,10 @@ require 'dicebag'
 
 class Roll < Plugin
   def initialize
+    super
     @min_args = 1
     @commands = ['roll']
     @help_text = 'Roll some dice - 4d5 - see the dicebag ruby gem online for formatting.'
-    super
   end
 
   def go(source, args, bot)

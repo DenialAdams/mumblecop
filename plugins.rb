@@ -13,12 +13,12 @@ class Plugin
   end
 
   def initialize
-    @needs_sanitization ||= false
-    @min_args ||= 0
-    @enabled = true if @enabled.nil?
-    @protected ||= false # does nothing yet
-    @help_text ||= 'No help text included for this command'
-    @response ||= :auto
+    @needs_sanitization = false
+    @min_args = 0
+    @enabled = true
+    @protected = false # does nothing yet
+    @help_text = 'No help text included for this command'
+    @response = :auto
   end
 
   def go
@@ -28,10 +28,10 @@ end
 
 class Say < Plugin
   def initialize
+    super
     @min_args = 1
     @commands = ['say']
     @help_text = "Have mumblecop say something in it's current channel - say [message]"
-    super
   end
 
   def go(_source, args, bot)
@@ -41,10 +41,10 @@ end
 
 class Whisper < Plugin
   def initialize
+    super
     @min_args = 2
     @commands = ['whisper']
     @help_text = 'Send a whisper from mumblecop to target user - whisper [user] [message]'
-    super
   end
 
   def go(source, args, bot)
@@ -61,11 +61,11 @@ end
 
 class Youtube < Plugin
   def initialize
+    super
     @needs_sanitization = true
     @commands = %w(youtube yt)
     @help_text = 'Play a youtube video - youtube [url]'
     @min_args = 1
-    super
   end
 
   def go(source, args, bot)
@@ -81,11 +81,11 @@ end
 
 class Soundcloud < Plugin
   def initialize
+    super
     @needs_sanitization = true
     @commands = %w(soundcloud sc)
     @help_text = 'Play a soundcloud song - soundcloud [url]'
     @min_args = 1
-    super
   end
 
   def go(source, args, bot)
@@ -101,10 +101,10 @@ end
 
 class Fuck < Plugin
   def initialize
+    super
     @min_args = 1
     @help_text = 'Fuck a user anonymously - fuck [name]'
     @commands = ['fuck']
-    super
   end
 
   def go(source, args, bot)
@@ -118,10 +118,10 @@ end
 
 class Volume < Plugin
   def initialize
+    super
     @help_text = 'Change the volume, 0 - 100 - volume [[level]]. No params = check the volume'
     @commands = ['volume']
     @max_volume = 100
-    super
   end
 
   def go(source, args, bot)
@@ -147,9 +147,9 @@ end
 
 class Clear < Plugin
   def initialize
+    super
     @help_text = 'Stops anything playing, and clears the current playlist'
     @commands = ['clear']
-    super
   end
 
   def go(_source, _args, _bot)
@@ -159,9 +159,9 @@ end
 
 class Next < Plugin
   def initialize
+    super
     @help_text = 'Advances to the next song in the queue.'
     @commands = %w(next advance)
-    super
   end
 
   def go(_source, _args, _bot)
@@ -171,9 +171,9 @@ end
 
 class GetDateTime < Plugin
   def initialize
+    super
     @help_text = 'Prints out the date and time'
     @commands = %w(date time)
-    super
   end
 
   def go(source, _args, bot)
@@ -183,9 +183,9 @@ end
 
 class Commands < Plugin
   def initialize
+    super
     @help_text = 'Prints out all available commands'
     @commands = ['commands']
-    super
   end
 
   def go(source, _args, bot)
@@ -195,9 +195,9 @@ end
 
 class Help < Plugin
   def initialize
+    super
     @help_text = 'Gives help about a specific command - help [command]'
     @commands = ['help']
-    super
   end
 
   def go(source, args, bot)
@@ -217,10 +217,10 @@ end
 
 class Goto < Plugin
   def initialize
+    super
     @help_text = 'Send mumblecop away to another channel. Poor mumblecop :('
     @min_args = 1
     @commands = ['goto']
-    super
   end
 
   def go(source, args, bot)
@@ -232,10 +232,10 @@ end
 
 class Seek < Plugin
   def initialize
+    super
     @help_text = 'Seek to x seconds in the currently playing media - seek [seconds]'
     @min_args = 1
     @commands = ['seek']
-    super
   end
 
   def go(_source, args, _bot)
