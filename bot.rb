@@ -18,7 +18,7 @@ class MumbleBot
     @commands = {}
     @bot = Mumble::Client.new('localhost') do |conf|
       conf.username = CONFIG['username']
-      conf.password = CONFIG['password'] unless CONFIG['password'].nil?
+      conf.password = CONFIG['password'] if CONFIG['password']
     end
     load_plugins
     register_callbacks
@@ -61,7 +61,7 @@ class MumbleBot
   end
 
   def load_plugins
-    Dir['./plugins/*.rb'].each { |f| require f }
+    Dir['./plugins/*.rb'].each { |file| require file }
     Plugin.plugins.each do |klass|
       @plugins.push klass.new
     end
