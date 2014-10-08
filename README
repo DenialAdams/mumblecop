@@ -10,4 +10,4 @@ mumblecop.service can be installed as a systemd service and used just like any o
 
 Real documentation forthcoming, but for now, if you have any questions or would like to use this please feel free to send me a message, I would love to see this being used by others :)
 
-I MAKE NO GUARANTEE ABOUT SECURITY. I would like to perform many security tests but I do not have the time nor the expert knowledge. Sometimes user input is passed as parameters to system commands (mpc) and it's possible that could be exploited.
+I MAKE NO GUARANTEE ABOUT SECURITY. I would like to perform many security tests but I do not have the time nor the expert knowledge. Sometimes user input is passed as parameters to system commands (to mpc, escaped first) and it's possible that could be exploited.
