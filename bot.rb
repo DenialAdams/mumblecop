@@ -5,7 +5,11 @@ require 'sanitize'
 require 'yaml'
 require_relative 'plugins'
 
-CONFIG = YAML.load_file('config.yml') unless defined? CONFIG
+begin
+  CONFIG = YAML.load_file('config.yml') unless defined? CONFIG
+  rescue Errno::ENOENT
+    abort 'config.yml not found. Copy and edit config-sample.yml if this has not yet been done.'
+end
 STDOUT.sync = true
 
 # The mumblebot recieves and validates commands,
