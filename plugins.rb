@@ -12,6 +12,16 @@ class Plugin
     @plugins << klass
   end
 
+  def update(_bot)
+    # stub for now
+  end
+
+  def self.tick(bot)
+    bot.commands.values.uniq.each do |plugin|
+      plugin.update(bot)
+    end
+  end
+
   def initialize
     @needs_sanitization = false
     @min_args = 0

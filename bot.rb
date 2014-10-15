@@ -145,4 +145,5 @@ mumblecop = MumbleBot.new
 mumblecop.bot.connect
 loop do
   sleep(0.1)
+  Plugin.tick(mumblecop)
 end
