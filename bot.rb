@@ -108,7 +108,10 @@ class MumbleBot
     end
     args = contents.split(' ')
     puts args.to_s
-    fail(source, 'A command is required proceeding a mumblecop trigger') if args.length == 0
+    if args.length == 0
+      fail(source, 'A command is required proceeding a mumblecop trigger')
+      return
+    end
     process_command(args.delete_at(0).downcase, mumblecop_command, args, source)
   end
 
