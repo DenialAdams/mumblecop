@@ -85,9 +85,11 @@ class MumbleBot
     params.split(' ')
   end
 
+  # needs rewrite
   def process_message(message)
     contents = message.message
     puts "#{get_username_from_id(message.actor)}: #{contents}"
+    return if contents.strip.empty?
     mumblecop_command = false
     if message.channel_id && matches_trigger(contents)
       contents = contents.split(' ')
@@ -105,19 +107,20 @@ class MumbleBot
       source = [:user, message.actor]
     end
     args = contents.split(' ')
+    puts args.to_s
+    fail(source, 'A command is required proceeding a mumblecop trigger') if args.length == 0
     process_command(args.delete_at(0).downcase, mumblecop_command, args, source)
   end
 
+  # needs rewrite
   def process_command(command, mumblecop_command, args, source)
     if @commands[command].nil? && mumblecop_command
       fail(source, 'Command not found.')
     elsif mumblecop_command
       if !@commands[command].enabled
-        fail(source,
-             'Command is currently disabled. Ask an administrator for details.')
+        fail(source, 'Command is currently disabled. Ask an administrator for details.')
       elsif @commands[command].min_args > args.length
-        fail(source,
-             "Command requires #{@commands[command].min_args} parameter(s).")
+        fail(source, "Command requires #{@commands[command].min_args} parameter(s).")
       else
         args = sanitize_params(args) if @commands[command].needs_sanitization
         Thread.new { @commands[command].go(source, args, self) }
