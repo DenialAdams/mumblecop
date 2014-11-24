@@ -8,7 +8,7 @@ require_relative 'plugins'
 begin
   CONFIG = YAML.load_file('config.yml') unless defined? CONFIG
   rescue Errno::ENOENT
-    abort 'config.yml not found. Copy and edit config-sample.yml if this has not yet been done.'
+    abort 'config.yml not found. Copy, edit and rename config-sample.yml if this has not yet been done.'
 end
 STDOUT.sync = true
 
