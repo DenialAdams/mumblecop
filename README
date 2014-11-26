@@ -1,5 +1,12 @@
 Hi! This is a bot I programmed for my mumble server. It works well for me and my purposes.
 
+Features:
+* Stream audio from youtube (soundcloud support in the works)
+* Queue based audio setup
+* Aliases for fun youtube videos
+* Roll dice
+* Write your own commands with a simple plugin format
+
 I use the dafoxia branch of mumble-ruby: [Github link](https://github.com/dafoxia/mumble-ruby)
 
 MPD needs to be installed for all of the music functionality to work correctly. It needs to have a FIFO pipe as an output. This will be broken off into an optional plugin soon.
@@ -9,3 +16,5 @@ Rename config-sample.yml to config.yml for it to take effect. This must be done.
 mumblecop.service can be installed as a systemd service and used just like any other. ExecStart and WorkingDirectory MUST be changed. They are dummy values.
 
 Real documentation forthcoming, but for now, if you have any questions or would like to use this please feel free to send me a message, I would love to see this being used by others :)
+
+ALSO if you write any plugins, PLEASE send them to me if you would like them to be considered for inclusion! Thanks!
