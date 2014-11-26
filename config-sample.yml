@@ -5,3 +5,6 @@ triggers: ['mumblecop', 'mc', 'mc', 'mb']
 comment: 'I am a robot beep boop'
 initial-volume: 5
 mpd-pipe-location: '/tmp/mpd.fifo'
+mpd-port: 6600
+mpd-address: localhost
+plugin-update-rate: 0.1

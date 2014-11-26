@@ -136,7 +136,7 @@ class MumbleBot
     @bot.player.volume = CONFIG['initial-volume']
     @bot.player.stream_named_pipe(CONFIG['mpd-pipe-location'])
     @bot.set_comment(CONFIG['comment'])
-    @mpd = MPD.new
+    @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port']
     @mpd.connect
     @mpd.consume = true
   end
@@ -153,6 +153,6 @@ end
 mumblecop = MumbleBot.new
 mumblecop.bot.connect
 loop do
-  sleep(0.1)
+  sleep(CONFIG['plugin-update-rate'])
   Plugin.tick(mumblecop)
 end
