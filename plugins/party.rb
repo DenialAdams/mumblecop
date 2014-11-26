@@ -5,7 +5,7 @@ class Party < Plugin
     super
     @party_time = choose_party_time
     @party_volume = 50 # <0 = don't change the volume
-    @party_music = ['QH2-TGUlwu4', 'LDZX4ooRsWs']
+    @party_music = ['nqLArgCbh70', 'wVRQVG20Y-U']
     @commands = ['party']
   end
 
