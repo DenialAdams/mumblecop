@@ -1,4 +1,3 @@
-require 'shellwords'
 # Base plugin class, when it is inherited it will register itself into @plugins
 class Plugin
   attr_accessor :help_text, :enabled, :protected, :response, :min_args,
@@ -75,7 +74,7 @@ class Youtube < Plugin
     super
     @needs_sanitization = true
     @commands = %w(youtube yt)
-    @help_text = 'Play a youtube video - youtube [url] [starting time in seconds]'
+    @help_text = 'Play a youtube video - youtube [url] (starting time in seconds)'
     @min_args = 1
   end
 
@@ -96,7 +95,7 @@ class Soundcloud < Plugin
     super
     @needs_sanitization = true
     @commands = %w(soundcloud sc)
-    @help_text = 'Play a soundcloud song - soundcloud [url]'
+    @help_text = 'Play a soundcloud song - soundcloud [url] (starting time in seconds)'
     @min_args = 1
   end
 
@@ -105,6 +104,7 @@ class Soundcloud < Plugin
     if result
       bot.mpd.play if bot.mpd.stopped?
       bot.say(self, source, 'Request successful. Please wait a few moments for the source to begin streaming.')
+      bot.mpd.seek(args[1].to_i) if args[1]
     else
       bot.say(self, source, 'Failed to stream song. Check given url.')
     end
@@ -274,7 +274,32 @@ class QueueCommand < Plugin
     @help_text = 'Prints how many songs are in the queue (including the currently playing song)'
     @commands = ['queue']
   end
+
   def go(source, _args, bot)
     bot.say(self, source, "#{bot.mpd.queue.count} song(s) in queue")
+  end
+end
+
+class Repeat < Plugin
+  def initialize
+    super
+    @help_text = 'repeat (on/off)'
+    @commands = ['repeat']
+  end
+
+  def go(source, args, bot)
+    # TODO CHECK IF OFF/ON by not sending on/off
+    return unless args[0]
+    if args[0].downcase == 'off'
+      bot.mpd.repeat = false
+      bot.mpd.single = false
+      bot.mpd.consume = true
+      bot.say(self, source, 'Repeat off')
+    elsif args[0].downcase == 'on'
+      bot.mpd.repeat = true
+      bot.mpd.single = true
+      bot.mpd.consume = false
+      bot.say(self, source, 'Repeat on')
+    end
   end
 end
