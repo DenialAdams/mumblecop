@@ -84,7 +84,7 @@ class Youtube < Plugin
     if result
       bot.mpd.play if bot.mpd.stopped?
       bot.say(self, source, 'Request successful. Loading...')
-      bot.mpd.seek(args[1])
+      bot.mpd.seek(args[1].to_i) if args[1]
     else
       bot.say(self, source, 'Failed to play video. Check given url.')
     end

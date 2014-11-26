@@ -6,8 +6,8 @@ class Elevator < Plugin
     @song = ['zG456vqPHJo']
   end
 
-  def go(source, _args, bot)
-    bot.commands['youtube'].go(source, @song, bot)
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, [@song[0], args[0]], bot)
   end
 end
 
@@ -16,11 +16,11 @@ class HateTrain < Plugin
     super
     @help_text = 'Haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaate is a train...'
     @commands = ['dan']
-    # second arg is seek time, not currently used
+    # second arg is seek time
     @song = ['Q27SGo-fMhs', '70']
   end
 
-  def go(source, _args, bot)
+  def go(source, args, bot)
     bot.commands['youtube'].go(source, @song, bot)
   end
 end
@@ -33,8 +33,8 @@ class JamesOhShit < Plugin
     @song = ['zi44BM1YHf8']
   end
 
-  def go(source, _args, bot)
-    bot.commands['youtube'].go(source, @song, bot)
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, [@song[0], args[0]], bot)
   end
 end
 
@@ -46,8 +46,8 @@ class JebSpoopy < Plugin
     @song = ['wEE_CY1XKTg']
   end
 
-  def go(source, _args, bot)
-    bot.commands['youtube'].go(source, @song, bot)
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, [@song[0], args[0]], bot)
   end
 end
 
@@ -59,8 +59,8 @@ class DankThomas < Plugin
     @song = ['ETfiUYij5UE']
   end
 
-  def go(source, _args, bot)
-    bot.commands['youtube'].go(source, @song, bot)
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, [@song[0], args[0]], bot)
   end
 end
 
@@ -72,8 +72,8 @@ class Ethan < Plugin
     @song = ['16RCvtziXj0']
   end
 
-  def go(source, _args, bot)
-    bot.commands['youtube'].go(source, @song, bot)
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, [@song[0], args[0]], bot)
   end
 end
 
@@ -85,8 +85,8 @@ class FuckYou < Plugin
     @song = ['jPWYcjypSWo']
   end
 
-  def go(source, _args, bot)
-    bot.commands['youtube'].go(source, @song, bot)
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, [@song[0], args[0]], bot)
   end
 end
 
@@ -98,8 +98,8 @@ class Cantina < Plugin
     @song = ['stbYF6XpTYE']
   end
 
-  def go(source, _args, bot)
-    bot.commands['youtube'].go(source, @song, bot)
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, [@song[0], args[0]], bot)
   end
 end
 
@@ -124,8 +124,8 @@ class TomNook < Plugin
     @song = ['t1svDZECOa4']
   end
 
-  def go(source, _args, bot)
-    bot.commands['youtube'].go(source, @song, bot)
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, [@song[0], args[0]], bot)
   end
 end
 
@@ -137,7 +137,7 @@ class Best < Plugin
     @song = ['2F2i6EQsPZY']
   end
 
-  def go(source, _args, bot)
-    bot.commands['youtube'].go(source, @song, bot)
+  def go(source, args, bot)
+    bot.commands['youtube'].go(source, [@song[0], args[0]], bot)
   end
 end
