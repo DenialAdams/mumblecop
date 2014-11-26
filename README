@@ -4,7 +4,7 @@ I use the dafoxia branch of mumble-ruby: [Github link](https://github.com/dafoxi
 
 MPD needs to be installed for all of the music functionality to work correctly. This will be broken off into an optional plugin soon.
 
-Rename config-sample.yml to config.yml for it to take effect.
+Rename config-sample.yml to config.yml for it to take effect. This must be done.
 
 mumblecop.service can be installed as a systemd service and used just like any other. ExecStart and WorkingDirectory MUST be changed. They are dummy values.
 
