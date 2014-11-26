@@ -1,3 +1,4 @@
+require 'shellwords'
 # Base plugin class, when it is inherited it will register itself into @plugins
 class Plugin
   attr_accessor :help_text, :enabled, :protected, :response, :min_args,
@@ -81,8 +82,12 @@ class Youtube < Plugin
   def go(source, args, bot)
     result = system('get_youtube', args[0])
     if result
-      system('mpc play')
+      bot.mpd.play if bot.mpd.stopped?
       bot.say(self, source, 'Request successful. Loading...')
+      until bot.mpd.playing?
+
+      end
+      bot.mpd.seek(args[1])
     else
       bot.say(self, source, 'Failed to play video. Check given url.')
     end
@@ -101,7 +106,7 @@ class Soundcloud < Plugin
   def go(source, args, bot)
     result = system('get_soundcloud', args[0])
     if result
-      system('mpc play')
+      bot.mpd.play if bot.mpd.stopped?
       bot.say(self, source, 'Request successful. Please wait a few moments for the source to begin streaming.')
     else
       bot.say(self, source, 'Failed to stream song. Check given url.')
@@ -162,8 +167,8 @@ class Clear < Plugin
     @commands = ['clear']
   end
 
-  def go(_source, _args, _bot)
-    system('mpc clear')
+  def go(_source, _args, bot)
+    bot.mpd.clear
   end
 end
 
@@ -174,8 +179,8 @@ class Next < Plugin
     @commands = %w(next advance)
   end
 
-  def go(_source, _args, _bot)
-    system('mpc next')
+  def go(_source, _args, bot)
+    bot.mpd.next
   end
 end
 
@@ -248,7 +253,31 @@ class Seek < Plugin
     @commands = ['seek']
   end
 
-  def go(_source, args, _bot)
-    system('mpc', 'seek', args[0])
+  def go(_source, args, bot)
+    bot.mpd.seek(args[0])
+  end
+end
+
+class WhatsPlaying < Plugin
+  def initialize
+    super
+    @help_text = 'Tells you what music is currently playing'
+    @commands = ['playing']
+  end
+
+  def go(source, _args, bot)
+    song = bot.mpd.current_song
+    bot.say(self, source, "Current Song: #{song.artist} - #{song.title}")
+  end
+end
+
+class QueueCommand < Plugin
+  def initialize
+    super
+    @help_text = 'Prints how many songs are in the queue (including the currently playing song)'
+    @commands = ['queue']
+  end
+  def go(source, _args, bot)
+    bot.say(self, source, "#{bot.mpd.queue.count} song(s) in queue")
   end
 end

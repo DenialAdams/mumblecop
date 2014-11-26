@@ -3,6 +3,7 @@
 require 'mumble-ruby'
 require 'sanitize'
 require 'yaml'
+require 'ruby-mpd'
 require_relative 'plugins'
 
 begin
@@ -15,7 +16,7 @@ STDOUT.sync = true
 # The mumblebot recieves and validates commands,
 # then proceeds to pass those off to plugins.
 class MumbleBot
-  attr_accessor :commands, :bot, :plugins
+  attr_accessor :commands, :bot, :plugins, :mpd
 
   def initialize
     @plugins = []
@@ -135,7 +136,9 @@ class MumbleBot
     @bot.player.volume = CONFIG['initial-volume']
     @bot.player.stream_named_pipe(CONFIG['mpd-pipe-location'])
     @bot.set_comment(CONFIG['comment'])
-    system('mpc consume on')
+    @mpd = MPD.new
+    @mpd.connect
+    @mpd.consume = true
   end
 
   def register_callbacks
