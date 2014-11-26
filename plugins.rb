@@ -75,7 +75,7 @@ class Youtube < Plugin
     super
     @needs_sanitization = true
     @commands = %w(youtube yt)
-    @help_text = 'Play a youtube video - youtube [url]'
+    @help_text = 'Play a youtube video - youtube [url] [starting time in seconds]'
     @min_args = 1
   end
 
@@ -84,9 +84,6 @@ class Youtube < Plugin
     if result
       bot.mpd.play if bot.mpd.stopped?
       bot.say(self, source, 'Request successful. Loading...')
-      until bot.mpd.playing?
-
-      end
       bot.mpd.seek(args[1])
     else
       bot.say(self, source, 'Failed to play video. Check given url.')
