@@ -79,13 +79,16 @@ class Youtube < Plugin
   end
 
   def go(source, args, bot)
-    result = system('get_youtube', args[0])
-    if result
+    begin
+      result = `youtube-dl --prefer-insecure -i -f140 -g "#{args[0]}"`
+      result.chomp!
+      puts [result].to_s
+      bot.mpd.add(result)
       bot.mpd.play if bot.mpd.stopped?
       bot.say(self, source, 'Request successful. Loading...')
       bot.mpd.seek(args[1].to_i) if args[1]
-    else
-      bot.say(self, source, 'Failed to play video. Check given url.')
+    rescue
+      bot.say(self, source, 'Failed to play video. Check given url and seek paramater (if given.)')
     end
   end
 end
@@ -292,9 +295,13 @@ class Repeat < Plugin
   end
 
   def go(source, args, bot)
-    # TODO CHECK IF OFF/ON by not sending on/off
-    return unless args[0]
-    if args[0].downcase == 'off'
+    if !args[0]
+      if bot.mpd.repeat? == true
+        bot.say(self, source, 'Repeat is currently on')
+      else
+        bot.say(self, source, 'Repeat is currently off')
+      end
+    elsif args[0].downcase == 'off'
       bot.mpd.repeat = false
       bot.mpd.single = false
       bot.mpd.consume = true
