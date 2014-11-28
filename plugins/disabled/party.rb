@@ -20,13 +20,11 @@ class Party < Plugin
 
   def go(source, _args, bot)
     bot.say(self, source, @party_time.to_s)
-    # @go = true
   end
 
   def update(bot)
-    if Time.now > @party_time || @go == true
-      system('mpc clear')
-      bot.bot.player.volume = @party_volume if @party_volume > 0
+    if Time.now > @party_time && bot.mpd.playing? == false
+      bot.bot.player.volume = @party_volume if @party_volume >= 0
       bot.say_to_channel(bot.current_channel, 'START THE MOTHERFUCKING PARTY')
       play_music(bot)
       @party_time = choose_party_time

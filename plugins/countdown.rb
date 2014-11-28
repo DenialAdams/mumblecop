@@ -6,13 +6,15 @@ class Countdown < Plugin
   end
 
   def go(source, args, bot)
-    if args[0] > 0
-      while args[0] > 0
-        bot.say(self, source, "#{args[0]}")
-        args[0] = args[0] - 1
+    end_number = args[0].to_i
+    if end_number > 0
+      end_number.downto(1) do |i|
+        bot.say(self, source, i.to_s)
         sleep(1)
       end
       bot.say(self, source, "STOP")
+    else
+      bot.say(self, source, "The number must be greater than zero")
     end
   end
 end
