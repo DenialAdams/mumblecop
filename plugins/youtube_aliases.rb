@@ -20,7 +20,7 @@ class HateTrain < Plugin
     @song = ['Q27SGo-fMhs', '70']
   end
 
-  def go(source, args, bot)
+  def go(source, _args, bot)
     bot.commands['youtube'].go(source, @song, bot)
   end
 end

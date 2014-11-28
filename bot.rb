@@ -140,6 +140,19 @@ class MumbleBot
     @mpd.consume = true
   end
 
+  def configure_plugins
+    # todo: sort so we don't have to double iterate
+    PLUGIN_LIST.each do |plugin|
+      CONFIG['plugins'].each do |plugin_name, options|
+        if plugin_name == plugin.class.to_s.downcase
+          options.each do |option, value|
+            plugin.instance_variable_set("@#{option}", value)
+          end
+        end
+      end
+    end
+  end
+
   def register_callbacks
     @bot.on_text_message do |message|
       process_message(message)
@@ -152,6 +165,7 @@ end
 mumblecop = MumbleBot.new
 mumblecop.bot.connect
 PLUGIN_LIST = mumblecop.commands.values.uniq
+mumblecop.configure_plugins
 loop do
   sleep(CONFIG['plugin-update-rate'])
   Plugin.tick(mumblecop, PLUGIN_LIST)

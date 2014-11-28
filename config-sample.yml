@@ -8,3 +8,6 @@ mpd-pipe-location: '/tmp/mpd.fifo'
 mpd-port: 6600
 mpd-address: localhost
 plugin-update-rate: 0.1
+plugins:
+  volume:
+    min_volume: 5 

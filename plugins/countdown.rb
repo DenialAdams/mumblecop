@@ -12,9 +12,9 @@ class Countdown < Plugin
         bot.say(self, source, i.to_s)
         sleep(1)
       end
-      bot.say(self, source, "STOP")
+      bot.say(self, source, 'STOP')
     else
-      bot.say(self, source, "The number must be greater than zero")
+      bot.say(self, source, 'The number must be greater than zero')
     end
   end
 end
