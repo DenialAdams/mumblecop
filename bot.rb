@@ -152,7 +152,8 @@ class MumbleBot
 end
 mumblecop = MumbleBot.new
 mumblecop.bot.connect
+PLUGIN_LIST = mumblecop.commands.values.uniq
 loop do
   sleep(CONFIG['plugin-update-rate'])
-  Plugin.tick(mumblecop)
+  Plugin.tick(mumblecop, PLUGIN_LIST)
 end

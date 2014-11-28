@@ -16,8 +16,8 @@ class Plugin
     # stub for now
   end
 
-  def self.tick(bot)
-    bot.commands.values.uniq.each do |plugin|
+  def self.tick(bot, plugin_list)
+    plugin_list.each do |plugin|
       plugin.update(bot)
     end
   end
