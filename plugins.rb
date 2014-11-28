@@ -134,6 +134,7 @@ class Volume < Plugin
     @help_text = 'Change the volume, 0 - 100 - volume [[level]]. No params = check the volume'
     @commands = ['volume']
     @max_volume = 100
+    @min_volume = 0
   end
 
   def go(source, args, bot)
@@ -146,8 +147,11 @@ class Volume < Plugin
         new_volume = args[0].to_i
       end
       if new_volume > @max_volume
-        bot.say(self, source, "Volume can not exeed #{@max_volume}. Set to #{@max_volume}.")
+        bot.say(self, source, "Volume can not exceed #{@max_volume}. Set to #{@max_volume}.")
         bot.bot.player.volume = @max_volume
+      elsif new_volume < @min_volume
+        bot.say(self, source, "Volume can not be lower than #{@min_volume}. Set to #{@min_volume}.")
+        bot.bot.player.volume = @min_volume
       else
         bot.bot.player.volume = new_volume
       end
