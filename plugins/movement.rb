@@ -7,7 +7,7 @@ class Goto < Plugin
   end
 
   def go(source, args, bot)
-    bot.bot.join_channel(args[0])
+    bot.bot.join_channel(args.join(' '))
   rescue
     bot.say(self, source, 'Failed to join that channel. Check permissions / if that channel exists.')
   end
