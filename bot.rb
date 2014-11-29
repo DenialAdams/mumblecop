@@ -21,7 +21,7 @@ class MumbleBot
   def initialize
     @plugins = []
     @commands = {}
-    @bot = Mumble::Client.new('localhost') do |conf|
+    @bot = Mumble::Client.new(CONFIG['address']) do |conf|
       conf.username = CONFIG['username']
       conf.password = CONFIG['password'] if CONFIG['password']
     end
