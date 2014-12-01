@@ -86,7 +86,6 @@ class MumbleBot
     params.split(' ')
   end
 
-  # needs rewrite
   def process_message(message)
     contents = message.message
     puts "#{get_username_from_id(message.actor)}: #{contents}"
@@ -112,14 +111,13 @@ class MumbleBot
       fail(source, 'A command is required proceeding a mumblecop trigger')
       return
     end
-    process_command(args.delete_at(0).downcase, mumblecop_command, args, source)
+    process_command(args.delete_at(0).downcase, args, source) if mumblecop_command
   end
 
-  # needs rewrite
-  def process_command(command, mumblecop_command, args, source)
-    if @commands[command].nil? && mumblecop_command
+  def process_command(command, args, source)
+    if @commands[command].nil?
       fail(source, 'Command not found.')
-    elsif mumblecop_command
+    else
       if !@commands[command].enabled
         fail(source, 'Command is currently disabled. Ask an administrator for details.')
       elsif @commands[command].min_args > args.length
