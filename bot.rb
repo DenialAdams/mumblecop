@@ -130,10 +130,14 @@ class MumbleBot
   end
 
   def setup
-    return unless CONFIG['use-mpd']
     @bot.player.volume = CONFIG['initial-volume']
-    @bot.player.stream_named_pipe(CONFIG['mpd-pipe-location'])
+  begin
     @bot.set_comment(CONFIG['comment'])
+  rescue
+    puts "ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?"
+  end
+    return unless CONFIG['use-mpd']
+    @bot.player.stream_named_pipe(CONFIG['mpd-pipe-location']
     @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port']
     @mpd.connect
     @mpd.consume = true
