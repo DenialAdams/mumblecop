@@ -132,6 +132,7 @@ class MumbleBot
   end
 
   def setup
+    return unless CONFIG['use-mpd']
     @bot.player.volume = CONFIG['initial-volume']
     @bot.player.stream_named_pipe(CONFIG['mpd-pipe-location'])
     @bot.set_comment(CONFIG['comment'])
