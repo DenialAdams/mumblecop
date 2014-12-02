@@ -137,7 +137,7 @@ class MumbleBot
     puts "ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?"
   end
     return unless CONFIG['use-mpd']
-    @bot.player.stream_named_pipe(CONFIG['mpd-pipe-location']
+    @bot.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
     @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port']
     @mpd.connect
     @mpd.consume = true
