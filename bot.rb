@@ -107,7 +107,7 @@ class MumbleBot
       source = [:user, message.actor]
     end
     args = contents.split(' ')
-    if args.length == 0
+    if args.length.zero?
       fail(source, 'A command is required proceeding a mumblecop trigger')
       return
     end
