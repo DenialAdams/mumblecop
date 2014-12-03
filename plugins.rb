@@ -1,7 +1,7 @@
 # Base plugin class, when it is inherited it will register itself into @plugins
 class Plugin
   attr_accessor :help_text, :enabled, :protected, :response, :min_args,
-                :needs_sanitization, :conditions, :commands
+                :needs_sanitization, :condition, :commands
 
   def self.plugins
     @plugins ||= []
@@ -30,8 +30,8 @@ class Plugin
     @protected = false # does nothing yet
     @help_text = 'No help text included for this command'
     @response = :auto
-    # none, vote, trusted
-    @conditions = :none
+    # none, vote, trusted, trustedvote
+    @condition = CONFIG['default-plugin-condition']
   end
 
   def go

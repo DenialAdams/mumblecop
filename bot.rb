@@ -13,10 +13,10 @@ begin
 end
 STDOUT.sync = true
 
-# The mumblebot recieves and validates commands,
-# then proceeds to pass those off to plugins.
+# The mumblebot recieves and validates commands, then proceeds to pass those off to plugins.
 class MumbleBot
   attr_accessor :commands, :bot, :plugins, :mpd
+  attr_reader :trusted_users
 
   def initialize
     @plugins = []
@@ -35,6 +35,10 @@ class MumbleBot
 
   def get_username_from_id(id)
     @bot.users[id].name
+  end
+
+  def get_hash_from_id(id)
+    @bot.users[id].hash
   end
 
   def say_to_channel(channel, text)
@@ -112,15 +116,17 @@ class MumbleBot
       fail(source, 'A command is required proceeding a mumblecop trigger')
       return
     end
-    process_command(args.delete_at(0).downcase, args, source)
+    process_command(args.delete_at(0).downcase, args, source, get_hash_from_id(message.actor))
   end
 
-  def process_command(command, args, source)
+  def process_command(command, args, source, user_hash)
     if @commands[command].nil?
       fail(source, 'Command not found.')
     else
       if !@commands[command].enabled
         fail(source, 'Command is currently disabled. Ask an administrator for details.')
+      elsif @commands[command].condition == :trusted && !@trusted_users.include?(user_hash)
+        fail(source, 'You must be an appointed "trusted user" in order to use this command.')
       elsif @commands[command].min_args > args.length
         fail(source, "Command requires #{@commands[command].min_args} parameter(s).")
       else
@@ -138,16 +144,17 @@ class MumbleBot
     puts "ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?"
   end
     return unless CONFIG['use-mpd']
+    @trusted_users = File.readlines('trusted-users.txt').map(&:chomp)
     @bot.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
     @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port']
     @mpd.connect
     @mpd.consume = true
   end
 
-  def configure_plugins
+  def configure_plugins(list)
     # todo: sort so we don't have to double iterate
     return if CONFIG['plugins'].nil?
-    PLUGIN_LIST.each do |plugin|
+    list.each do |plugin|
       CONFIG['plugins'].each do |plugin_name, options|
         if plugin_name == plugin.class.to_s.downcase
           options.each do |option, value|
@@ -170,7 +177,7 @@ end
 mumblecop = MumbleBot.new
 mumblecop.bot.connect
 PLUGIN_LIST = mumblecop.commands.values.uniq
-mumblecop.configure_plugins
+mumblecop.configure_plugins(PLUGIN_LIST)
 loop do
   sleep(CONFIG['plugin-update-rate'])
   Plugin.tick(mumblecop, PLUGIN_LIST)

@@ -79,7 +79,7 @@ end
 class Volume < Plugin
   def initialize
     super
-    @help_text = 'Change the volume, 0 - 100 - volume [[level]]. No params = check the volume'
+    @help_text = 'Change the volume - volume (level). No params = check the volume'
     @commands = ['volume']
     @max_volume = 100
     @min_volume = 0
