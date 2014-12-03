@@ -106,12 +106,13 @@ class MumbleBot
       mumblecop_command = true
       source = [:user, message.actor]
     end
+    return unless mumblecop_command
     args = contents.split(' ')
     if args.length.zero?
       fail(source, 'A command is required proceeding a mumblecop trigger')
       return
     end
-    process_command(args.delete_at(0).downcase, args, source) if mumblecop_command
+    process_command(args.delete_at(0).downcase, args, source)
   end
 
   def process_command(command, args, source)
