@@ -1,4 +1,5 @@
 syntax: glob
 *_cert
 config.yml
+trusted-users.txt
 tmp/*
