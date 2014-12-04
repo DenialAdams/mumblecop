@@ -3,7 +3,7 @@ class Goto < Plugin
     super
     @help_text = 'Send mumblecop away to another channel. Poor mumblecop :('
     @min_args = 1
-    @commands = ['goto']
+    @commands = %w(goto, gt)
   end
 
   def go(source, args, bot)

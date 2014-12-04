@@ -103,7 +103,7 @@ class MumbleBot
     possible_commands = contents.split(';')
     possible_commands.each_with_index do |command, i|
       next if i == 0 || matches_trigger(command.split(' ')[0])
-      possible_commands[i-1] = possible_commands[i-1].concat(';').concat(command)
+      possible_commands[i - 1] = possible_commands[i - 1].concat(';').concat(command)
     end
     possible_commands.reverse.each do |command|
       mumblecop_command = false

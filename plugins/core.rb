@@ -1,12 +1,20 @@
 class Commands < Plugin
   def initialize
     super
-    @help_text = 'Prints out all available commands'
+    @help_text = "Prints out all available commands. If 'all' is given as an argument, prints out aliases too - commands (all)"
     @commands = ['commands']
   end
 
-  def go(source, _args, bot)
-    bot.say(self, source, bot.commands.keys.to_s)
+  def go(source, args, bot)
+    if args[0] == 'all' || args[0] == 'aliases'
+      bot.say(self, source, bot.commands.keys.to_s)
+    else
+      commands = []
+      bot.commands.values.uniq.each do |plugin|
+        commands.push(plugin.commands[0])
+      end
+      bot.say(self, source, commands.to_s)
+    end
   end
 end
 
