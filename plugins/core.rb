@@ -7,13 +7,13 @@ class Commands < Plugin
 
   def go(source, args, bot)
     if args[0] == 'all' || args[0] == 'aliases'
-      bot.say(self, source, bot.commands.keys.to_s)
+      bot.say(self, source, bot.commands.keys.sort.to_s)
     else
       commands = []
       bot.commands.values.uniq.each do |plugin|
         commands.push(plugin.commands[0])
       end
-      bot.say(self, source, commands.to_s)
+      bot.say(self, source, commands.sort.to_s)
     end
   end
 end
