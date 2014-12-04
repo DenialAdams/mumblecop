@@ -125,6 +125,8 @@ class MumbleBot
     else
       if !@commands[command].enabled
         fail(source, 'Command is currently disabled. Ask an administrator for details.')
+      elsif @blacklisted_users.include?(user_hash) && !@commands[command].ignore_blacklist
+        fail(source, 'You have been banned from all mumblecop usage on this server.')
       elsif @commands[command].condition == :trusted && !@trusted_users.include?(user_hash)
         fail(source, 'You must be an appointed "trusted user" in order to use this command.')
       elsif @commands[command].min_args > args.length
@@ -145,6 +147,7 @@ class MumbleBot
   end
     return unless CONFIG['use-mpd']
     @trusted_users = File.readlines('trusted-users.txt').map(&:chomp)
+    @blacklisted_users = File.readlines('blacklisted-users.txt').map(&:chomp)
     @bot.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
     @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port']
     @mpd.connect
