@@ -6,7 +6,7 @@ class Plugin
   def self.plugins
     @plugins ||= []
   end
-  
+
   def self.inherited(klass)
     @plugins ||= []
     @plugins << klass

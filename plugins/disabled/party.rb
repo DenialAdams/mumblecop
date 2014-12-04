@@ -23,7 +23,8 @@ class Party < Plugin
   end
 
   def update(bot)
-    if Time.now > @party_time && bot.mpd.playing? == false
+    return if bot.mpd.playing?
+    if Time.now > @party_time
       bot.bot.player.volume = @party_volume if @party_volume >= 0
       bot.say_to_channel(bot.current_channel, 'START THE MOTHERFUCKING PARTY')
       play_music(bot)

@@ -140,11 +140,11 @@ class MumbleBot
 
   def setup
     @bot.player.volume = CONFIG['initial-volume']
-  begin
-    @bot.set_comment(CONFIG['comment'])
-  rescue
-    puts "ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?"
-  end
+    begin
+      @bot.set_comment(CONFIG['comment'])
+    rescue
+      puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
+    end
     return unless CONFIG['use-mpd']
     @trusted_users = File.readlines('trusted-users.txt').map(&:chomp)
     @blacklisted_users = File.readlines('blacklisted-users.txt').map(&:chomp)
