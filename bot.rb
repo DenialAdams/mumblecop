@@ -90,33 +90,40 @@ class MumbleBot
     params.split(' ')
   end
 
+  def strip_trigger(command)
+    command = command.split(' ')
+    command.delete_at(0)
+    command.join(' ')
+  end
+
   def process_message(message)
     contents = message.message
     puts "#{get_username_from_id(message.actor)}: #{contents}"
     return if contents.strip.empty?
-    mumblecop_command = false
-    if message.channel_id && matches_trigger(contents)
-      contents = contents.split(' ')
-      contents.delete_at(0)
-      contents = contents.join(' ')
-      source = [:channel, message.channel_id[0]]
-      mumblecop_command = true
-    elsif !message.channel_id
-      if matches_trigger(contents)
-        contents = contents.split(' ')
-        contents.delete_at(0)
-        contents = contents.join(' ')
+    possible_commands = contents.split(';')
+    possible_commands.each_with_index do |command, i|
+      next if i == 0 || matches_trigger(command.split(' ')[0])
+      possible_commands[i-1] = possible_commands[i-1].concat(';').concat(command)
+    end
+    possible_commands.reverse.each do |command|
+      mumblecop_command = false
+      if message.channel_id && matches_trigger(command)
+        command = strip_trigger(command) if matches_trigger(command)
+        mumblecop_command = true
+        source = [:channel, message.channel_id[0]]
+      elsif !message.channel_id
+        command = strip_trigger(command) if matches_trigger(command)
+        mumblecop_command = true
+        source = [:user, message.actor]
       end
-      mumblecop_command = true
-      source = [:user, message.actor]
+      next unless mumblecop_command
+      args = command.split(' ')
+      if args.length.zero?
+        fail(source, 'A command is required proceeding a mumblecop trigger')
+        return
+      end
+      process_command(args.delete_at(0).downcase, args, source, get_hash_from_id(message.actor))
     end
-    return unless mumblecop_command
-    args = contents.split(' ')
-    if args.length.zero?
-      fail(source, 'A command is required proceeding a mumblecop trigger')
-      return
-    end
-    process_command(args.delete_at(0).downcase, args, source, get_hash_from_id(message.actor))
   end
 
   def process_command(command, args, source, user_hash)
