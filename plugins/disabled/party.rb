@@ -26,7 +26,7 @@ class Party < Plugin
     return if bot.mpd.playing?
     if Time.now > @party_time
       bot.bot.player.volume = @party_volume if @party_volume >= 0
-      bot.say_to_channel(bot.current_channel, 'START THE MOTHERFUCKING PARTY')
+      bot.say_to_channel(bot.current_channel, 'START THE PARTY')
       play_music(bot)
       @party_time = choose_party_time
       @go = false

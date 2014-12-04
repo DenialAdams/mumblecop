@@ -2,7 +2,7 @@ class Commands < Plugin
   def initialize
     super
     @help_text = "Prints out all available commands. If 'all' is given as an argument, prints out aliases too - commands (all)"
-    @commands = ['commands']
+    @commands = %w(commands)
   end
 
   def go(source, args, bot)
@@ -22,7 +22,7 @@ class Help < Plugin
   def initialize
     super
     @help_text = 'Gives help about a specific command - help [command]'
-    @commands = ['help']
+    @commands = %w(help)
   end
 
   def go(source, args, bot)

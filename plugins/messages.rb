@@ -30,20 +30,3 @@ class Whisper < Plugin
     end
   end
 end
-
-class Fuck < Plugin
-  def initialize
-    super
-    @min_args = 1
-    @help_text = 'Fuck a user anonymously - fuck [name]'
-    @commands = ['fuck']
-  end
-
-  def go(source, args, bot)
-    if args[0] == CONFIG['username']
-      bot.say(self, source, 'No, fuck you.')
-    else
-      bot.commands['whisper'].go(source, [args[0], 'Someone anonymously says fuck you.'], bot)
-    end
-  end
-end
