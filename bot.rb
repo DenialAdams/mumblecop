@@ -120,7 +120,7 @@ class MumbleBot
       args = command.split(' ')
       if args.length.zero?
         fail(source, 'A command is required proceeding a mumblecop trigger')
-        return
+        next
       end
       process_command(args.delete_at(0).downcase, args, source, get_hash_from_id(message.actor))
     end
