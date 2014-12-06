@@ -10,7 +10,7 @@ class Youtube < Plugin
 
   def go(source, args, bot)
     result = nil
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-f140', '-g', "#{args[0]}") do |stdin, stdout|
+    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-f140', '-g', "#{args[0]}") do |_stdin, stdout|
       result = stdout.gets.chomp
     end
     bot.mpd.add(result)
@@ -18,7 +18,7 @@ class Youtube < Plugin
     bot.say(self, source, 'Request successful. Loading...')
     bot.mpd.seek(args[1].to_i) if args[1]
    rescue
-    bot.say(self, source, 'Failed to play video. Check given url and seek paramater (if given.)')
+     bot.say(self, source, 'Failed to play video. Check given url and seek paramater (if given.)')
   end
 end
 
@@ -33,7 +33,7 @@ class Soundcloud < Plugin
 
   def go(source, args, bot)
     result = nil
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-g', "#{args[0]}") do |stdin, stdout|
+    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-g', "#{args[0]}") do |_stdin, stdout|
       result = stdout.gets.chomp
     end
     bot.mpd.add(result)
