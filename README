@@ -2,7 +2,7 @@ Hi! This is a bot I programmed for my mumble server. It works well for me and my
 
 Features:
 
-* Stream audio from youtube (soundcloud support in the works)
+* Stream audio from youtube (soundcloud support partially available)
 * Queue based audio setup
 * Aliases for fun youtube videos
 * Roll dice
