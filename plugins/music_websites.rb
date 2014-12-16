@@ -10,7 +10,7 @@ class Youtube < Plugin
 
   def go(source, args, bot)
     result = nil
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-f140', '-g', "#{args[0]}") do |_stdin, stdout|
+    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-f141', '-g', "#{args[0]}") do |_stdin, stdout|
       result = stdout.gets.chomp
     end
     bot.mpd.add(result)
