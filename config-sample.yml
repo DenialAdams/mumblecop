@@ -10,6 +10,7 @@ mpd-port: 6600
 mpd-address: localhost
 plugin-update-rate: 0.1
 default-plugin-condition: :all
+verbose-chat-log: false
 plugins:
   volume:
     min_volume: 5 

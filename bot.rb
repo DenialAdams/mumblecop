@@ -98,7 +98,11 @@ class MumbleBot
 
   def process_message(message)
     contents = message.message
-    puts "#{get_username_from_id(message.actor)}: #{contents}"
+    if CONFIG['verbose-chat-log']
+      puts "#{get_hash_from_id(message.actor)} | #{get_username_from_id(message.actor)}: #{contents}"
+    else
+      puts "#{get_username_from_id(message.actor)}: #{contents}"
+    end
     return if contents.strip.empty?
     possible_commands = contents.split(';')
     possible_commands.each_with_index do |command, i|
