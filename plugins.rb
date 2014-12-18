@@ -27,7 +27,6 @@ class Plugin
     @needs_sanitization = false
     @min_args = 0
     @enabled = true
-    @protected = false # does nothing yet
     @help_text = 'No help text included for this command'
     @response = :auto
     @ignore_blacklist = false
