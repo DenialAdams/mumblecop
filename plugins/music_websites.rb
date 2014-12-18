@@ -6,11 +6,17 @@ class Youtube < Plugin
     @commands = %w(youtube yt)
     @help_text = 'Play a youtube video - youtube [url] (starting time in seconds)'
     @min_args = 1
+    @quality = :high
   end
 
   def go(source, args, bot)
     result = nil
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-f141', '-g', "#{args[0]}") do |_stdin, stdout|
+    if @quality == :high
+      format = '-f141'
+    else
+      format = '-f140'
+    end
+    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', format, '-g', "#{args[0]}") do |_stdin, stdout|
       result = stdout.gets.chomp
     end
     bot.mpd.add(result)
