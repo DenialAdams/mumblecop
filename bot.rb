@@ -144,7 +144,11 @@ class MumbleBot
         fail(source, "Command requires #{@commands[command].min_args} parameter(s).")
       else
         args = sanitize_params(args) if @commands[command].needs_sanitization
-        Thread.new { @commands[command].go(source, args, self) }
+        if CONFIG['multithread-commands']
+          Thread.new { @commands[command].go(source, args, self) }
+        else
+          @commands[command].go(source, args, self)
+        end
       end
     end
   end

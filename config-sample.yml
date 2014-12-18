@@ -11,6 +11,7 @@ mpd-address: localhost
 plugin-update-rate: 0.1
 default-plugin-condition: :all
 verbose-chat-log: false
+multithread-commands: true
 plugins:
   volume:
     min_volume: 5 
