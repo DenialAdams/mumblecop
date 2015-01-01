@@ -16,7 +16,7 @@ STDOUT.sync = true
 # The mumblebot recieves and validates commands, then proceeds to pass those off to plugins.
 class MumbleBot
   attr_accessor :commands, :bot, :plugins, :mpd
-  attr_reader :trusted_users
+  attr_reader :trusted_users, :blacklisted_users
 
   def initialize
     @plugins = []
@@ -160,9 +160,9 @@ class MumbleBot
     rescue
       puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
     end
-    return unless CONFIG['use-mpd']
     @trusted_users = File.readlines('trusted-users.txt').map(&:chomp)
     @blacklisted_users = File.readlines('blacklisted-users.txt').map(&:chomp)
+    return unless CONFIG['use-mpd']
     @bot.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
     @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port']
     @mpd.connect
