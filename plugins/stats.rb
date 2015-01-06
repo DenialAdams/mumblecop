@@ -1,3 +1,4 @@
+# Command that returns the result of system command uptime
 class Uptime < Plugin
   def initialize
     super

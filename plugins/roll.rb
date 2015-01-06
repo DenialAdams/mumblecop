@@ -1,5 +1,6 @@
 require 'dicebag'
 
+# Command that uses the dicebag gem for dice rolling, very useful for roleplaying games or if you are bad at deciding things
 class Roll < Plugin
   def initialize
     super

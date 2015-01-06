@@ -1,0 +1,3 @@
+# disable line length metric because I think code looks ugly spread out :c
+Metrics/LineLength:
+  Enabled: false
