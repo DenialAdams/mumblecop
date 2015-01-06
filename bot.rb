@@ -61,7 +61,7 @@ class MumbleBot
     end
   end
 
-  def fail(source, text)
+  def command_fail(source, text)
     if source[0] == :user
       say_to_user(source[1], text)
     else
@@ -123,7 +123,7 @@ class MumbleBot
       next unless mumblecop_command
       args = command.split(' ')
       if args.length.zero?
-        fail(source, 'A command is required proceeding a mumblecop trigger')
+        command_fail(source, 'A command is required proceeding a mumblecop trigger')
         next
       end
       process_command(args.delete_at(0).downcase, args, source, get_hash_from_id(message.actor))
@@ -132,16 +132,16 @@ class MumbleBot
 
   def process_command(command, args, source, user_hash)
     if @commands[command].nil?
-      fail(source, 'Command not found.')
+      command_fail(source, 'Command not found.')
     else
       if !@commands[command].enabled
-        fail(source, 'Command is currently disabled. Ask an administrator for details.')
+        command_fail(source, 'Command is currently disabled. Ask an administrator for details.')
       elsif @blacklisted_users.include?(user_hash) && !@commands[command].ignore_blacklist
-        fail(source, 'You have been banned from all mumblecop usage on this server.')
+        command_fail(source, 'You have been banned from all mumblecop usage on this server.')
       elsif @commands[command].condition == :trusted && !@trusted_users.include?(user_hash)
-        fail(source, 'You must be an appointed "trusted user" in order to use this command.')
+        command_fail(source, 'You must be an appointed "trusted user" in order to use this command.')
       elsif @commands[command].min_args > args.length
-        fail(source, "Command requires #{@commands[command].min_args} parameter(s).")
+        command_fail(source, "Command requires #{@commands[command].min_args} parameter(s).")
       else
         args = sanitize_params(args) if @commands[command].needs_sanitization
         if CONFIG['multithread-commands']
