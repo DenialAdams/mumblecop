@@ -6,8 +6,8 @@ class Party < Plugin
     @party_time = choose_party_time
     @party_volume = 50 # <0 = don't change the volume
     @party_music = ['nqLArgCbh70', 'wVRQVG20Y-U']
-    @enabled = false
-    @commands = ['party']
+    @enabled = true
+    @commands = %w(party)
   end
 
   def choose_party_time

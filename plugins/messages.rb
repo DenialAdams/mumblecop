@@ -2,7 +2,7 @@ class Say < Plugin
   def initialize
     super
     @min_args = 1
-    @commands = ['say']
+    @commands = %w(say)
     @help_text = "Have mumblecop say something in it's current channel - say [message]"
   end
 

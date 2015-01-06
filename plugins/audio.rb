@@ -3,7 +3,7 @@ class Seek < Plugin
     super
     @help_text = 'Seek to x seconds in the currently playing media - seek [seconds]'
     @min_args = 1
-    @commands = ['seek']
+    @commands = %w(seek)
   end
 
   def go(_source, args, bot)
@@ -15,7 +15,7 @@ class WhatsPlaying < Plugin
   def initialize
     super
     @help_text = 'Tells you what music is currently playing'
-    @commands = ['playing']
+    @commands = %w(playing)
   end
 
   def go(source, _args, bot)
@@ -28,7 +28,7 @@ class QueueCommand < Plugin
   def initialize
     super
     @help_text = 'Prints how many songs are in the queue (including the currently playing song)'
-    @commands = ['queue']
+    @commands = %w(queue)
   end
 
   def go(source, _args, bot)
@@ -40,7 +40,7 @@ class Repeat < Plugin
   def initialize
     super
     @help_text = 'repeat (on/off)'
-    @commands = ['repeat']
+    @commands = %w(repeat)
   end
 
   def go(source, args, bot)
@@ -80,7 +80,7 @@ class Volume < Plugin
   def initialize
     super
     @help_text = 'Change the volume - volume (level). No params = check the volume'
-    @commands = ['volume']
+    @commands = %w(volume)
     @max_volume = 100
     @min_volume = 0
   end
@@ -113,7 +113,7 @@ class Clear < Plugin
   def initialize
     super
     @help_text = 'Stops anything playing, and clears the current playlist'
-    @commands = ['clear']
+    @commands = %w(clear)
   end
 
   def go(_source, _args, bot)
