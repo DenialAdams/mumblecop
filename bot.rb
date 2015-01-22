@@ -170,8 +170,7 @@ class MumbleBot
   end
 
   def configure_plugins(list)
-    # todo: sort so we don't have to double iterate
-    return if CONFIG['plugins'].nil?
+    return if CONFIG['plugin:'].nil?
     list.each do |plugin|
       CONFIG['plugins'].each do |plugin_name, options|
         if plugin_name == plugin.class.to_s.downcase

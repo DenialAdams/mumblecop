@@ -6,7 +6,7 @@ class Youtube < Plugin
     @commands = %w(youtube yt)
     @help_text = 'Play a youtube video - youtube [url] (starting time in seconds)'
     @min_args = 1
-    @quality = :high
+    @quality = :normal
   end
 
   def go(source, args, bot)

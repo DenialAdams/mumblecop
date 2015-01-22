@@ -13,6 +13,6 @@ class Roll < Plugin
     result = DiceBag::Roll.new(args.join(' ')).result
     bot.say(self, source, result.to_s)
     rescue DiceBag::DiceBagError
-      bot.say(self, source, 'Error parsing roll command. Format = \'xdy\'. Numbers must be less than 4 digits.')
+      bot.say(self, source, 'Error parsing roll command. Format = \'xdy\'. Numbers must contain less than 4 digits.')
   end
 end
