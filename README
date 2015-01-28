@@ -7,17 +7,9 @@ Features:
 * Roll dice
 * Write your own commands with a simple plugin format
 
-I use the dafoxia branch of mumble-ruby: [Github link](https://github.com/dafoxia/mumble-ruby) - this enables comment support and some other nice things. The mumble-ruby gem on rubygems will work fine as well, but comment support will be forcibly disabled.
+Installation instructions can be found on the project wiki, [here](https://bitbucket.org/Flandoo/mumblecop/wiki/Home).
 
-MPD needs to be installed on the server for all of the music functionality to work correctly. It needs to have a FIFO pipe as an output.
-
-youtube-dl must be installed on the server for all youtube functionality to work properly.
-
-Rename config-sample.yml to config.yml for it to take effect. This must be done.
-
-mumblecop.service can be installed as a systemd service and used just like any other. ExecStart and WorkingDirectory MUST be changed. They are dummy values.
-
-Real documentation forthcoming, but for now, if you have any questions or would like to use this please feel free to send me a message, I would love to see this being used by others :)
+If you have any questions or would like to use this please feel free to send me a message, I would love to see this being used by others :)
 
 ALSO if you write any plugins, PLEASE send them to me if you would like them to be considered for inclusion! Thanks!
 
