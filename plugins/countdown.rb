@@ -1,7 +1,7 @@
 class Countdown < Plugin
   def initialize
     super
-    @help_text = 'Counts down from X to STOP - countdown [X]'
+    @help_text = 'Counts down from X to STOP - countdown [X] [interval]'
     @commands = %w(countdown cd)
     @min_args = 1
   end
