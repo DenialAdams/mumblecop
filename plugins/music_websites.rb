@@ -11,7 +11,7 @@ class Youtube < Plugin
 
   def go(source, args, bot)
     result = nil
-    if @quality == :high
+    if @quality == :high || args.include?('high')
       format = '-f141'
     else
       format = '-f140'
@@ -22,9 +22,9 @@ class Youtube < Plugin
     bot.mpd.add(result)
     bot.mpd.play if bot.mpd.stopped?
     bot.say(self, source, 'Request successful. Loading...')
-    bot.mpd.seek(args[1].to_i) if args[1]
+    bot.mpd.seek(args[1].to_i) if args[1] && args[1].to_i != 0
    rescue
-     bot.say(self, source, 'Failed to play video. Check given url and seek paramater (if given.)')
+     bot.say(self, source, 'Failed to play video. Check given url, quality, and seek parameter.')
   end
 end
 
