@@ -39,7 +39,7 @@ class Soundcloud < Plugin
 
   def go(source, args, bot)
     result = nil
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-g', "#{args[0]}") do |_stdin, stdout|
+    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-g', "#{args[0]}", '-f', 'mp3') do |_stdin, stdout|
       result = stdout.gets.chomp
     end
     bot.mpd.add(result)

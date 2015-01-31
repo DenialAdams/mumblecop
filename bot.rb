@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
+require 'yaml'
 require 'mumble-ruby'
 require 'sanitize'
-require 'yaml'
 require 'ruby-mpd'
 require_relative 'plugins'
 
