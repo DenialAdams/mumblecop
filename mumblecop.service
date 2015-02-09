@@ -4,7 +4,7 @@ After=murmur.service
 
 [Service]
 Type=simple
-User=brick
+User=YOUR_USER
 WorkingDirectory=PATH_TO_BOT_DIRECTORY
 ExecStart=PATH_TO_BOT.RB
 Restart=always
