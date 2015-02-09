@@ -4,6 +4,7 @@ class Uptime < Plugin
     super
     @commands = %w(uptime ut)
     @help_text = 'Stats about the server uptime'
+    @enabled = false if Gem.win_platform?
   end
 
   def go(source, _args, bot)
