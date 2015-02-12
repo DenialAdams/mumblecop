@@ -11,13 +11,15 @@ class Youtube < Plugin
 
   def go(source, args, bot)
     result = nil
+    error = 'No youtube-dl error'
     if @quality == :high || args.include?('high')
       format = '-f141'
     else
       format = '-f140'
     end
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', format, '-g', "#{args[0]}") do |_stdin, stdout|
-      result = stdout.gets.chomp
+    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', format, '-g', "#{args[0]}") do |_stdin, stdout, stderr|
+      result = stdout.read.chomp
+      error = stderr.read.chomp
     end
     bot.mpd.add(result)
     bot.mpd.play if bot.mpd.stopped?
@@ -25,6 +27,7 @@ class Youtube < Plugin
     bot.mpd.seek(args[1].to_i) if args[1] && args[1].to_i != 0
    rescue
      bot.say(self, source, 'Failed to play video. Check given url, quality, and seek parameter.')
+     bot.say(self, source, error)
   end
 end
 
@@ -39,8 +42,10 @@ class Soundcloud < Plugin
 
   def go(source, args, bot)
     result = nil
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-g', "#{args[0]}", '-f', 'mp3') do |_stdin, stdout|
-      result = stdout.gets.chomp
+    error = 'No youtube-dl error'
+    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-g', "#{args[0]}", '-f', 'mp3') do |_stdin, stdout, stderr|
+      result = stdout.read.chomp
+      error = stderr.read.chomp
     end
     bot.mpd.add(result)
     bot.mpd.play if bot.mpd.stopped?
@@ -48,5 +53,6 @@ class Soundcloud < Plugin
     bot.mpd.seek(args[1].to_i) if args[1]
   rescue
     bot.say(self, source, 'Failed to stream song. Check given url and seek parameter (if given.)')
+    bot.say(self, source, error)
   end
 end
