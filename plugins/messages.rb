@@ -7,7 +7,7 @@ class Say < Plugin
   end
 
   def go(_source, args, bot)
-    bot.say_to_channel(bot.current_channel, args.join(' '))
+    bot.say_to_current_channel(args.join(' '))
   end
 end
 

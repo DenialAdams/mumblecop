@@ -41,6 +41,10 @@ class MumbleBot
     @bot.users[id].hash
   end
 
+  def say_to_current_channel(text)
+    say_to_channel(current_channel, text)
+  end
+
   def say_to_channel(channel, text)
     @bot.text_channel(channel, text)
   rescue
