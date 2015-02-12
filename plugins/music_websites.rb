@@ -25,9 +25,10 @@ class Youtube < Plugin
     bot.mpd.play if bot.mpd.stopped?
     bot.say(self, source, 'Request successful. Loading...')
     bot.mpd.seek(args[1].to_i) if args[1] && args[1].to_i != 0
-   rescue
+   rescue => e
      bot.say(self, source, 'Failed to play video. Check given url, quality, and seek parameter.')
      bot.say(self, source, error)
+     bot.say(self, source, e.message)
   end
 end
 
@@ -51,8 +52,9 @@ class Soundcloud < Plugin
     bot.mpd.play if bot.mpd.stopped?
     bot.say(self, source, 'Request successful. Loading...')
     bot.mpd.seek(args[1].to_i) if args[1]
-  rescue
+  rescue => e
     bot.say(self, source, 'Failed to stream song. Check given url and seek parameter (if given.)')
     bot.say(self, source, error)
+    bot.say(self, source, e.message)
   end
 end
