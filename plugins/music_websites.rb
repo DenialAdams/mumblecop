@@ -17,7 +17,7 @@ class Youtube < Plugin
     else
       format = '-f140'
     end
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', format, '-g', "#{args[0]}") do |_stdin, stdout, stderr|
+    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', format, '-q', '--no-warnings', '-g', "#{args[0]}") do |_stdin, stdout, stderr|
       result = stdout.read.chomp
       error = stderr.read.chomp
     end
@@ -44,7 +44,7 @@ class Soundcloud < Plugin
   def go(source, args, bot)
     result = nil
     error = 'No youtube-dl error'
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-g', "#{args[0]}", '-f', 'mp3') do |_stdin, stdout, stderr|
+    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-g', '-q', '--no-warnings', "#{args[0]}", '-f', 'mp3') do |_stdin, stdout, stderr|
       result = stdout.read.chomp
       error = stderr.read.chomp
     end
