@@ -120,3 +120,27 @@ class Clear < Plugin
     bot.mpd.clear
   end
 end
+
+class Pause < Plugin
+  def initialize
+    super
+    @help_text = 'Pause the currently playing song'
+    @commands = %w(pause)
+  end
+
+  def go(_source, _args, bot)
+    bot.mpd.pause = true
+  end
+end
+
+class Resume < Plugin
+  def initialize
+    super
+    @help_text = 'Resume the currently playing song'
+    @commands = %w(resume)
+  end
+
+  def go(_source, _args, bot)
+    bot.mpd.pause = false
+  end
+end
