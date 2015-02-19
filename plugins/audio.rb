@@ -144,3 +144,26 @@ class Resume < Plugin
     bot.mpd.pause = false
   end
 end
+
+class Remove < Plugin
+  def initialize
+    super
+    @help_text = 'Remove the Xth song added to the queue - remove [X]. No parameters removes the last added song.'
+    @commands = %w(remove delete)
+  end
+ 
+  def go(source, args, bot)
+    if args[0]
+      args[0] = args[0].to_i
+      if args[0] <= bot.mpd.queue.count && args[0] > 0
+        bot.mpd.delete(args[0]-1)
+        bot.say(self, source, "Song #{args[0]} removed. #{bot.mpd.queue.count} songs left in queue.")
+      else
+        bot.say(self, source, "Song number not in range of queue.")
+      end
+    else
+      bot.mpd.delete(bot.mpd.queue.count-1)
+      bot.say(self, source, "Last song removed. #{bot.mpd.queue.count} songs left in queue.")
+    end
+  end
+end
