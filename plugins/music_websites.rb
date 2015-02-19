@@ -14,7 +14,8 @@ class Youtube < Plugin
     error = 'No youtube-dl error'
     if @quality == :high || args.include?('high')
       format = '-f141'
-    else
+    end
+    if args.include?('normal')
       format = '-f140'
     end
     Open3.popen3('youtube-dl', '--prefer-insecure', '-i', format, '-q', '--no-warnings', '-g', "#{args[0]}") do |_stdin, stdout, stderr|
