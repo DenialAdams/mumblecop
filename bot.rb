@@ -48,18 +48,24 @@ class MumbleBot
   def say_to_channel(channel, text)
     @bot.text_channel(channel, text)
   rescue
+    puts "ERROR: Failed to message channel with ID of #{channel}. Invalid channel?"
     return 1
   end
 
   def say_to_user(id, text)
     @bot.text_user(id, text)
   rescue
+    puts "ERROR: Failed to message user with ID of #{id}. Invalid user?"
     return 1
   end
 
   def say(plugin, source, text)
     if plugin.response == :user || plugin.response == :auto && source[0] == :user
-      say_to_user(source[1], text)
+      if source[0] == :channel
+        say_to_user(source[2], text)
+      else
+        say_to_user(source[1], text)
+      end
     else
       say_to_channel(source[1], text)
     end
@@ -118,7 +124,7 @@ class MumbleBot
       if message.channel_id && matches_trigger(command)
         command = strip_trigger(command) if matches_trigger(command)
         mumblecop_command = true
-        source = [:channel, message.channel_id[0]]
+        source = [:channel, message.channel_id[0], message.actor]
       elsif !message.channel_id
         command = strip_trigger(command) if matches_trigger(command)
         mumblecop_command = true
