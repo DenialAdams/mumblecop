@@ -1,6 +1,7 @@
 username: Mumblecop
 password:
 address: localhost
+port: 64738
 triggers: ['mumblecop', 'mc', 'mc', 'mb']
 comment: 'I am a robot beep boop'
 initial-volume: 5
