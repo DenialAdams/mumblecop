@@ -12,6 +12,7 @@ class Youtube < Plugin
   def go(source, args, bot)
     result = nil
     error = 'No youtube-dl error'
+    format = '-f140'
     if @quality == :high || args.include?('high')
       format = '-f141'
     end

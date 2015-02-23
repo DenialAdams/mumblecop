@@ -107,7 +107,7 @@ class MumbleBot
   end
 
   def process_message(message)
-    contents = message.message
+    contents = message.message.chomp
     if CONFIG['verbose-chat-log']
       puts "#{get_hash_from_id(message.actor)} | #{get_username_from_id(message.actor)}: #{contents}"
     else
