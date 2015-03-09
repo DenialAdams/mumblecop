@@ -163,6 +163,11 @@ class MumbleBot
     end
   end
 
+  def reload_permissions
+    @trusted_users = File.readlines('trusted-users.txt').map(&:chomp)
+    @blacklisted_users = File.readlines('blacklisted-users.txt').map(&:chomp)
+  end
+
   def setup
     @bot.player.volume = CONFIG['initial-volume']
     begin
@@ -170,8 +175,7 @@ class MumbleBot
     rescue
       puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
     end
-    @trusted_users = File.readlines('trusted-users.txt').map(&:chomp)
-    @blacklisted_users = File.readlines('blacklisted-users.txt').map(&:chomp)
+    reload_permissions
     return unless CONFIG['use-mpd']
     @bot.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
     @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port']
