@@ -39,3 +39,21 @@ class Help < Plugin
     end
   end
 end
+
+class Refresh < Plugin
+  def initialize
+    super
+    @help_text = 'Reload certain information from mumblecop config files.'
+    @commands = %w(reload)
+  end
+
+  def go
+    @bot.player.volume = CONFIG['initial-volume']
+    begin
+      @bot.set_comment(CONFIG['comment'])
+    rescue
+      puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
+    end
+    bot.reload_permissions
+  end
+end
