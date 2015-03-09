@@ -5,7 +5,7 @@ class Search < Plugin
     @min_args = 1
     @commands = %w(ytsearch)
   end
- 
+
   def go(source, args, bot)
     result = nil
     name = 'No title'
