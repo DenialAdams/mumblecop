@@ -47,13 +47,14 @@ class Refresh < Plugin
     @commands = %w(reload)
   end
 
-  def go
-    @bot.player.volume = CONFIG['initial-volume']
+  def go(source, _args, bot)
+    bot.bot.player.volume = CONFIG['initial-volume']
     begin
-      @bot.set_comment(CONFIG['comment'])
+      bot.bot.set_comment(CONFIG['comment'])
     rescue
       puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
     end
     bot.reload_permissions
+    bot.say(self, source, "Successfully reloaded.")
   end
 end
