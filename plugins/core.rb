@@ -55,6 +55,6 @@ class Refresh < Plugin
       puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
     end
     bot.reload_permissions
-    bot.say(self, source, "Successfully reloaded.")
+    bot.say(self, source, 'Successfully reloaded.')
   end
 end
