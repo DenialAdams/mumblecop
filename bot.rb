@@ -3,6 +3,7 @@
 require 'yaml'
 require 'mumble-ruby'
 require 'sanitize'
+require 'active_support/core_ext/string'
 require 'ruby-mpd'
 require_relative 'plugins'
 
@@ -116,7 +117,7 @@ class MumbleBot
       puts "#{get_username_from_id(message.actor)}: #{contents}"
     end
     return if contents.strip.empty?
-    possible_commands = contents.split(';')
+    possible_commands = contents.split(';').reject!(&:blank?)
     possible_commands.each_with_index do |command, i|
       next if i == 0 || matches_trigger(command.split(' ')[0])
       possible_commands[i - 1] = possible_commands[i - 1].concat(';').concat(command)
