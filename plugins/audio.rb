@@ -19,10 +19,13 @@ class WhatsPlaying < Plugin
   end
 
   def go(source, _args, bot)
-    return unless bot.mpd.current_song
     song = bot.mpd.current_song
+    unless song
+      bot.say(self, source, 'No song currently playing.')
+      return 1
+    end
     if song.artist.nil? && song.title.nil?
-      bot.say(self, source, "No song information available.")
+      bot.say(self, source, 'No song information available.')
       return
     elsif song.artist.nil?
       bot.say(self, source, "Current Song: #{song.title}")
@@ -55,7 +58,7 @@ class QueueCommand < Plugin
       begin
         bot.say(self, source, bot.mpd.queue[args[0].to_i - 1].title)
       rescue
-        bot.say(self, source, "Requested queue number not in range")
+        bot.say(self, source, 'Requested queue number not in range')
       end
     end
   end
