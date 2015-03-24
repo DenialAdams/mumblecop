@@ -19,20 +19,45 @@ class WhatsPlaying < Plugin
   end
 
   def go(source, _args, bot)
+    return unless bot.mpd.current_song
     song = bot.mpd.current_song
-    bot.say(self, source, "Current Song: #{song.artist} - #{song.title}")
+    if song.artist.nil? && song.title.nil?
+      bot.say(self, source, "No song information available.")
+      return
+    elsif song.artist.nil?
+      bot.say(self, source, "Current Song: #{song.title}")
+    elsif song.title.nil?
+      bot.say(self, source, "Current Song: #{song.artist} - Unknown title")
+    else
+      bot.say(self, source, "Current Song: #{song.artist} - #{song.title}")
+    end
   end
 end
 
 class QueueCommand < Plugin
   def initialize
     super
-    @help_text = 'Prints how many songs are in the queue (including the currently playing song)'
-    @commands = %w(queue)
+    @help_text = 'Prints how many songs are in the queue (including the currently playing song.) If list is given as a parameter, lists the songs. If a number is given, list that song in the queue.'
+    @commands = %w(queue q)
   end
 
-  def go(source, _args, bot)
-    bot.say(self, source, "#{bot.mpd.queue.count} song(s) in queue")
+  def go(source, args, bot)
+    bot.say(self, source, "#{bot.mpd.queue.count} song(s) in queue.")
+    if args.include?('list')
+      bot.mpd.queue.each_with_index do |song, index|
+        if index == 0
+          bot.say(self, source, "#{song.title} | Now Playing")
+        else
+          bot.say(self, source, song.title)
+        end
+      end
+    elsif args[0]
+      begin
+        bot.say(self, source, bot.mpd.queue[args[0].to_i - 1].title)
+      rescue
+        bot.say(self, source, "Requested queue number not in range")
+      end
+    end
   end
 end
 

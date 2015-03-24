@@ -19,13 +19,16 @@ class Youtube < Plugin
     if args.include?('normal')
       format = '-f140'
     end
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', format, '-q', '--no-warnings', '-g', "#{args[0]}") do |_stdin, stdout, stderr|
+    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', format, '-q', '--no-warnings', '-ge', "#{args[0]}") do |_stdin, stdout, stderr|
       result = stdout.read.chomp
       error = stderr.read.chomp
     end
-    bot.mpd.add(result)
+    # Split the result into the title (0) and the stream (1)
+    result = result.split("\n")
+    bot.mpd.add(result[1])
+    bot.mpd.send_command("addtagid", bot.mpd.queue.last.id, "title", result[0])
     bot.mpd.play if bot.mpd.stopped?
-    bot.say(self, source, 'Request successful. Loading...')
+    bot.say(self, source, "Request successful. Loading #{result[0]}...")
     bot.mpd.seek(args[1].to_i) if args[1] && args[1].to_i != 0
    rescue => e
      bot.say(self, source, 'Failed to play video. Check given url, quality, and seek parameter.')

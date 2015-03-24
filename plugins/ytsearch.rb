@@ -13,9 +13,9 @@ class Search < Plugin
       result = stdout.read.chomp
       error = stderr.read.chomp
     end
-    result = result.split('\n')
-    puts result.to_s
+    result = result.split("\n")
     bot.mpd.add(result[1])
+    bot.mpd.send_command("addtagid", bot.mpd.queue.last.id, "title", result[0])
     bot.mpd.play if bot.mpd.stopped?
     bot.say(self, source, 'Added "' + result[0] + '".')
     bot.mpd.play if bot.mpd.stopped?
