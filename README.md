@@ -1,4 +1,4 @@
-Hi! This is a bot I programmed for my mumble server. It works well for me and my purposes.
+Hi! This is a bot I programmed for my mumble server, and hopefully for your server as well :)
 
 Features:
 
