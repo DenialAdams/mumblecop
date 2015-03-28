@@ -18,7 +18,6 @@ class Search < Plugin
     bot.mpd.send_command('addtagid', bot.mpd.queue.last.id, 'title', result[0])
     bot.mpd.play if bot.mpd.stopped?
     bot.say(self, source, 'Added "' + result[0] + '".')
-    bot.mpd.play if bot.mpd.stopped?
     rescue => e
       bot.say(self, source, 'Failed to play video. Try modifying your query.')
       bot.say(self, source, error)
