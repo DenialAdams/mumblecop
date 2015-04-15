@@ -185,13 +185,13 @@ class Remove < Plugin
       args[0] = args[0].to_i
       if args[0] <= bot.mpd.queue.count && args[0] > 0
         bot.mpd.delete(args[0] - 1)
-        bot.say(self, source, "Song #{args[0]} removed. #{bot.mpd.queue.count} songs left in queue.")
+        bot.say(self, source, "Song #{args[0]} removed. #{bot.mpd.queue.count} song(s) left in queue.")
       else
         bot.say(self, source, 'Song number not in range of queue.')
       end
     else
       bot.mpd.delete(bot.mpd.queue.count - 1)
-      bot.say(self, source, "Last song removed. #{bot.mpd.queue.count} songs left in queue.")
+      bot.say(self, source, "Last song removed. #{bot.mpd.queue.count} song(s) left in queue.")
     end
   end
 end
