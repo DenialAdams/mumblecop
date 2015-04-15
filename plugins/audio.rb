@@ -51,7 +51,7 @@ class QueueCommand < Plugin
         if index == 0
           bot.say(self, source, "#{song.title} | Now Playing")
         else
-          bot.say(self, source, song.title)
+          bot.say(self, source, "#{song.title} | #{index + 1}")
         end
       end
     elsif args[0]

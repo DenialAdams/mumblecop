@@ -88,6 +88,7 @@ class MumbleBot
       @plugins.push klass.new
     end
     @plugins.each do |plugin|
+      next unless plugin.commands
       plugin.commands.each do |command|
         @commands[command] = plugin
       end
@@ -210,8 +211,9 @@ class MumbleBot
 end
 mumblecop = MumbleBot.new
 mumblecop.bot.connect
-PLUGIN_LIST = mumblecop.commands.values.uniq
+PLUGIN_LIST = mumblecop.plugins
 mumblecop.configure_plugins(PLUGIN_LIST)
+sleep 10
 loop do
   sleep(CONFIG['plugin-update-rate'])
   Plugin.tick(mumblecop, PLUGIN_LIST)
