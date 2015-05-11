@@ -17,7 +17,7 @@ STDOUT.sync = true
 # The mumblebot recieves and validates commands, then proceeds to pass those off to plugins.
 class MumbleBot
   attr_accessor :commands, :bot, :plugins, :mpd
-  attr_reader :trusted_users, :blacklisted_users
+  attr_reader :trusted_users, :blacklisted_users, :setup_completed
 
   def initialize
     @plugins = []
@@ -206,6 +206,7 @@ class MumbleBot
     end
     @bot.on_connected do
       setup
+      @setup_completed = true
     end
   end
 end
@@ -213,7 +214,7 @@ mumblecop = MumbleBot.new
 mumblecop.bot.connect
 PLUGIN_LIST = mumblecop.plugins
 mumblecop.configure_plugins(PLUGIN_LIST)
-sleep 10
+sleep(CONFIG['plugin-update-rate']) until mumblecop.setup_completed
 loop do
   sleep(CONFIG['plugin-update-rate'])
   Plugin.tick(mumblecop, PLUGIN_LIST)
