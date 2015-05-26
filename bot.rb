@@ -26,7 +26,8 @@ class MumbleBot
       conf.username = CONFIG['username']
       conf.password = CONFIG['password'] if CONFIG['password']
       conf.bitrate = CONFIG['bitrate'] if CONFIG['bitrate']
-      conf.sample_rate = config['sample_rate'] if CONFIG['sample_rate']
+      conf.sample_rate = CONFIG['sample_rate'] if CONFIG['sample_rate']
+      #conf.vbr_rate = 1
     end
     load_plugins
     register_callbacks
