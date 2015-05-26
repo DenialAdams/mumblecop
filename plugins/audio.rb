@@ -161,6 +161,23 @@ class Pause < Plugin
   end
 end
 
+class Crossfade < Plugin
+  def initialize
+    super
+    @help_text = 'Set the crossfade between qued songs (in seconds)'
+    @commands = %w(crossfade)
+    @enabled = false
+  end
+
+  def go(source, args, bot)
+    if args[0]
+      bot.mpd.crossfade = args[0].to_i
+    else
+      
+    end
+  end
+end
+
 class Resume < Plugin
   def initialize
     super
@@ -190,9 +207,11 @@ class Remove < Plugin
       else
         bot.say(self, source, 'Song number not in range of queue.')
       end
-    else
+    elsif bot.mpd.queue.count >= 1
       bot.mpd.delete(bot.mpd.queue.count - 1)
       bot.say(self, source, "Last song removed. #{bot.mpd.queue.count} song(s) left in queue.")
+    else
+      bot.say(self, source, "No songs in queue.")
     end
   end
 end
