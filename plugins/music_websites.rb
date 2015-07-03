@@ -33,7 +33,7 @@ class Youtube < Plugin
     bot.say(self, source, "Request successful. Loading #{result[0]}...")
     bot.mpd.seek(args[1].to_i) if args[1] && args[1].to_i != 0
    rescue => e
-     bot.say(self, source, 'Failed to play video. Check given url, quality, and seek parameter.')
+     bot.say(self, source, 'Failed to load video. Check given url, quality, and seek parameter.')
      bot.say(self, source, error)
      bot.say(self, source, e.message)
   end

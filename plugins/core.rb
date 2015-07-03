@@ -28,9 +28,9 @@ class Help < Plugin
   def go(source, args, bot)
     if args[0]
       if bot.commands[args[0]].nil?
-        bot.say(self, source, 'Sorry, command you requested help on is not found.')
+        bot.say(self, source, 'Command you requested help on is not found.')
       elsif bot.commands[args[0]].help_text.empty?
-        bot.say(self, source, 'Sorry, command has no set help text.')
+        bot.say(self, source, 'Command has no set help text.')
       else
         bot.say(self, source, bot.commands[args[0]].help_text)
       end

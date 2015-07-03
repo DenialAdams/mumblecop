@@ -22,7 +22,7 @@ class Whisper < Plugin
   def go(source, args, bot)
     user = args[0]
     args.delete_at(0)
-    text = args.join
+    text = args.join(' ')
     if bot.say_to_user(user, text) != 1
       bot.say(self, source, 'Message sent.')
     else
