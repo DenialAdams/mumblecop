@@ -7,7 +7,8 @@ class Seek < Plugin
   end
 
   def go(_source, args, bot)
-    bot.mpd.seek(args[0]) if bot.mpd.playing?
+    time = args[0].to_i
+    bot.mpd.seek(time) if bot.mpd.playing?
   end
 end
 
