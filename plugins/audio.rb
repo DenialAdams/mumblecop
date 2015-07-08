@@ -165,16 +165,20 @@ end
 class Crossfade < Plugin
   def initialize
     super
-    @help_text = 'Set the crossfade between qued songs (in seconds)'
+    @help_text = 'Set the crossfade between queued songs (in seconds)'
     @commands = %w(crossfade)
-    @enabled = false
   end
 
   def go(source, args, bot)
     if args[0]
       bot.mpd.crossfade = args[0].to_i
     else
-      
+      if bot.mpd.crossfade.nil?
+        crossfade = 0
+      else
+        crossfade = bot.mpd.crossfade
+      end
+      bot.say(self, source, "The crossfade is currently set to #{crossfade} seconds.")
     end
   end
 end
@@ -212,7 +216,7 @@ class Remove < Plugin
       bot.mpd.delete(bot.mpd.queue.count - 1)
       bot.say(self, source, "Last song removed. #{bot.mpd.queue.count} song(s) left in queue.")
     else
-      bot.say(self, source, "No songs in queue.")
+      bot.say(self, source, 'No songs in queue.')
     end
   end
 end

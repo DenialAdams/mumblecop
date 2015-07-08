@@ -27,7 +27,7 @@ class MumbleBot
       conf.password = CONFIG['password'] if CONFIG['password']
       conf.bitrate = CONFIG['bitrate'] if CONFIG['bitrate']
       conf.sample_rate = CONFIG['sample_rate'] if CONFIG['sample_rate']
-      #conf.vbr_rate = 1
+      # conf.vbr_rate = 1
     end
     load_plugins
     register_callbacks
@@ -124,7 +124,7 @@ class MumbleBot
       next if i == 0 || matches_trigger(command.split(' ')[0])
       possible_commands[i - 1] = possible_commands[i - 1].concat(';').concat(command)
     end
-    possible_commands.reverse.each do |command|
+    possible_commands.reverse_each do |command|
       mumblecop_command = false
       if message.channel_id && matches_trigger(command)
         command = strip_trigger(command) if matches_trigger(command)

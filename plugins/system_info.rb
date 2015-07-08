@@ -13,12 +13,12 @@ class SystemInfo < Plugin
     begin
       bot.say(self, source, `mpd --version`.lines[0])
     rescue
-      puts "ERROR: Failed to get mpd version"
+      puts 'ERROR: Failed to get mpd version'
     end
     begin
       bot.say(self, source, 'Youtube-dl: ' + `youtube-dl --version`)
     rescue
-     puts "ERROR: Failed to get youtube-dl version"
+      puts 'ERROR: Failed to get youtube-dl version'
     end
   end
 end
