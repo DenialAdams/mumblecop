@@ -19,6 +19,6 @@ class GetUserHash < Plugin
   end
 
   def go(source, args, bot)
-    bot.say(self, source, bot.bot.find_user(args[0]).hash)
+    bot.say(self, source, bot.mumble.find_user(args[0]).hash)
   end
 end

@@ -48,9 +48,9 @@ class Refresh < Plugin
   end
 
   def go(source, _args, bot)
-    bot.bot.player.volume = CONFIG['initial-volume']
+    bot.mumble.player.volume = CONFIG['initial-volume']
     begin
-      bot.bot.set_comment(CONFIG['comment'])
+      bot.mumble.set_comment(CONFIG['comment_text']) if CONFIG['comment'] == :text
     rescue
       puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
     end

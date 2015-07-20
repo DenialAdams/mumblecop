@@ -117,23 +117,23 @@ class Volume < Plugin
   def go(source, args, bot)
     if args[0]
       if args[0][0] == '-'
-        new_volume = bot.bot.player.volume - args[0].to_i.abs
+        new_volume = bot.mumble.player.volume - args[0].to_i.abs
       elsif args[0][0] == '+'
-        new_volume = bot.bot.player.volume + args[0].to_i.abs
+        new_volume = bot.mumble.player.volume + args[0].to_i.abs
       else
         new_volume = args[0].to_i
       end
       if new_volume > @max_volume
         bot.say(self, source, "Volume can not exceed #{@max_volume}. Set to #{@max_volume}.")
-        bot.bot.player.volume = @max_volume
+        bot.mumble.player.volume = @max_volume
       elsif new_volume < @min_volume
         bot.say(self, source, "Volume can not be lower than #{@min_volume}. Set to #{@min_volume}.")
-        bot.bot.player.volume = @min_volume
+        bot.mumble.player.volume = @min_volume
       else
-        bot.bot.player.volume = new_volume
+        bot.mumble.player.volume = new_volume
       end
     else
-      bot.say(self, source, "Volume is currently #{bot.bot.player.volume}")
+      bot.say(self, source, "Volume is currently #{bot.mumble.player.volume}")
     end
   end
 end

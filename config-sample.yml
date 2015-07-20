@@ -3,7 +3,8 @@ password:
 address: localhost
 port: 64738
 triggers: ['mumblecop', 'mc', 'mc', 'mb']
-comment: 'I am a robot beep boop'
+comment: :text
+comment_text: 'I am a robot beep boop'
 initial-volume: 5
 use-mpd: false
 fifo-pipe-location: '/tmp/mpd.fifo'

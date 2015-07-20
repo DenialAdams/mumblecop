@@ -16,13 +16,13 @@ STDOUT.sync = true
 
 # The mumblebot recieves and validates commands, then proceeds to pass those off to plugins.
 class MumbleBot
-  attr_accessor :commands, :bot, :plugins, :mpd
+  attr_accessor :commands, :mumble, :plugins, :mpd
   attr_reader :trusted_users, :blacklisted_users, :setup_completed
 
   def initialize
     @plugins = []
     @commands = {}
-    @bot = Mumble::Client.new(CONFIG['address'], CONFIG['port']) do |conf|
+    @mumble = Mumble::Client.new(CONFIG['address'], CONFIG['port']) do |conf|
       conf.username = CONFIG['username']
       conf.password = CONFIG['password'] if CONFIG['password']
       conf.bitrate = CONFIG['bitrate'] if CONFIG['bitrate']
@@ -34,15 +34,15 @@ class MumbleBot
   end
 
   def current_channel
-    @bot.me.channel_id.to_i
+    @mumble.me.channel_id.to_i
   end
 
   def get_username_from_id(id)
-    @bot.users[id].name
+    @mumble.users[id].name
   end
 
   def get_hash_from_id(id)
-    @bot.users[id].hash
+    @mumble.users[id].hash
   end
 
   def say_to_current_channel(text)
@@ -50,14 +50,14 @@ class MumbleBot
   end
 
   def say_to_channel(channel, text)
-    @bot.text_channel(channel, text)
+    @mumble.text_channel(channel, text)
   rescue
     puts "ERROR: Failed to message channel with ID of #{channel}. Invalid channel?"
     return 1
   end
 
   def say_to_user(id, text)
-    @bot.text_user(id, text)
+    @mumble.text_user(id, text)
   rescue
     puts "ERROR: Failed to message user with ID of #{id}. Invalid user?"
     return 1
@@ -174,15 +174,15 @@ class MumbleBot
   end
 
   def setup
-    @bot.player.volume = CONFIG['initial-volume']
+    @mumble.player.volume = CONFIG['initial-volume']
     begin
-      @bot.set_comment(CONFIG['comment']) if CONFIG['comment'].is_a?(String)
+      @mumble.set_comment(CONFIG['comment_text']) if CONFIG['comment'] == :text
     rescue
       puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
     end
     reload_permissions
     return unless CONFIG['use-mpd']
-    @bot.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
+    @mumble.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
     @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port'], { callbacks: true }
     @mpd.connect
     @mpd.consume = true
@@ -204,17 +204,17 @@ class MumbleBot
   end
 
   def register_callbacks
-    @bot.on_text_message do |message|
+    @mumble.on_text_message do |message|
       process_message(message)
     end
-    @bot.on_connected do
+    @mumble.on_connected do
       setup
       @setup_completed = true
     end
   end
 end
 mumblecop = MumbleBot.new
-mumblecop.bot.connect
+mumblecop.mumble.connect
 sleep(0.1) until mumblecop.setup_completed
 PLUGIN_LIST = mumblecop.plugins
 mumblecop.configure_plugins(PLUGIN_LIST)

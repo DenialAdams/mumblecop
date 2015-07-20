@@ -15,7 +15,7 @@ class Party < Plugin
   end
 
   def play_music(bot)
-    bot.commands['youtube'].go([:user, bot.bot.me], @party_music.sample.split(' '), bot)
+    bot.commands['youtube'].go([:user, bot.mumble.me], @party_music.sample.split(' '), bot)
   end
 
   def go(source, _args, bot)
@@ -25,7 +25,7 @@ class Party < Plugin
   def update(bot)
     return if bot.mpd.playing?
     if Time.now > @party_time
-      bot.bot.player.volume = @party_volume if @party_volume >= 0
+      bot.mumble.player.volume = @party_volume if @party_volume >= 0
       bot.say_to_channel(bot.current_channel, 'START THE PARTY')
       play_music(bot)
       @party_time = choose_party_time
