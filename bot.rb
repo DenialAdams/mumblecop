@@ -176,28 +176,30 @@ class MumbleBot
   def setup
     @bot.player.volume = CONFIG['initial-volume']
     begin
-      @bot.set_comment(CONFIG['comment'])
+      @bot.set_comment(CONFIG['comment']) if CONFIG['comment'].is_a?(String)
     rescue
       puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
     end
     reload_permissions
     return unless CONFIG['use-mpd']
     @bot.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
-    @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port']
+    @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port'], { callbacks: true }
     @mpd.connect
     @mpd.consume = true
   end
 
   def configure_plugins(list)
-    return if CONFIG['plugin:'].nil?
     list.each do |plugin|
-      CONFIG['plugins'].each do |plugin_name, options|
-        if plugin_name == plugin.class.to_s.downcase
-          options.each do |option, value|
-            plugin.instance_variable_set("@#{option}", value)
+      if CONFIG['plugins']
+        CONFIG['plugins'].each do |plugin_name, options|
+          if plugin_name == plugin.class.to_s.downcase
+            options.each do |option, value|
+              plugin.instance_variable_set("@#{option}", value)
+            end
           end
         end
       end
+      plugin.setup(self)
     end
   end
 
@@ -213,9 +215,9 @@ class MumbleBot
 end
 mumblecop = MumbleBot.new
 mumblecop.bot.connect
+sleep(0.1) until mumblecop.setup_completed
 PLUGIN_LIST = mumblecop.plugins
 mumblecop.configure_plugins(PLUGIN_LIST)
-sleep(CONFIG['plugin-update-rate']) until mumblecop.setup_completed
 loop do
   sleep(CONFIG['plugin-update-rate'])
   Plugin.tick(mumblecop, PLUGIN_LIST)

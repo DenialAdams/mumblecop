@@ -34,7 +34,11 @@ class Plugin
     @condition = CONFIG['default-plugin-condition']
   end
 
-  def go
+  def setup(_bot)
+    # Called once, when mumblecop starts. Intended for plugins that only need to run something only once.
+  end
+
+  def go(_source, _args, _bot)
     # stub for now
   end
 end
