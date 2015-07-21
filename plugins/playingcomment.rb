@@ -5,8 +5,7 @@ class PlayingComment < Plugin
 
   def setup(bot)
     return unless CONFIG['comment'] == :now_playing
-    bot.mpd.on :title do
-      song = bot.mpd.current_song
+    bot.mpd.on :song do |song|
       bot.mumble.set_comment(get_comment(song))
     end
     bot.mpd.on :state do |state|
