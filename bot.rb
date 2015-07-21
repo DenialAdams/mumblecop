@@ -183,7 +183,7 @@ class MumbleBot
     reload_permissions
     return unless CONFIG['use-mpd']
     @mumble.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
-    @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port'], { callbacks: true }
+    @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port'], callbacks: CONFIG['mpd-callbacks']
     @mpd.connect
     @mpd.consume = true
   end
