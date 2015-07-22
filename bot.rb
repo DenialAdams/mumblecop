@@ -190,13 +190,9 @@ class MumbleBot
 
   def configure_plugins(list)
     list.each do |plugin|
-      if CONFIG['plugins']
-        CONFIG['plugins'].each do |plugin_name, options|
-          if plugin_name == plugin.class.to_s.downcase
-            options.each do |option, value|
-              plugin.instance_variable_set("@#{option}", value)
-            end
-          end
+      if CONFIG['plugins'] && CONFIG['plugins'][plugin.class.to_s.downcase]
+        CONFIG['plugins'][plugin.class.to_s.downcase].each do |option, value|
+          plugin.instance_variable_set("@#{option}", value)
         end
       end
       plugin.setup(self)
