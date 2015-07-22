@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'mumble-ruby'
-gem 'sanitize'
-gem 'dicebag'
 gem 'activesupport'
+gem 'dicebag'
+gem 'mumble-ruby'
 gem 'ruby-mpd'
+gem 'sanitize'
