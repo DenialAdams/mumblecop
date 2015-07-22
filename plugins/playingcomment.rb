@@ -19,13 +19,13 @@ class PlayingComment < Plugin
 
   def get_comment(song)
     if song.nil?
-      comment = (CONFIG['comment_text'])
+      CONFIG['comment_text']
     elsif song.artist && song.title
-      comment = "Now playing: #{song.title} - #{song.artist}"
+      "Now playing: #{song.title} - #{song.artist}"
     elsif song.title
-      comment = "Now playing: #{song.title}"
+      "Now playing: #{song.title}"
     else
-      comment = 'Now playing unknown'
+      'Now playing unknown'
     end
   end
 end
