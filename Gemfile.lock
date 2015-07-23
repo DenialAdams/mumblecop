@@ -31,7 +31,7 @@ GEM
       ffi
     parslet (1.7.0)
       blankslate (>= 2.0, <= 4.0)
-    ruby-mpd (0.3.2)
+    ruby-mpd (0.3.3)
     ruby_protobuf (0.4.11)
     sanitize (4.0.0)
       crass (~> 1.0.2)
@@ -53,4 +53,4 @@ DEPENDENCIES
   sanitize
 
 BUNDLED WITH
-   1.10.5
+   1.10.6
