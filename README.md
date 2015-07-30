@@ -14,3 +14,5 @@ If you have any questions, need assistance using this, or just want to say hi pl
 Also, if you write any plugins, please send them to me/submit a pull request if you would like them to be considered for inclusion! Thanks!
 
 This project led to the discovery and fix of mpd bug [4264](http://bugs.musicpd.org/view.php?id=4264). Hooray!
+
+Reddit Community: [r/mumblecop](http://www.reddit.com/r/mumblecop)
