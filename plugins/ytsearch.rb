@@ -16,6 +16,7 @@ class Search < Plugin
     result = result.split("\n")
     bot.mpd.add(result[1])
     bot.mpd.send_command('addtagid', bot.mpd.queue.last.id, 'title', result[0])
+    bot.mpd.send_command('addtagid', bot.mpd.queue.last.id, 'albumartist', bot.get_username_from_source(source))
     bot.mpd.play if bot.mpd.stopped?
     bot.say(self, source, 'Added "' + result[0] + '".')
     rescue => e
