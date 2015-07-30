@@ -40,8 +40,24 @@ class MumbleBot
     @mumble.users[id].name
   end
 
+  def get_username_from_source(source)
+    if source[0] == :channel
+      @mumble.users[source[2]].name
+    else
+      @mumble.users[source[1]].name
+    end
+  end
+
   def get_hash_from_id(id)
     @mumble.users[id].hash
+  end
+
+  def get_hash_from_source(source)
+    if source[0] == :channel
+      @mumble.users[source[2]].hash
+    else
+      @mumble.users[source[1]].hash
+    end
   end
 
   def say_to_current_channel(text)
