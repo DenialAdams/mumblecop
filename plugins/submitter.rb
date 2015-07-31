@@ -9,9 +9,9 @@ class Submitter < Plugin
   def go(source, _args, bot)
     current_song = bot.mpd.current_song
     if current_song.nil?
-      bot.say(self, source, "No song currently playing.")
+      bot.say(self, source, 'No song currently playing.')
     elsif current_song.albumartist.nil?
-      bot.say(self, source, "No submitter information available.")
+      bot.say(self, source, 'No submitter information available.')
     else
       bot.say(self, source, current_song.albumartist)
     end
