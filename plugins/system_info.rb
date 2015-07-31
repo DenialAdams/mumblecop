@@ -7,9 +7,14 @@ class SystemInfo < Plugin
   end
 
   def go(source, _args, bot)
-    bot.say(self, source, `uname -a`) unless Gem.win_platform?
+    begin
+      bot.say(self, source, `uname -a`) unless Gem.win_platform?
+    rescue
+      puts 'ERROR: Failed to get system info'
+    end
     bot.say(self, source, RUBY_DESCRIPTION)
     return unless CONFIG['use-mpd']
+    bot.say(self, source, "MPD protocol version #{bot.mpd.version}")
     begin
       bot.say(self, source, `mpd --version`.lines[0])
     rescue
