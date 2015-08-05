@@ -23,16 +23,16 @@ class Youtube < Plugin
     result = result.split("\n")
     bot.mpd.add(result[1])
     # MPD doesn't like quotes in the track for send_command so as a hack we change them to single quotes
-    result[0].gsub!('"', "'")
+    result[0].tr!('"', "'")
     bot.mpd.send_command('addtagid', bot.mpd.queue.last.id, 'title', result[0])
     bot.mpd.send_command('addtagid', bot.mpd.queue.last.id, 'albumartist', bot.get_username_from_source(source))
     bot.mpd.play if bot.mpd.stopped?
     bot.say(self, source, "Request successful. Loading #{result[0]}...")
     bot.mpd.seek(args[1].to_i) if args[1] && args[1].to_i != 0
-   rescue => e
-     bot.say(self, source, 'Failed to load video. Check given url, quality, and seek parameter.')
-     bot.say(self, source, error)
-     bot.say(self, source, e.message)
+  rescue => e
+    bot.say(self, source, 'Failed to load video. Check given url, quality, and seek parameter.')
+    bot.say(self, source, error)
+    bot.say(self, source, e.message)
   end
 end
 

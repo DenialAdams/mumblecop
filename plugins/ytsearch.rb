@@ -19,10 +19,10 @@ class Search < Plugin
     bot.mpd.send_command('addtagid', bot.mpd.queue.last.id, 'albumartist', bot.get_username_from_source(source))
     bot.mpd.play if bot.mpd.stopped?
     bot.say(self, source, 'Added "' + result[0] + '".')
-    rescue => e
-      bot.say(self, source, 'Failed to play video. Try modifying your query.')
-      bot.say(self, source, error)
-      bot.say(self, source, e.message)
-      return 1
+  rescue => e
+    bot.say(self, source, 'Failed to play video. Try modifying your query.')
+    bot.say(self, source, error)
+    bot.say(self, source, e.message)
+    return 1
   end
 end
