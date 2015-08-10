@@ -9,7 +9,7 @@ class Search < Plugin
   def go(source, args, bot)
     result = nil
     error = 'No youtube-dl error'
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-f140', '-q', '--no-warnings', '-ge', '--default-search', 'ytsearch:', args.join(' ')) do |_stdin, stdout, stderr|
+    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-f140', '-q', '--no-warnings', '--no-cache-dir', '-ge', '--default-search', 'ytsearch:', args.join(' ')) do |_stdin, stdout, stderr|
       result = stdout.read.chomp
       error = stderr.read.chomp
     end

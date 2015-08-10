@@ -96,6 +96,7 @@ class MumbleBot
     else
       say_to_channel(source[1], text)
     end
+    1
   end
 
   def load_plugins
@@ -137,7 +138,7 @@ class MumbleBot
     possible_commands = contents.split(';').reject(&:blank?)
     possible_commands.each_with_index do |command, i|
       next if i == 0 || matches_trigger(command.split(' ')[0])
-      possible_commands[i - 1] = possible_commands[i - 1].concat(';').concat(command)
+      possible_commands[i - 1] = possible_commands[i - 1].concat(";#{command}")
     end
     possible_commands.reverse_each do |command|
       mumblecop_command = false
@@ -161,24 +162,21 @@ class MumbleBot
   end
 
   def process_command(command, args, source, user_hash)
-    if @commands[command].nil?
-      command_fail(source, 'Command not found.')
+    return command_fail(source, 'Command not found.') if @commands[command].nil?
+    if !@commands[command].enabled
+      command_fail(source, 'Command is currently disabled. Ask an administrator for details.')
+    elsif @blacklisted_users.include?(user_hash) && !@commands[command].ignore_blacklist
+      command_fail(source, 'You have been banned from mumblecop usage on this server.')
+    elsif @commands[command].condition == :trusted && !@trusted_users.include?(user_hash)
+      command_fail(source, 'You must be a trusted user in order to use this command.')
+    elsif @commands[command].min_args > args.length
+      command_fail(source, "Command requires #{@commands[command].min_args} parameter(s).")
     else
-      if !@commands[command].enabled
-        command_fail(source, 'Command is currently disabled. Ask an administrator for details.')
-      elsif @blacklisted_users.include?(user_hash) && !@commands[command].ignore_blacklist
-        command_fail(source, 'You have been banned from all mumblecop usage on this server.')
-      elsif @commands[command].condition == :trusted && !@trusted_users.include?(user_hash)
-        command_fail(source, 'You must be an appointed "trusted user" in order to use this command.')
-      elsif @commands[command].min_args > args.length
-        command_fail(source, "Command requires #{@commands[command].min_args} parameter(s).")
+      args = sanitize_params(args) if @commands[command].needs_sanitization
+      if CONFIG['multithread-commands']
+        Thread.new { @commands[command].go(source, args, self) }
       else
-        args = sanitize_params(args) if @commands[command].needs_sanitization
-        if CONFIG['multithread-commands']
-          Thread.new { @commands[command].go(source, args, self) }
-        else
-          @commands[command].go(source, args, self)
-        end
+        @commands[command].go(source, args, self)
       end
     end
   end

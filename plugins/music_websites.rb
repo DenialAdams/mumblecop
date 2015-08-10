@@ -15,7 +15,7 @@ class Youtube < Plugin
     format = '-f140'
     format = '-f141' if @quality == :high || args.include?('high')
     format = '-f140' if args.include?('normal')
-    Open3.popen3('youtube-dl', '--prefer-insecure', '-i', format, '-q', '--no-warnings', '-ge', "#{args[0]}") do |_stdin, stdout, stderr|
+    Open3.popen3('youtube-dl', '--prefer-insecure', '--no-cache-dir', '-i', format, '-q', '--no-warnings', '-ge', "#{args[0]}") do |_stdin, stdout, stderr|
       result = stdout.read.chomp
       error = stderr.read.chomp
     end
