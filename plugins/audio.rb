@@ -198,7 +198,7 @@ end
 class Remove < Plugin
   def initialize
     super
-    @help_text = 'Remove the Xth song added to the queue - remove [X]. No parameters removes the last added song.'
+    @help_text = 'Remove the Xth song added to the queue - remove (X). No parameters removes the last added song.'
     @commands = %w(remove delete)
   end
 
@@ -217,6 +217,27 @@ class Remove < Plugin
       bot.say(self, source, "Last song removed. #{bot.mpd.queue.count} song(s) left in queue.")
     else
       bot.say(self, source, 'No songs in queue.')
+    end
+  end
+end
+
+class Crop < Plugin
+  def initialize
+    super
+    @help_text = 'Removes all songs from the queue but leaves the currently playing one.'
+    @commands = %w(crop)
+  end
+
+  def go(source, _args, bot)
+    if bot.mpd.queue.count > 1
+      removed = 0
+      until bot.mpd.queue.count == 1
+        bot.mpd.delete(bot.mpd.queue.count - 1)
+        removed += 1
+      end
+      boy.say(self, source, 'Cropped off #{removed} songs.')
+    else
+      bot.say(self, source, 'Nothing to crop.')
     end
   end
 end
