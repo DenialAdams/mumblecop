@@ -19,15 +19,16 @@ class MumbleBot
   attr_accessor :commands, :mumble, :plugins, :mpd
   attr_reader :trusted_users, :blacklisted_users, :setup_completed
 
-  def initialize
+  def initialize(mumble_client = nil)
     @plugins = []
     @commands = {}
-    @mumble = Mumble::Client.new(CONFIG['address'], CONFIG['port']) do |conf|
+    mumble_client ||= Mumble::Client.new(CONFIG['address'], CONFIG['port']) do |conf|
       conf.username = CONFIG['username']
       conf.password = CONFIG['password'] if CONFIG['password']
       conf.bitrate = CONFIG['bitrate'] if CONFIG['bitrate']
       conf.sample_rate = CONFIG['sample_rate'] if CONFIG['sample_rate']
     end
+    @mumble = mumble_client
     load_plugins
     register_callbacks
   end
