@@ -91,15 +91,6 @@ class MumbleBot
     end
   end
 
-  def command_fail(source, text)
-    if source[0] == :user
-      say_to_user(source[1], text)
-    else
-      say_to_channel(source[1], text)
-    end
-    1
-  end
-
   def load_plugins
     Dir['./plugins/*.rb'].each { |file| require file }
     Plugin.plugins.each do |klass|
@@ -110,6 +101,49 @@ class MumbleBot
       plugin.commands.each do |command|
         @commands[command] = plugin
       end
+    end
+  end
+
+  def reload_permissions
+    @trusted_users = File.readlines('trusted-users.txt').map(&:chomp)
+    @blacklisted_users = File.readlines('blacklisted-users.txt').map(&:chomp)
+  end
+
+  def setup
+    @mumble.player.volume = CONFIG['initial-volume']
+    begin
+      @mumble.set_comment(CONFIG['comment_text']) if CONFIG['comment'] == :text
+    rescue
+      puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
+    end
+    reload_permissions
+    return unless CONFIG['use-mpd']
+    @mumble.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
+    @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port'], callbacks: CONFIG['mpd-callbacks']
+    @mpd.connect
+    @mpd.consume = true
+  end
+
+  def configure_plugins(list)
+    list.each do |plugin|
+      if CONFIG['plugins'] && CONFIG['plugins'][plugin.class.to_s.downcase]
+        CONFIG['plugins'][plugin.class.to_s.downcase].each do |option, value|
+          plugin.instance_variable_set("@#{option}", value)
+        end
+      end
+      plugin.setup(self)
+    end
+  end
+
+  private
+
+  def register_callbacks
+    @mumble.on_text_message do |message|
+      process_message(message)
+    end
+    @mumble.on_connected do
+      setup
+      @setup_completed = true
     end
   end
 
@@ -182,47 +216,16 @@ class MumbleBot
     end
   end
 
-  def reload_permissions
-    @trusted_users = File.readlines('trusted-users.txt').map(&:chomp)
-    @blacklisted_users = File.readlines('blacklisted-users.txt').map(&:chomp)
-  end
-
-  def setup
-    @mumble.player.volume = CONFIG['initial-volume']
-    begin
-      @mumble.set_comment(CONFIG['comment_text']) if CONFIG['comment'] == :text
-    rescue
-      puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
+  def command_fail(source, text)
+    if source[0] == :user
+      say_to_user(source[1], text)
+    else
+      say_to_channel(source[1], text)
     end
-    reload_permissions
-    return unless CONFIG['use-mpd']
-    @mumble.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
-    @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port'], callbacks: CONFIG['mpd-callbacks']
-    @mpd.connect
-    @mpd.consume = true
-  end
-
-  def configure_plugins(list)
-    list.each do |plugin|
-      if CONFIG['plugins'] && CONFIG['plugins'][plugin.class.to_s.downcase]
-        CONFIG['plugins'][plugin.class.to_s.downcase].each do |option, value|
-          plugin.instance_variable_set("@#{option}", value)
-        end
-      end
-      plugin.setup(self)
-    end
-  end
-
-  def register_callbacks
-    @mumble.on_text_message do |message|
-      process_message(message)
-    end
-    @mumble.on_connected do
-      setup
-      @setup_completed = true
-    end
+    1
   end
 end
+
 mumblecop = MumbleBot.new
 mumblecop.mumble.connect
 sleep(0.1) until mumblecop.setup_completed
