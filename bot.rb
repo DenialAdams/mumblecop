@@ -111,11 +111,7 @@ class MumbleBot
 
   def setup
     @mumble.player.volume = CONFIG['initial-volume']
-    begin
-      @mumble.set_comment(CONFIG['comment_text']) if CONFIG['comment'] == :text
-    rescue
-      puts 'ERROR: Failed to set comment. Does your version of mumble-ruby support this feature?'
-    end
+    @mumble.set_comment(CONFIG['comment_text']) if CONFIG['comment'] == :text
     reload_permissions
     return unless CONFIG['use-mpd']
     @mumble.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
