@@ -67,8 +67,9 @@ class MumbleBot
 
   def say_to_channel(channel, text)
     @mumble.text_channel(channel, text)
-  rescue
+  rescue => e
     puts "ERROR: Failed to message channel with ID of #{channel}. Invalid channel?"
+    puts e.message
     return 1
   end
 
@@ -76,6 +77,7 @@ class MumbleBot
     @mumble.text_user(id, text)
   rescue
     puts "ERROR: Failed to message user with ID of #{id}. Invalid user?"
+    puts e.message
     return 1
   end
 
