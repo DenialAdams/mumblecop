@@ -75,7 +75,7 @@ class MumbleBot
 
   def say_to_user(id, text)
     @mumble.text_user(id, text)
-  rescue
+  rescue => e
     puts "ERROR: Failed to message user with ID of #{id}. Invalid user?"
     puts e.message
     return 1
