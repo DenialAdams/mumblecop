@@ -21,6 +21,10 @@ class Youtube < Plugin
     end
     # Split the result into the title (0) and the stream (1)
     result = result.split("\n")
+    if CONFIG['debug']
+      bot.say(self, source, result[0])
+      bot.say(self, source, result[1])
+    end
     bot.mpd.add(result[1])
     # MPD doesn't like quotes in the track for send_command so as a hack we change them to single quotes
     result[0].tr!('"', "'")
@@ -52,6 +56,7 @@ class Soundcloud < Plugin
       result = stdout.read.chomp
       error = stderr.read.chomp
     end
+    bot.mpd.say(self, source, result) if CONFIG['debug']
     bot.mpd.add(result)
     bot.mpd.send_command('addtagid', bot.mpd.queue.last.id, 'albumartist', bot.get_username_from_source(source))
     bot.mpd.play if bot.mpd.stopped?
