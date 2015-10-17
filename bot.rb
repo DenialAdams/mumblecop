@@ -133,6 +133,33 @@ class MumbleBot
     end
   end
 
+  # error codes:
+  # 1: invalid command
+  # 2: command disabled
+  # 3: user blacklisted
+  # 4: command requires trusted status
+  # 5: minimum arguments not satisfied
+  def run_command(command, args, source)
+    return 1 if @commands[command].nil?
+    user_hash = get_hash_from_source(source)
+    if !@commands[command].enabled
+      return 2
+    elsif @blacklisted_users.include?(user_hash) && !@commands[command].ignore_blacklist
+      return 3
+    elsif @commands[command].condition == :trusted && !@trusted_users.include?(user_hash)
+      return 4
+    elsif @commands[command].min_args > args.length
+      return 5
+    else
+      args = sanitize_params(args) if @commands[command].needs_sanitization
+      if CONFIG['multithread-commands']
+        Thread.new { @commands[command].go(source, args, self) }
+      else
+        @commands[command].go(source, args, self)
+      end
+    end
+  end
+
   private
 
   def register_callbacks
@@ -190,27 +217,22 @@ class MumbleBot
         command_fail(source, 'A command is required proceeding a mumblecop trigger')
         next
       end
-      process_command(args.delete_at(0).downcase, args, source, get_hash_from_id(message.actor))
+      process_command(args.delete_at(0).downcase, args, source)
     end
   end
 
-  def process_command(command, args, source, user_hash)
-    return command_fail(source, 'Command not found.') if @commands[command].nil?
-    if !@commands[command].enabled
+  def process_command(command, args, source)
+    case run_command(command, args, source)
+    when 1
+      command_fail(source, 'Command not found.')
+    when 2
       command_fail(source, 'Command is currently disabled. Ask an administrator for details.')
-    elsif @blacklisted_users.include?(user_hash) && !@commands[command].ignore_blacklist
+    when 3
       command_fail(source, 'You have been banned from mumblecop usage on this server.')
-    elsif @commands[command].condition == :trusted && !@trusted_users.include?(user_hash)
+    when 4
       command_fail(source, 'You must be a trusted user in order to use this command.')
-    elsif @commands[command].min_args > args.length
+    when 5
       command_fail(source, "Command requires #{@commands[command].min_args} parameter(s).")
-    else
-      args = sanitize_params(args) if @commands[command].needs_sanitization
-      if CONFIG['multithread-commands']
-        Thread.new { @commands[command].go(source, args, self) }
-      else
-        @commands[command].go(source, args, self)
-      end
     end
   end
 
