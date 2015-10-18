@@ -139,7 +139,7 @@ class MumbleBot
   # 3: user blacklisted
   # 4: command requires trusted status
   # 5: minimum arguments not satisfied
-  def run_command(command, args, source)
+  def run_command(command, args, source, multithread: CONFIG['multithread-commands'])
     return 1 if @commands[command].nil?
     user_hash = get_hash_from_source(source)
     if !@commands[command].enabled
@@ -152,7 +152,7 @@ class MumbleBot
       return 5
     else
       args = sanitize_params(args) if @commands[command].needs_sanitization
-      if CONFIG['multithread-commands']
+      if multithread
         Thread.new { @commands[command].go(source, args, self) }
       else
         @commands[command].go(source, args, self)
