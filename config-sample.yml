@@ -15,6 +15,7 @@ default-plugin-condition: :all
 verbose-chat-log: false
 multithread-commands: true
 mpd-callbacks: true
+debug: false
 plugins:
   volume:
     min_volume: 5 
