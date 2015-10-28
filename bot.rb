@@ -12,6 +12,7 @@ begin
 rescue Errno::ENOENT
   abort 'config.yml not found. Copy, edit and rename config-sample.yml if this has not yet been done.'
 end
+
 STDOUT.sync = true
 
 # The mumblebot recieves and validates commands, then proceeds to pass those off to plugins.
