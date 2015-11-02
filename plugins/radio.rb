@@ -5,17 +5,17 @@ class Radio < Plugin
     @help_text = 'Start streaming from online radio'
     @min_args = 0
     @commands = %w(radio)
-    @radios = {}
+    @stations = {}
   end
 
   def setup(_bot)
-    @enabled = false if @radios.empty?
+    @enabled = false if @stations.empty?
   end
 
   def go(source, args, bot)
     if args.empty?
       bot.say(self, source, 'Available radio stations: ')
-      @radios.each_key do |key|
+      @stations.each_key do |key|
         bot.say(self, source, key)
       end
       return 0
@@ -23,12 +23,12 @@ class Radio < Plugin
 
     station = args[0]
 
-    if @radios[station].nil?
+    if @stations[station].nil?
       bot.say(self, source, 'Radio not found. Use no arguments to view radio list.')
       return 0
     end
 
-    bot.mpd.add(@radios[station])
+    bot.mpd.add(@stations[station])
     bot.mpd.play if bot.mpd.stopped?
   rescue => e
     bot.say(self, source, 'Failed to play stream. Is it down?')
