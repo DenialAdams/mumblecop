@@ -1,9 +1,13 @@
 #!/usr/bin/env ruby
 
+# used for our config file
 require 'yaml'
+# the basis of the whole application
 require 'mumble-ruby'
+# used for sanitizing arguments passed to plugins (when set in the plugin)
 require 'sanitize'
 require 'active_support/core_ext/string'
+# used for all audio related features
 require 'ruby-mpd'
 require_relative 'plugins'
 

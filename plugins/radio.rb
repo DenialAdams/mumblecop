@@ -2,13 +2,14 @@
 class Radio < Plugin
   def initialize
     super
-    @help_text = 'Start streaming from online radio'
+    @help_text = 'Start streaming from an online radio station.'
     @min_args = 0
     @commands = %w(radio)
     @stations = {}
   end
 
   def setup(_bot)
+    # The radio plugin is useless with no stations, so we just disable ourselves
     @enabled = false if @stations.empty?
   end
 
@@ -24,14 +25,14 @@ class Radio < Plugin
     station = args[0]
 
     if @stations[station].nil?
-      bot.say(self, source, 'Radio not found. Use no arguments to view radio list.')
-      return 0
+      bot.say(self, source, 'Station not found. Use no arguments to view the station list.')
+      return 1
     end
 
     bot.mpd.add(@stations[station])
     bot.mpd.play if bot.mpd.stopped?
   rescue => e
-    bot.say(self, source, 'Failed to play stream. Is it down?')
+    bot.say(self, source, 'Failed to play station. Is it down?')
     bot.say(self, source, e.message)
     return 1
   end
