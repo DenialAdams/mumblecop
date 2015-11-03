@@ -49,7 +49,7 @@ class QueueCommand < Plugin
     bot.say(self, source, "#{bot.mpd.queue.count} song(s) in queue.")
     if args.include?('list')
       bot.mpd.queue.each_with_index do |song, index|
-        if index == 0
+        if index.zero?
           bot.say(self, source, "#{song.title} | Now Playing")
         else
           bot.say(self, source, "#{song.title} | #{index + 1}")

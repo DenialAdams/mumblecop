@@ -10,7 +10,7 @@ class AutoAfk < Plugin
 
   def setup(bot)
     bot.mumble.on_user_stats do |stats|
-      break if bot.mumble.users.length == 0
+      break if bot.mumble.users.length.zero?
       if stats.idlesecs > @max_idle_seconds
         bot.mumble.send_user_state(session: stats.session, channel_id: @afk_channel_id)
       elsif stats.idlesecs > @max_idle_seconds - @idle_warning_time && @idle_warning
