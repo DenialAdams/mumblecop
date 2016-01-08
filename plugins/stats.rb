@@ -3,7 +3,7 @@ class Uptime < Plugin
   def initialize
     super
     @commands = %w(uptime ut)
-    @help_text = 'Stats about the server uptime'
+    @help_text = 'Stats about the server uptime - note that this is for the server as a whole, not mumblecop exclusively'
     @enabled = false if Gem.win_platform?
   end
 
