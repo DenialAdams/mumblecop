@@ -59,6 +59,11 @@ class MumbleBot
   end
 
   def get_hash_from_source(source)
+    # we don't want to modify the source when pulling the hash
+    source = source.clone
+    while source[0] == :plugin
+      source.shift(2)
+    end
     if source[0] == :channel
       @mumble.users[source[2]].hash
     else
@@ -87,7 +92,9 @@ class MumbleBot
   end
 
   def say(plugin, source, text)
-    if plugin.response == :user || plugin.response == :auto && source[0] == :user
+    if source[0] == :plugin
+      source[1].on_text_received(self, source, text)
+    elsif plugin.response == :user || plugin.response == :auto && source[0] == :user
       if source[0] == :channel
         say_to_user(source[2], text)
       else
@@ -144,23 +151,30 @@ class MumbleBot
   # 3: user blacklisted
   # 4: command requires trusted status
   # 5: minimum arguments not satisfied
-  def run_command(command, args, source, multithread: CONFIG['multithread-commands'])
-    return 1 if @commands[command].nil?
+  def run_command(command, args, source, multithread: false, obey_source_permissions: true, obey_enabled_status: true)
+    # we return everything in the form of [code, result]
+    # returning 0 only means the command was called successfully, it can still fail
+    return [1, nil] if @commands[command].nil?
     user_hash = get_hash_from_source(source)
-    if !@commands[command].enabled
-      return 2
-    elsif @blacklisted_users.include?(user_hash) && !@commands[command].ignore_blacklist
-      return 3
-    elsif @commands[command].condition == :trusted && !@trusted_users.include?(user_hash)
-      return 4
+    if !@commands[command].enabled && obey_enabled_status
+      return [2, nil]
+    elsif @blacklisted_users.include?(user_hash) && !@commands[command].ignore_blacklist && obey_source_permissions
+      return [3, nil]
+    elsif @commands[command].condition == :trusted && !@trusted_users.include?(user_hash) && obey_source_permissions
+      return [4, nil]
     elsif @commands[command].min_args > args.length
-      return 5
+      return [5, nil]
     else
       args = sanitize_params(args) if @commands[command].needs_sanitization
       if multithread
-        Thread.new { @commands[command].go(source, args, self) }
+        result = nil
+        Thread.new do
+          result = @commands[command].go(source, args, self)
+        end
+        return [0, result]
       else
-        @commands[command].go(source, args, self)
+        result = @commands[command].go(source, args, self)
+        return [0, result]
       end
     end
   end
@@ -227,7 +241,7 @@ class MumbleBot
   end
 
   def process_command(command, args, source)
-    case run_command(command, args, source)
+    case run_command(command, args, source, multithread: CONFIG['multithread-commands'])[0]
     when 1
       command_fail(source, 'Command not found.')
     when 2

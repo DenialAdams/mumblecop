@@ -46,4 +46,8 @@ class Plugin
   def update(_bot)
     # stub for now
   end
+
+  def on_text_received(bot, source, text)
+    bot.say(self, source[2], text)
+  end
 end
