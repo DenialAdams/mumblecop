@@ -167,11 +167,11 @@ class MumbleBot
     else
       args = sanitize_params(args) if @commands[command].needs_sanitization
       if multithread
-        result = nil
         Thread.new do
-          result = @commands[command].go(source, args, self)
+          @commands[command].go(source, args, self)
         end
-        return [0, result]
+        # the result can not be relied upon if using multithreading
+        return [0, nil]
       else
         result = @commands[command].go(source, args, self)
         return [0, result]
