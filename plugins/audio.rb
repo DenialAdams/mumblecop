@@ -79,12 +79,12 @@ class Repeat < Plugin
       else
         bot.say(self, source, 'Repeat is currently off')
       end
-    elsif args[0].downcase == 'off'
+    elsif args[0].casecmp('off')
       bot.mpd.repeat = false
       bot.mpd.single = false
       bot.mpd.consume = true
       bot.say(self, source, 'Repeat off')
-    elsif args[0].downcase == 'on'
+    elsif args[0].casecmp('on')
       bot.mpd.repeat = true
       bot.mpd.single = true
       bot.mpd.consume = false
@@ -116,13 +116,13 @@ class Volume < Plugin
 
   def go(source, args, bot)
     if args[0]
-      if args[0][0] == '-'
-        new_volume = bot.mumble.player.volume - args[0].to_i.abs
-      elsif args[0][0] == '+'
-        new_volume = bot.mumble.player.volume + args[0].to_i.abs
-      else
-        new_volume = args[0].to_i
-      end
+      new_volume = if args[0][0] == '-'
+                     bot.mumble.player.volume - args[0].to_i.abs
+                   elsif args[0][0] == '+'
+                     bot.mumble.player.volume + args[0].to_i
+                   else
+                     args[0].to_i
+                   end
       if new_volume > @max_volume
         bot.say(self, source, "Volume can not exceed #{@max_volume}. Set to #{@max_volume}.")
         bot.mumble.player.volume = @max_volume
@@ -173,11 +173,7 @@ class Crossfade < Plugin
     if args[0]
       bot.mpd.crossfade = args[0].to_i
     else
-      if bot.mpd.crossfade.nil?
-        crossfade = 0
-      else
-        crossfade = bot.mpd.crossfade
-      end
+      crossfade = bot.mpd.crossfade || 0
       bot.say(self, source, "The crossfade is currently set to #{crossfade} seconds.")
     end
   end

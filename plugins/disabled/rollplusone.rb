@@ -11,10 +11,10 @@ class RollPlusOne < Plugin
 
   def go(source, args, bot)
     # We are directly using the result so we want to disable multithreading (this is also the default for plugin calls)
-    result = bot.run_command("roll", args, [:plugin, self, source], multithread: false)
+    result = bot.run_command('roll', args, [:plugin, self, source], multithread: false)
     # no fancy error handling, this is just a sample. result[0] gives error codes, see docs / bot.rb
-    return if result[1] == nil
-    bot.say(self, source, "#{result[1].total+1}")
+    return if result[1].nil?
+    bot.say(self, source, (result[1].total + 1).to_s)
   end
 
   def on_text_received(bot, source, text)
