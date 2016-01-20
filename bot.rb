@@ -129,6 +129,7 @@ class MumbleBot
     @mumble.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
     @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port'], callbacks: CONFIG['mpd-callbacks']
     @mpd.connect
+    STDERR.puts 'WARNING: Your MPD version is detected to be very out of date and will likely not work properly.' if @mpd.version.to_f < 0.19
     @mpd.consume = true
   end
 
@@ -164,7 +165,7 @@ class MumbleBot
         begin
           @commands[command].go(source, command, args, self)
         rescue ArgumentError
-          STDERR.puts "WARN: Plugin '#{@commands[command].class.name}' needs to be updated with the new go message signature or it will cease to function in an upcoming release."
+          STDERR.puts "WARNING: Plugin '#{@commands[command].class.name}' needs to be updated with the new go message signature or it will cease to function in an upcoming release."
           @commands[command].go(source, args, self)
         end
       end
