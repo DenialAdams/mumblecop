@@ -1,7 +1,8 @@
+# Plugin that allows the bot to be moved to another channel
 class Goto < Plugin
   def initialize
     super
-    @help_text = 'Send mumblecop to another channel.'
+    @help_text = "Send #{CONFIG['username']} to another channel."
     @min_args = 1
     @commands = %w(goto gt)
   end
