@@ -39,12 +39,12 @@ class Plugin
     # Intended for plugins that only need to run something only once.
   end
 
-  def go(_source, _args, _bot)
-    # stub for now
+  def go(_source, _command, _args, _bot)
+    # This is called when the user calls the command
   end
 
   def update(_bot)
-    # stub for now
+    # This is called on a recurring basis
   end
 
   def on_text_received(bot, source, text)
