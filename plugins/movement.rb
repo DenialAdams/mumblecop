@@ -1,7 +1,7 @@
 class Goto < Plugin
   def initialize
     super
-    @help_text = 'Send mumblecop away to another channel. Poor mumblecop :('
+    @help_text = 'Send mumblecop to another channel.'
     @min_args = 1
     @commands = %w(goto gt)
   end
