@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+abort 'ERROR: Mumblecop requires Ruby version 2.0 or greater to run.' if RUBY_VERSION.to_f < 2.0
+
 # used for our config file
 require 'yaml'
 # the basis of the whole application
@@ -14,7 +16,7 @@ require_relative 'plugins'
 begin
   CONFIG = YAML.load_file('config.yml') unless defined? CONFIG
 rescue Errno::ENOENT
-  abort 'config.yml not found. Copy, edit and rename config-sample.yml if this has not yet been done.'
+  abort 'ERROR: config.yml not found. Copy, edit and rename config-sample.yml if this has not yet been done.'
 end
 
 STDOUT.sync = true
