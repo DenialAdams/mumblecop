@@ -9,7 +9,7 @@ class Youtube < Plugin
     @quality = :normal
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     result = nil
     error = 'No youtube-dl error'
     format = '-f140'
@@ -49,7 +49,7 @@ class Soundcloud < Plugin
     @min_args = 1
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     result = nil
     error = 'No youtube-dl error'
     Open3.popen3('youtube-dl', '--prefer-insecure', '-i', '-g', '-q', '--no-warnings', (args[0]).to_s, '-f', 'mp3') do |_stdin, stdout, stderr|

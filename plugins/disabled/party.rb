@@ -18,7 +18,7 @@ class Party < Plugin
     bot.commands['youtube'].go([:user, bot.mumble.me], @party_music.sample.split(' '), bot)
   end
 
-  def go(source, _args, bot)
+  def go(source, _command, _args, bot)
     bot.say(self, source, @party_time.to_s)
   end
 

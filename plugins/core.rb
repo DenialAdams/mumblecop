@@ -5,7 +5,7 @@ class Commands < Plugin
     @commands = %w(commands)
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     if args[0] == 'all' || args[0] == 'aliases'
       bot.say(self, source, bot.commands.keys.sort.to_s)
     else
@@ -25,7 +25,7 @@ class Help < Plugin
     @commands = %w(help)
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     if args[0]
       if bot.commands[args[0]].nil?
         bot.say(self, source, 'Command you requested help on is not found.')
@@ -47,7 +47,7 @@ class Refresh < Plugin
     @commands = %w(reload)
   end
 
-  def go(source, _args, bot)
+  def go(source, _command, _args, bot)
     bot.mumble.player.volume = CONFIG['initial-volume']
     begin
       bot.mumble.set_comment(CONFIG['comment_text']) if CONFIG['comment'] == :text

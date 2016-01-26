@@ -13,7 +13,7 @@ class UrlToImg < Plugin
     @max_size = 128
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     url = args[0]
     url = 'http://' + url unless url.start_with?('http://', 'https://')
     uri = URI(url)

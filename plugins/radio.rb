@@ -13,7 +13,7 @@ class Radio < Plugin
     @enabled = false if @stations.empty?
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     if args.empty?
       bot.say(self, source, 'Available radio stations: ')
       @stations.each_key do |key|

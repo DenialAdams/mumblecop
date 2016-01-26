@@ -5,7 +5,7 @@ class GetDateTime < Plugin
     @commands = %w(date time)
   end
 
-  def go(source, _args, bot)
+  def go(source, _command, _args, bot)
     bot.say(self, source, Time.now.to_s)
   end
 end
@@ -18,7 +18,7 @@ class GetUserHash < Plugin
     @min_args = 1
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     hash = bot.mumble.find_user(args[0]).hash
     if !hash.is_a?(String)
       bot.say(self, source, 'Invalid username or user is not registered')

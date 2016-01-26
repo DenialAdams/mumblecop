@@ -9,7 +9,7 @@ class RollPlusOne < Plugin
     @help_text = 'Roll some dice and add one- 4d5 - see the dicebag ruby gem online for formatting.'
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     # We are directly using the result so we want to disable multithreading (this is also the default for plugin calls)
     result = bot.run_command('roll', args, [:plugin, self, source], multithread: false)
     # no fancy error handling, this is just a sample. result[0] gives error codes, see docs / bot.rb

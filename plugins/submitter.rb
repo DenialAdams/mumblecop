@@ -6,7 +6,7 @@ class Submitter < Plugin
     @commands = %w(submitter blame)
   end
 
-  def go(source, _args, bot)
+  def go(source, _command, _args, bot)
     current_song = bot.mpd.current_song
     if current_song.nil?
       bot.say(self, source, 'No song currently playing.')

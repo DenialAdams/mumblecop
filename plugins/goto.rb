@@ -7,7 +7,7 @@ class Goto < Plugin
     @commands = %w(goto gt)
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     bot.mumble.join_channel(args.join(' '))
   rescue
     bot.say(self, source, 'Failed to join that channel. Check permissions / if that channel exists.')

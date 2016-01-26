@@ -7,7 +7,7 @@ class Uptime < Plugin
     @enabled = false if Gem.win_platform?
   end
 
-  def go(source, _args, bot)
+  def go(source, _command, _args, bot)
     bot.say(self, source, `uptime`)
   end
 end

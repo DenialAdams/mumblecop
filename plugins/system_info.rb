@@ -6,7 +6,7 @@ class SystemInfo < Plugin
     @help_text = 'Info about the server and ruby version'
   end
 
-  def go(source, _args, bot)
+  def go(source, _command, _args, bot)
     begin
       bot.say(self, source, `uname -a`) unless Gem.win_platform?
     rescue

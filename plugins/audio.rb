@@ -6,7 +6,7 @@ class Seek < Plugin
     @commands = %w(seek)
   end
 
-  def go(_source, args, bot)
+  def go(_source, _command, args, bot)
     time = args[0].to_i
     bot.mpd.seek(time) if bot.mpd.playing?
   end
@@ -19,7 +19,7 @@ class WhatsPlaying < Plugin
     @commands = %w(playing)
   end
 
-  def go(source, _args, bot)
+  def go(source, _command, _args, bot)
     song = bot.mpd.current_song
     unless song
       bot.say(self, source, 'No song currently playing.')
@@ -45,7 +45,7 @@ class QueueCommand < Plugin
     @commands = %w(queue q)
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     bot.say(self, source, "#{bot.mpd.queue.count} song(s) in queue.")
     if args.include?('list')
       bot.mpd.queue.each_with_index do |song, index|
@@ -72,7 +72,7 @@ class Repeat < Plugin
     @commands = %w(repeat)
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     if !args[0]
       if bot.mpd.repeat? == true
         bot.say(self, source, 'Repeat is currently on')
@@ -100,7 +100,7 @@ class Next < Plugin
     @commands = %w(next advance)
   end
 
-  def go(_source, _args, bot)
+  def go(_source, _command, _args, bot)
     bot.mpd.next
   end
 end
@@ -114,7 +114,7 @@ class Volume < Plugin
     @min_volume = 0
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     if args[0]
       new_volume = if args[0][0] == '-'
                      bot.mumble.player.volume - args[0].to_i.abs
@@ -145,7 +145,7 @@ class Clear < Plugin
     @commands = %w(clear)
   end
 
-  def go(_source, _args, bot)
+  def go(_source, _command, _args, bot)
     bot.mpd.clear
   end
 end
@@ -157,7 +157,7 @@ class Pause < Plugin
     @commands = %w(pause)
   end
 
-  def go(_source, _args, bot)
+  def go(_source, _command, _args, bot)
     bot.mpd.pause = true
   end
 end
@@ -169,7 +169,7 @@ class Crossfade < Plugin
     @commands = %w(crossfade)
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     if args[0]
       bot.mpd.crossfade = args[0].to_i
     else
@@ -183,10 +183,10 @@ class Resume < Plugin
   def initialize
     super
     @help_text = 'Resume the currently playing song'
-    @commands = %w(resume)
+    @commands = %w(resume unpause)
   end
 
-  def go(_source, _args, bot)
+  def go(_source, _command, _args, bot)
     bot.mpd.pause = false
   end
 end
@@ -198,7 +198,7 @@ class Remove < Plugin
     @commands = %w(remove delete)
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     if args[0]
       args[0] = args[0].to_i
       if args[0] <= bot.mpd.queue.count && args[0] > 0
@@ -224,7 +224,7 @@ class Crop < Plugin
     @commands = %w(crop)
   end
 
-  def go(source, _args, bot)
+  def go(source, _command, _args, bot)
     if bot.mpd.queue.count > 1
       removed = 0
       until bot.mpd.queue.count == 1

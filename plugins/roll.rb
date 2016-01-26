@@ -9,7 +9,7 @@ class Roll < Plugin
     @help_text = 'Roll some dice - 4d5 - see the dicebag ruby gem online for formatting.'
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     result = DiceBag::Roll.new(args.join(' ')).result
     bot.say(self, source, result.to_s)
     return result

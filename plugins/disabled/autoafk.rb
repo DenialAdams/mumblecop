@@ -1,4 +1,5 @@
 # Plugin to auto-move inactive users to a specified channel
+# Very buggy for now, use at your own risk
 class AutoAfk < Plugin
   def initialize
     super

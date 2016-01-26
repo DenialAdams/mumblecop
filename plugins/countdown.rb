@@ -6,7 +6,7 @@ class Countdown < Plugin
     @min_args = 1
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     end_number = args[0].to_i
     interval = args[1] || 1
     if end_number > 0

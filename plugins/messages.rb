@@ -6,7 +6,7 @@ class Say < Plugin
     @help_text = "Have mumblecop say something in it's current channel - say [message]"
   end
 
-  def go(_source, args, bot)
+  def go(_source, _command, args, bot)
     bot.say_to_current_channel(args.join(' '))
   end
 end
@@ -19,7 +19,7 @@ class Whisper < Plugin
     @help_text = 'Send a whisper from mumblecop to target user - whisper [user] [message]'
   end
 
-  def go(source, args, bot)
+  def go(source, _command, args, bot)
     user = args[0]
     args.delete_at(0)
     text = args.join(' ')
