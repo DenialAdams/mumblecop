@@ -35,3 +35,19 @@ class Follow < Plugin
     bot.mumble.join_channel(following_channel) if following_channel != bot.current_channel
   end
 end
+
+# Causes the bot to come to the user's channel but not follow him
+class Bring < Plugin
+  def initialize
+    super
+    @help_text = "Bring #{CONFIG['name']} to your current channel."
+    @commands = %w(bring come)
+    @min_args = 1
+  end
+
+  def go(_source, _command, args, bot)
+    user = bot.mumble.users[args[0]].clone
+    return unless user
+    bot.mumble.join_channel(user.channel_id)
+  end
+end
