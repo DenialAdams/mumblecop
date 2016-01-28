@@ -128,6 +128,7 @@ class MumbleBot
     @mumble.set_comment(CONFIG['comment_text']) if CONFIG['comment'] == :text
     reload_permissions
     return unless CONFIG['use-mpd']
+    abort 'ERROR: use-mpd set to on but fifo pipe as specified in fifo-pipe location does not seem to exist. Is mpd running and is fifo-pipe-location set correctly?' unless File.exist?(CONFIG['fifo-pipe-location'])
     @mumble.player.stream_named_pipe(CONFIG['fifo-pipe-location'])
     @mpd = MPD.new CONFIG['mpd-address'], CONFIG['mpd-port'], callbacks: CONFIG['mpd-callbacks']
     @mpd.connect
