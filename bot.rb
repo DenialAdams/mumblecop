@@ -8,9 +8,11 @@ require 'yaml'
 require 'mumble-ruby'
 # used for sanitizing arguments passed to plugins (when set in the plugin)
 require 'sanitize'
-require 'active_support/core_ext/string'
+# used by mumblecop to test if commands are blank
+require 'active_support/core_ext/object/blank'
 # used for all audio related features
 require 'ruby-mpd'
+# mumblecop plugins file (not gem)
 require_relative 'plugins'
 
 begin
