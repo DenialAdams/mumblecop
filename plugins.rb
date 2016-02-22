@@ -30,7 +30,7 @@ class Plugin
     # allows some core plugins to be used by blacklisted users
     # generally set by a server admin, not by plugins themselves
     @ignore_blacklist = false
-    # none, vote, trusted, trustedvote
+    # none, vote, registered, registeredvote, trusted, trustedvote
     @condition = CONFIG['default-plugin-condition']
   end
 

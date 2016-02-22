@@ -73,6 +73,16 @@ class MumbleBot
     end
   end
 
+  def get_user_id_from_source(source)
+    source = source.clone
+    source.shift(2) while source[0] == :plugin
+    if source[0] == :channel
+      @mumble.users[source[2]].user_id
+    else
+      @mumble.users[source[1]].user_id
+    end
+  end
+
   def say_to_current_channel(text)
     say_to_channel(current_channel, text)
   end
@@ -152,18 +162,20 @@ class MumbleBot
   # error codes:
   # 1: invalid command
   # 2: command disabled
-  # 3: user blacklisted
-  # 4: command requires trusted status
-  # 5: minimum arguments not satisfied
+  # 3: command requires registered status and user not registered
+  # 4: user is blacklisted
+  # 5: command requires trusted status and user not trusted
+  # 6: minimum arguments not satisfied
   def run_command(command, args, source, multithread: false, obey_source_permissions: true, obey_enabled_status: true)
     # we return everything in the form of [code, result]
     # returning 0 only means the command was _called_ successfully, it can still fail
     return [1, nil] if @commands[command].nil?
     return [2, nil] if !@commands[command].enabled && obey_enabled_status
-    return [5, nil] if @commands[command].min_args > args.length
+    return [6, nil] if @commands[command].min_args > args.length
+    return [3, nil] if @commands[command].condition == :registered && get_user_id_from_source(source).nil?
     user_hash = get_hash_from_source(source)
-    return [3, nil] if @blacklisted_users.include?(user_hash) && !commands[command].ignore_blacklist && obey_source_permissions
-    return [4, nil] if @commands[command].condition == :trusted && !@trusted_users.include?(user_hash) && obey_source_permissions
+    return [4, nil] if @blacklisted_users.include?(user_hash) && !commands[command].ignore_blacklist && obey_source_permissions
+    return [5, nil] if @commands[command].condition == :trusted && !@trusted_users.include?(user_hash) && obey_source_permissions
     args = sanitize_params(args) if @commands[command].needs_sanitization
     if multithread
       Thread.new do

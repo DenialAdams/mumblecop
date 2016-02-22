@@ -21,7 +21,7 @@ class GetUserHash < Plugin
   def go(source, _command, args, bot)
     hash = bot.mumble.find_user(args[0]).hash
     if !hash.is_a?(String)
-      bot.say(self, source, 'Invalid username or user is not registered')
+      bot.say(self, source, 'Invalid username.')
     else
       bot.say(self, source, hash)
     end
