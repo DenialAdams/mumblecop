@@ -267,10 +267,12 @@ class MumbleBot
     when 2
       command_fail(source, 'Command is currently disabled. Ask an administrator for details.')
     when 3
-      command_fail(source, 'You have been banned from mumblecop usage on this server.')
+      command_fail(source, 'You must be a registered user in order to use this command.')
     when 4
-      command_fail(source, 'You must be a trusted user in order to use this command.')
+      command_fail(source, 'You have been banned from mumblecop usage on this server.')
     when 5
+      command_fail(source, 'You must be a trusted user in order to use this command.')
+    when 6
       command_fail(source, "Command requires #{@commands[command].min_args} parameter(s).")
     end
   end
