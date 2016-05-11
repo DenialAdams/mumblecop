@@ -13,7 +13,7 @@ class Stream < Plugin
   def go(source, _command, args, bot)
     bot.mpd.add(args[0])
     bot.mpd.play if bot.mpd.stopped?
-    bot.say(self, source, "Given URL added to mpd queue.")
+    bot.say(self, source, 'Given URL added to mpd queue.')
   rescue => e
     bot.say(self, source, 'Failed to play from URL.')
     bot.say(self, source, e.message)

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-abort 'ERROR: Mumblecop requires Ruby version 2.0 or greater to run.' if RUBY_VERSION.to_f < 2.0
+abort 'ERROR: Mumblecop requires Ruby version 2.0 or greater to run.' if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.0')
 
 # used for our config file
 require 'yaml'
