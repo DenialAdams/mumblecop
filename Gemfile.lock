@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (4.2.5.1)
+    activesupport (4.2.6)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -9,10 +9,10 @@ GEM
       tzinfo (~> 1.1)
     blankslate (3.1.3)
     crass (1.0.2)
-    dicebag (3.1.0)
-      parslet (>= 1.4.0)
+    dicebag (3.2.2)
+      parslet (~> 1.4, >= 1.4.0)
     ffi (1.9.10)
-    hashie (3.4.3)
+    hashie (3.4.4)
     i18n (0.7.0)
     json (1.8.3)
     mini_portile2 (2.0.0)
@@ -40,7 +40,7 @@ GEM
     thread_safe (0.3.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    wavefile (0.6.0)
+    wavefile (0.7.0)
 
 PLATFORMS
   ruby
@@ -53,4 +53,4 @@ DEPENDENCIES
   sanitize
 
 BUNDLED WITH
-   1.11.2
+   1.12.3
