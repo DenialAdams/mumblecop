@@ -20,7 +20,8 @@ class UrlToImg < Plugin
     http = Net::HTTP.new(uri.host, uri.port)
     begin
       response = http.request(
-        Net::HTTP::Get.new(uri.request_uri, 'User-Agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0'))
+        Net::HTTP::Get.new(uri.request_uri, 'User-Agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0')
+      )
       image = Base64.encode64(response.body)
       msg = '<a href="' + url + '"><img src="data:image/jpeg;base64,' + image + '"/></a>'
       size = msg.bytesize / 1024
