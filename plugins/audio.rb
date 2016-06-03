@@ -236,20 +236,24 @@ end
 class Crop < Plugin
   def initialize
     super
-    @help_text = 'Removes all songs from the queue but leaves the currently playing one.'
+    @help_text = 'Removes all songs from the queue, but leaves the currently playing one.'
     @commands = %w(crop)
   end
 
   def go(source, _command, _args, bot)
-    if bot.mpd.queue.count > 1
-      removed = 0
-      until bot.mpd.queue.count == 1
-        bot.mpd.delete(bot.mpd.queue.count - 1)
-        removed += 1
-      end
-      boy.say(self, source, 'Cropped off #{removed} songs.')
-    else
+    if bot.mpd.queue.count < 1
       bot.say(self, source, 'Nothing to crop.')
+      return 1
     end
+    bot.say(self, source, 'Cropped off #{trim} songs.')
+  end
+
+  def trim
+    removed = 0
+    until bot.mpd.queue.count == 1
+      bot.mpd.delete(bot.mpd.queue.count - 1)
+      removed += 1
+    end
+    removed
   end
 end
