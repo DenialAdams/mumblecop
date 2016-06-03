@@ -2,6 +2,7 @@ require 'base64'
 require 'net/http'
 
 # TODO: investigate https issues, resizing
+# Have mumblecop pull image and output it to chat
 class UrlToImg < Plugin
   def initialize
     super

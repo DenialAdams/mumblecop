@@ -1,3 +1,7 @@
+# Blame plugin to see who added last track
+# This relies on album artist being submitter
+# That is kind of hack but a standard I am using
+# (really no good alternative, i investigated stickers but to no avail)
 class Submitter < Plugin
   def initialize
     super

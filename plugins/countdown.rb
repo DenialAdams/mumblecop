@@ -1,3 +1,4 @@
+# Countdown, for new years etc
 class Countdown < Plugin
   def initialize
     super

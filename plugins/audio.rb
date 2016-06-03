@@ -1,3 +1,4 @@
+# Seek to given seconds in current track
 class Seek < Plugin
   def initialize
     super
@@ -12,6 +13,8 @@ class Seek < Plugin
   end
 end
 
+# What is currently playing
+# Uses mpd metadata
 class WhatsPlaying < Plugin
   def initialize
     super
@@ -38,6 +41,7 @@ class WhatsPlaying < Plugin
   end
 end
 
+# Information about play queue
 class QueueCommand < Plugin
   def initialize
     super
@@ -65,6 +69,7 @@ class QueueCommand < Plugin
   end
 end
 
+# Toggle repeat on or off
 class Repeat < Plugin
   def initialize
     super
@@ -93,6 +98,7 @@ class Repeat < Plugin
   end
 end
 
+# Next song in queue
 class Next < Plugin
   def initialize
     super
@@ -105,6 +111,10 @@ class Next < Plugin
   end
 end
 
+# Adjust playing volume
+# Note this is mumble player volume
+# mpd volume can be adjusted too
+# (but it is not touched by mumblecop)
 class Volume < Plugin
   def initialize
     super
@@ -138,6 +148,7 @@ class Volume < Plugin
   end
 end
 
+# Clear whole queue
 class Clear < Plugin
   def initialize
     super
@@ -150,6 +161,7 @@ class Clear < Plugin
   end
 end
 
+# Pause current song
 class Pause < Plugin
   def initialize
     super
@@ -162,6 +174,7 @@ class Pause < Plugin
   end
 end
 
+# Set/read mpd crossfade duration
 class Crossfade < Plugin
   def initialize
     super
@@ -179,6 +192,7 @@ class Crossfade < Plugin
   end
 end
 
+# Unpause
 class Resume < Plugin
   def initialize
     super
@@ -191,6 +205,7 @@ class Resume < Plugin
   end
 end
 
+# Remove given song from queue
 class Remove < Plugin
   def initialize
     super
@@ -217,6 +232,7 @@ class Remove < Plugin
   end
 end
 
+# Remove all songs in queue other than current
 class Crop < Plugin
   def initialize
     super

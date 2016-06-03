@@ -1,3 +1,4 @@
+# Echo something
 class Say < Plugin
   def initialize
     super
@@ -11,6 +12,7 @@ class Say < Plugin
   end
 end
 
+# Whisper something to someone
 class Whisper < Plugin
   def initialize
     super

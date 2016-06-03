@@ -1,3 +1,4 @@
+# Output all available commands
 class Commands < Plugin
   def initialize
     super
@@ -18,6 +19,7 @@ class Commands < Plugin
   end
 end
 
+# Print help using text set by plugin author
 class Help < Plugin
   def initialize
     super
@@ -40,6 +42,8 @@ class Help < Plugin
   end
 end
 
+# Reload some very basic configuration
+# Not really to be relied upon, restarting is better
 class Refresh < Plugin
   def initialize
     super

@@ -1,3 +1,4 @@
+# Keeps mumble comment up to date with song metadata info
 class PlayingComment < Plugin
   def initialize
     super

@@ -1,3 +1,4 @@
+# Search youtube and add the first result
 class Search < Plugin
   def initialize
     super

@@ -1,7 +1,9 @@
 # Allows users to stream an arbitrary stream url, for radio purposes
 # It is input straight into mpd, so as far as I am aware there are no exploits here
 # (there would need to be an exploit in mpd)
-# A cautious user may wish to disable the plugin and use the radio plugin exclusively, which is a predefined stream list
+# A cautious user may wish to disable the plugin and use the radio plugin exclusively
+# Radio plugin is a predefined approved stream list
+# (you can read about radio plugin in wiki)
 class Stream < Plugin
   def initialize
     super

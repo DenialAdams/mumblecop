@@ -1,7 +1,8 @@
+# Get (server) date and time
 class GetDateTime < Plugin
   def initialize
     super
-    @help_text = 'Prints out the date and time'
+    @help_text = 'Prints out the date and time, as it is on the server'
     @commands = %w(date time)
   end
 
@@ -10,6 +11,8 @@ class GetDateTime < Plugin
   end
 end
 
+# Get users hash for trusted permissions, etc
+# (see wiki)
 class GetUserHash < Plugin
   def initialize
     super

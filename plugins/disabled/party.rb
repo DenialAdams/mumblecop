@@ -1,5 +1,7 @@
 require 'active_support/time'
 
+# Stupid example plugin
+# Randomly plays a music through given intervals
 class Party < Plugin
   def initialize
     super

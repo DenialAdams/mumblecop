@@ -1,4 +1,5 @@
 require 'open3'
+# Feed youtube streams into mpd
 class Youtube < Plugin
   def initialize
     super
@@ -41,6 +42,7 @@ class Youtube < Plugin
   end
 end
 
+# Feed soundcloud streams into mpd
 class Soundcloud < Plugin
   def initialize
     super
