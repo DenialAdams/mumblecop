@@ -77,9 +77,9 @@ class MumbleBot
     source = source.clone
     source.shift(2) while source[0] == :plugin
     if source[0] == :channel
-      @mumble.users[source[2]].user_id
+      source[2]
     else
-      @mumble.users[source[1]].user_id
+      source[1]
     end
   end
 
@@ -95,12 +95,17 @@ class MumbleBot
     return 1
   end
 
-  def say_to_user(id, text)
+  def say_to_user_id(id, text)
     @mumble.text_user(id, text)
   rescue => e
     STDERR.puts "ERROR: Failed to message user with ID of #{id}. Invalid user?"
     STDERR.puts e.message
     return 1
+  end
+
+  def say_to_user(user, text)
+    return say_to_user_id(user.user_id, text) if user.is_a?(Mumble::User)
+    say_to_user_id(user, text)
   end
 
   def say(plugin, source, text)
@@ -222,7 +227,7 @@ class MumbleBot
 
   def strip_trigger(command)
     command = command.split(' ')
-    command.delete_at(0)
+    command.shift
     command.join(' ')
   end
 
@@ -256,7 +261,7 @@ class MumbleBot
         command_fail(source, 'A command is required proceeding a mumblecop trigger')
         next
       end
-      process_command(args.delete_at(0).downcase, args, source)
+      process_command(args.shift.downcase, args, source)
     end
   end
 
