@@ -187,12 +187,7 @@ class MumbleBot
     args = sanitize_params(args) if @commands[command].needs_sanitization
     if multithread
       Thread.new do
-        begin
-          @commands[command].go(source, command, args, self)
-        rescue ArgumentError
-          STDERR.puts "WARNING: Plugin '#{@commands[command].class.name}' needs to be updated with the new go message signature or it will cease to function in an upcoming release."
-          @commands[command].go(source, args, self)
-        end
+        @commands[command].go(source, command, args, self)
       end
       # the result can not be relied upon if using multithreading
       return [0, nil]
