@@ -13,6 +13,7 @@ GEM
       parslet (~> 1.4, >= 1.4.0)
     ffi (1.9.10)
     hashie (3.4.4)
+    htmlentities (4.3.4)
     i18n (0.7.0)
     json (1.8.3)
     mini_portile2 (2.0.0)
@@ -48,6 +49,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   dicebag
+  htmlentities
   mumble-ruby
   ruby-mpd
   sanitize

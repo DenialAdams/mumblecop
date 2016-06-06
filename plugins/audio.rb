@@ -215,10 +215,10 @@ class Remove < Plugin
 
   def go(source, _command, args, bot)
     if args[0]
-      args[0] = args[0].to_i
-      if args[0] <= bot.mpd.queue.count && args[0] > 0
-        song = bot.mpd.queue[args[0] - 1].title
-        bot.mpd.delete(args[0] - 1)
+      index = args[0].to_i
+      if index <= bot.mpd.queue.count && index > 0
+        song = bot.mpd.queue[index - 1].title
+        bot.mpd.delete(index - 1)
         bot.say(self, source, "Song #{args[0]} - #{song} - removed. #{bot.mpd.queue.count} song(s) left in queue.")
       else
         bot.say(self, source, 'Song number not in range of queue.')

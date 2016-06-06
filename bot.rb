@@ -12,6 +12,8 @@ require 'sanitize'
 require 'active_support/core_ext/object/blank'
 # used for all audio related features
 require 'ruby-mpd'
+# decodes html entities in mumble chat into UTF-8 text
+require 'htmlentities'
 # mumblecop plugins file (not gem)
 require_relative 'plugins'
 
@@ -38,6 +40,7 @@ class MumbleBot
       conf.sample_rate = CONFIG['sample_rate'] if CONFIG['sample_rate']
     end
     @mumble = mumble_client
+    @decoder = HTMLEntities.new
     load_plugins
     register_callbacks
   end
@@ -232,7 +235,8 @@ class MumbleBot
   end
 
   def process_message(message)
-    contents = message.message.chomp.gsub('&quot;', '"')
+    # Decode the message, converting html entities to UTF-8
+    contents = @coder.decode(message.message.chomp)
     if CONFIG['verbose-chat-log']
       puts "#{get_hash_from_id(message.actor)} | #{get_username_from_id(message.actor)}: #{contents}"
     else
