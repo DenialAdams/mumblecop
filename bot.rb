@@ -231,7 +231,7 @@ class MumbleBot
 
   def process_message(message)
     # Decode the message, converting html entities to UTF-8
-    contents = @coder.decode(message.message.chomp)
+    contents = @decoder.decode(message.message.chomp)
     if CONFIG['verbose-chat-log']
       puts "#{get_hash_from_id(message.actor)} | #{get_username_from_id(message.actor)}: #{contents}"
     else
