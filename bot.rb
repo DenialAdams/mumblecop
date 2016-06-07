@@ -186,11 +186,13 @@ class MumbleBot
     return [5, nil] if @commands[command].condition == :trusted && !@trusted_users.include?(user_hash) && obey_source_permissions
     args = sanitize_params(args) if @commands[command].needs_sanitization
     if multithread
+      results = [0, nil]
       Thread.new do
-        @commands[command].go(source, command, args, self)
+        results[1] = @commands[command].go(source, command, args, self)
       end
       # the result can not be relied upon if using multithreading
-      return [0, nil]
+      # but in theory you can wait until something is returned because results should update
+      return results
     else
       begin
         @commands[command].go(source, command, args, self)
