@@ -237,6 +237,7 @@ class MumbleBot
     else
       puts "#{get_username_from_id(message.actor)}: #{contents}"
     end
+    # can't be any commands if empty
     return if contents.strip.empty?
     possible_commands = contents.split(';').reject(&:blank?)
     possible_commands.each_with_index do |command, i|
