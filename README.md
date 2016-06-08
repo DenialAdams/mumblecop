@@ -1,10 +1,13 @@
-Hi! This is a bot I programmed for my mumble server, and hopefully for your server as well :)
+This is a mumble bot that is engineered for functionality and extensibility. At it's core, it's a collection of mumble-ruby, ruby-mpd and my own work to make it easy to develop plugins that interact with both.
+
+Current release:
+This is a pre-release version, API can still change. I plan on releasing 1.0 soon that should have a stable API. This project uses [Semantic Versioning](http://semver.org).
 
 Features:
 
-* Stream audio from youtube and soundcloud
-* Queue based audio setup
-* Roll dice
+* Stream audio from youtube, soundcloud and online radio with a queue based audio setup
+* Roll dice, have countdowns, assign numbers to your users, and use many other utility functions
+* Restrict usage with a simple but powerful permissions system
 * Write your own commands with a simple plugin format
 
 Installation instructions and more can be found on the project wiki, [here](https://bitbucket.org/Flandoo/mumblecop/wiki/Home).
