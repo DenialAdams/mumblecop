@@ -92,9 +92,8 @@ class MumbleBot
 
   def say_to_channel(channel, text)
     @mumble.text_channel(channel, text)
-  rescue => e
-    STDERR.puts "ERROR: Failed to message channel with ID of #{channel}. Invalid channel?"
-    STDERR.puts e.message
+  rescue Mumble::ChannelNotFound
+    STDERR.puts "ERROR: Failed to message channel with ID of #{channel}. Channel not found."
     return 1
   end
 
