@@ -100,13 +100,8 @@ class MumbleBot
 
   def say_to_user_id(id, text)
     @mumble.text_user(id, text)
-  rescue => e
-    if e == Mumble::UserNotFound
-      STDERR.puts "ERROR: Failed to message user with session ID of #[id}. User not found."
-      return 1
-    end
-    STDERR.puts "ERROR: Failed to message user with session ID of #{id}. Invalid user?"
-    STDERR.puts e.message
+  rescue Mumble::UserNotFound
+    STDERR.puts "ERROR: Failed to message user with session ID of #{id}. User not found."
     return 1
   end
 
