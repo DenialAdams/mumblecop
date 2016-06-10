@@ -187,23 +187,17 @@ class MumbleBot
     return [4, nil] if @blacklisted_users.include?(user_hash) && !commands[command].ignore_blacklist && obey_source_permissions
     return [5, nil] if @commands[command].condition == :trusted && !@trusted_users.include?(user_hash) && obey_source_permissions
     args = sanitize_params(args) if @commands[command].needs_sanitization
+    results = [0, nil]
     if multithread
-      results = [0, nil]
       Thread.new do
         results[1] = @commands[command].go(source, command, args, self)
       end
       # the result can not be relied upon if using multithreading
       # but in theory you can wait until something is returned because results should update
-      return results
     else
-      begin
-        @commands[command].go(source, command, args, self)
-      rescue ArgumentError
-        STDERR.puts "WARN: Plugin #{@commands[command]} needs to be updated with the new go message signature or it will cease to function in an upcoming release."
-        @commands[command].go(source, args, self)
-      end
-      return [0, result]
+      results[1] = @commands[command].go(source, command, args, self)
     end
+    return results
   end
 
   private
