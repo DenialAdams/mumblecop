@@ -197,7 +197,7 @@ class MumbleBot
     else
       results[1] = @commands[command].go(source, command, args, self)
     end
-    return results
+    results
   end
 
   private
