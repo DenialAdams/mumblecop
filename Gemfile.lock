@@ -1,48 +1,44 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (5.0.0)
+    activesupport (5.1.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    blankslate (3.1.3)
-    concurrent-ruby (1.0.2)
+    concurrent-ruby (1.0.5)
     crass (1.0.2)
     dicebag (3.2.2)
       parslet (~> 1.4, >= 1.4.0)
-    ffi (1.9.14)
-    hashie (3.4.4)
+    ffi (1.9.18)
+    hashie (3.5.6)
     htmlentities (4.3.4)
-    i18n (0.7.0)
-    mini_portile2 (2.1.0)
-    minitest (5.9.0)
+    i18n (0.8.6)
+    mini_portile2 (2.3.0)
+    minitest (5.10.3)
     mumble-ruby (1.1.3)
       activesupport
       hashie
       opus-ruby
       ruby_protobuf
       wavefile
-    nokogiri (1.6.8)
-      mini_portile2 (~> 2.1.0)
-      pkg-config (~> 1.1.7)
-    nokogumbo (1.4.7)
+    nokogiri (1.8.1)
+      mini_portile2 (~> 2.3.0)
+    nokogumbo (1.4.13)
       nokogiri
     opus-ruby (1.0.1)
       ffi
-    parslet (1.7.1)
-      blankslate (>= 2.0, <= 4.0)
-    pkg-config (1.1.7)
+    parslet (1.8.0)
     ruby-mpd (0.3.3)
     ruby_protobuf (0.4.11)
-    sanitize (4.1.0)
+    sanitize (4.5.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.4.4)
       nokogumbo (~> 1.4.1)
-    thread_safe (0.3.5)
-    tzinfo (1.2.2)
+    thread_safe (0.3.6)
+    tzinfo (1.2.3)
       thread_safe (~> 0.1)
-    wavefile (0.7.0)
+    wavefile (0.8.1)
 
 PLATFORMS
   ruby
@@ -56,4 +52,4 @@ DEPENDENCIES
   sanitize
 
 BUNDLED WITH
-   1.12.5
+   1.15.4
