@@ -50,7 +50,12 @@ class MumbleBot
   end
 
   def get_username_from_id(id)
-    @mumble.users[id].name
+    user_id = @mumble.users[id]
+    if user_id != nil
+      user_id.name
+    else
+      "unknown/disconnected"
+    end
   end
 
   def get_username_from_source(source)
