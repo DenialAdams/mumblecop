@@ -17,7 +17,7 @@ class Youtube < Plugin
     format = '-f141' if @quality == :high || args.include?('high')
     format = '-f140' if args.include?('normal')
     # We use popen3 to avoid any injection vulnerabilities
-    Open3.popen3('youtube-dl', '--prefer-insecure', '--no-cache-dir', '-i', format, '-q', '--no-warnings', '-ge', (args[0]).to_s) do |_stdin, stdout, stderr|
+    Open3.popen3('youtube-dl', '--no-cache-dir', '-i', format, '-q', '--no-warnings', '-ge', (args[0]).to_s) do |_stdin, stdout, stderr|
       result = stdout.read.chomp
       error = stderr.read.chomp
     end
